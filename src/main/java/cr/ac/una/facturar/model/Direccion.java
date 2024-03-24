@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Proveedor {
-    private String tipoId;
-    private String username;
-    private String contrasena;
+public class Direccion {
+    private String id;
     private InformacionComercial infoComercial;
-    private Boolean estaAutorizado;
+    private String provincia;
+    private String canton;
+    private String distrito;
 }
