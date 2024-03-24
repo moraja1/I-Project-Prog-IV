@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Proveedor {
+public class Proveedor extends Persona{
     private String tipoId;
     private String username;
     private String contrasena;

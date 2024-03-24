@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class Persona {
-    private String id;
-    private String name;
-    private String lastName;
-    private String phoneNumber;
-    private String email;
+    protected String id;
+    protected String name;
+    protected String lastName;
+    protected String phoneNumber;
+    protected String email;
 }
