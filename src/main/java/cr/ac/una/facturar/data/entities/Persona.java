@@ -15,7 +15,7 @@ import java.util.Objects;
 @SuperBuilder
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Persona {
+public abstract class Persona {
 
     @Id
     @Column(name = "id")

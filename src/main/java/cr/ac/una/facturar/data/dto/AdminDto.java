@@ -9,9 +9,7 @@ import java.io.Serializable;
 /**
  * DTO for {@link cr.ac.una.facturar.data.entities.Admin}
  */
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @Builder
 public class AdminDto implements Serializable {
     private String id;

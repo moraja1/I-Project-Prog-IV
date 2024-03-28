@@ -9,18 +9,15 @@ import java.io.Serializable;
 /**
  * DTO for {@link Proveedor}
  */
-@Value
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
 @Builder
 public class ProveedorDto implements Serializable {
-    String id;
-    String name;
-    String lastName;
-    String phoneNumber;
-    String email;
-    TiposCedula tipoId;
-    String username;
-    Boolean estaAutorizado;
+    private String id;
+    private String name;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
+    private TiposCedula tipoId;
+    private String username;
+    private Boolean estaAutorizado;
 }

@@ -8,6 +8,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -35,6 +37,15 @@ public class AdminRepositoryTest {
         //Assert
         assertThat(savedAdmin).isNotNull();
         assertThat(admin).isEqualTo(savedAdmin);
-        assertThat(adminRepository.findByEmailAndPass(admin.getEmail(), admin.getPass())).isNotNull();
+    }
+
+    @Test
+    void AdminRepository_SavedAdmin_FindByEmailAndPasswordCorrectly(){
+        //Act
+        Optional<Admin> savedAdmin = adminRepository.findByEmailAndPass("admin@admin.com", "admin");
+
+        //Assert
+        assertThat(savedAdmin.isPresent()).isEqualTo(true);
+        assertThat(adminRepository.existsAdminByEmailAndPass("admin@admin.com", "admin")).isEqualTo(true);
     }
 }
