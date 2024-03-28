@@ -16,7 +16,7 @@ public class Proveedor extends Persona{
     @Column(name = "proveedor_username")
     private String username;
 
-    @Column(name = "proveedor_pass")
+    @Column(name = "proveedor_pass", nullable = false, length = 64)
     private String contrasena;
 
     @Column(name = "proveedor_acceso")
