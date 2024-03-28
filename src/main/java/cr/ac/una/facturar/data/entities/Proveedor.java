@@ -2,13 +2,14 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@SuperBuilder
 @Entity
 @Table(name = "Proveedores")
 public class Proveedor extends Persona{

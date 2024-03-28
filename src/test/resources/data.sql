@@ -1,0 +1,21 @@
+insert into proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_username, proveedor_pass, proveedor_acceso)
+values ('401060606', '', '', '', '', '', );
+insert into proveedores (usuario) values ("501450255");
+insert into proveedores (usuario) values ("103580495");
+insert into proveedores (usuario) values ("200010002");
+insert into proveedores (usuario) values ("101230321");
+insert into proveedores (usuario) values ("506320985");
+insert into proveedores (usuario) values ("706540321");
+insert into proveedores (usuario) values ("306570841");
+insert into proveedores (usuario) values ("409630258");
+insert into proveedores (usuario) values ("103210654");
+insert into proveedores (usuario) values ("207410987");
+insert into proveedores (usuario) values ("609850236");
+insert into proveedores (usuario) values ("207930197");
+insert into proveedores (usuario) values ("106480258");
+insert into proveedores (usuario) values ("309830642");
+insert into proveedores (usuario) values ("407860142");
+insert into proveedores (usuario) values ("706320522");
+insert into proveedores (usuario) values ("601410252");
+insert into proveedores (usuario) values ("703630141");
+insert into proveedores (usuario) values ("708580141");

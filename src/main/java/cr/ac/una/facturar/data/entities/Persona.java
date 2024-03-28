@@ -2,6 +2,7 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -11,9 +12,10 @@ import java.util.Objects;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Persona {
+public class Persona {
 
     @Id
     @Column(name = "id")
