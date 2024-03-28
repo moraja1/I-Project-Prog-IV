@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" type="text/css" href="../css/Registrer.css">
+</head>
+<body>
+<header>
+    <h1>Registro facturar UNA</h1>
+</header>
+<section>
+    <form action="Login.html" method="post">
+        <label id="uno" for="cedula">Tipo de cedula:</label>
+        <label for="nombre">Nombre:</label><br>
+        <select id="cedula" name="cedula" required>
+            <option>Personal</option>
+            <option>Juridica</option>
+        </select>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label id="2" for="ape">Apellidos:</label>
+        <label for="tel">Telefono:</label><br>
+        <input type="text" id="ape" name="ape" required>
+        <input type="text" id="tel" name="tel" required><br>
+
+        <label id="3" for="correo">Correo electronico:</label>
+        <label for="user">Username:</label><br>
+        <input type="text" id="correo" name="correo" required>
+        <input type="text" id="user" name="user" required><br>
+
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <input type="submit" value="Registrarse">
+    </form>
+</section>
+</body>
+</html>
