@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 public class Direccion {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private InformacionComercial infoComercial;
     private String provincia;

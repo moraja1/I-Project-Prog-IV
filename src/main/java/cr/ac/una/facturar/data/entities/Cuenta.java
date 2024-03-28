@@ -2,6 +2,7 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -9,25 +10,39 @@ import java.util.Set;
 
 @Getter
 @Setter
-@ToString
-@RequiredArgsConstructor
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
+@Table(name = "cuentas")
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "proveedor_id")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "proveedor_id",
+            foreignKey = @ForeignKey(name = "PROVEEDOR_ID_FK"))
     private Proveedor proveedor;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cliente> clientes;
+
+    /*@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Producto> productos;
-    private Set<Factura> facturas;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Factura> facturas;*/
+
+    public void agregarCliente(Cliente cliente) {
+        clientes.add(cliente);
+        cliente.setCuenta(this);
+    }
+
+    public void eliminarCliente(Cliente cliente) {
+        clientes.remove(cliente);
+        cliente.setCuenta(null);
+    }
 
     @Override
     public final boolean equals(Object o) {
@@ -43,5 +58,11 @@ public class Cuenta {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "proveedor = " + proveedor + ")";
     }
 }

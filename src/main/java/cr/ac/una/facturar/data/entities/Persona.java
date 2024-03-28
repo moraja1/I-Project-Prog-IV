@@ -1,9 +1,6 @@
 package cr.ac.una.facturar.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -19,12 +16,19 @@ import java.util.Objects;
 public abstract class Persona {
 
     @Id
+    @Column(name = "id")
     protected String id;
+    @Column(name = "nombre")
     protected String name;
+    @Column(name = "apellidos")
     protected String lastName;
+    @Column(name = "telefono")
     protected String phoneNumber;
+    @Column(name = "correo")
     protected String email;
-
+    @Column(name = "tipo_id")
+    @Enumerated(EnumType.STRING)
+    private TiposCedula tipoId;
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

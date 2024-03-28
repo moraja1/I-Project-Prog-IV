@@ -13,10 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
 public class Producto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private Long costo;
     private String descripcion;

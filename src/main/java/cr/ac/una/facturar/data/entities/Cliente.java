@@ -1,8 +1,6 @@
 package cr.ac.una.facturar.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -12,10 +10,15 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
+@Table(name = "Clientes")
 public class Cliente extends Persona{
-    private String tipoId;
 
-    @OneToOne
-    @JoinColumn(name = "info_comercial_id")
+    @ManyToOne
+    @JoinColumn(name = "cuenta_id",
+            foreignKey = @ForeignKey(name = "CUENTA_ID_FK")
+    )
+    private Cuenta cuenta;
+
+    @Transient
     private InformacionComercial infoComercial;
 }

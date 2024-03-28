@@ -10,11 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
 public class InformacionComercial {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private Proveedor proveedor;
     private String razonSocial;
