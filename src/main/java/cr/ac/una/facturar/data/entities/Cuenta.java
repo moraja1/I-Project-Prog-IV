@@ -29,10 +29,10 @@ public class Cuenta {
     private Set<Cliente> clientes;
 
     /*@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Producto> productos;
+    private Set<Producto> productos;*/
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Factura> facturas;*/
+    private Set<Factura> facturas;
 
     public void agregarCliente(Cliente cliente) {
         clientes.add(cliente);

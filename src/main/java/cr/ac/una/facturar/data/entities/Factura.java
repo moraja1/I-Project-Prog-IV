@@ -1,9 +1,6 @@
 package cr.ac.una.facturar.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -17,14 +14,19 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Factura {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private LocalDateTime date;
-    private InformacionComercial infoComercial;
-    private Cliente clientInfo;
-    private List<Producto> productos;
+    //private InformacionComercial infoComercial;
+    //private Cliente clientInfo;
+    //private List<Producto> productos;
     private Double iva;
     private Long costoTotal;
+
+
 
     @Override
     public final boolean equals(Object o) {

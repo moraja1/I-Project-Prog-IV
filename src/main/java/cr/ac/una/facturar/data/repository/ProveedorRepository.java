@@ -8,6 +8,5 @@ import java.util.Optional;
 
 public interface ProveedorRepository extends JpaRepository<Proveedor, String> {
     Optional<Proveedor> findByEmailAndPass(String email, String pass);
-
     List<Proveedor> findByAutorizado(Boolean autorizado);
 }

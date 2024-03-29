@@ -38,6 +38,11 @@ public class ProveedorServiceImplement implements ServiceTemplate<ProveedorDto> 
         return proveedors.stream().map(this::mapProveedorToDto).collect(Collectors.toList());
     }
 
+    public List<ProveedorDto> obtenerProveedoresNoAutorizados() {
+        List<Proveedor> proveedors = proveedorRepository.findByAutorizado(false);
+        return proveedors.stream().map(this::mapProveedorToDto).collect(Collectors.toList());
+    }
+
     private ProveedorDto mapProveedorToDto(Proveedor proveedor) {
         return ProveedorDto.builder()
                 .id(proveedor.getId())
