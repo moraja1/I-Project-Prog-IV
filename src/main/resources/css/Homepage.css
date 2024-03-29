@@ -1,0 +1,86 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    text-align: center;
+    margin-top: 50px;
+    width: 95%;
+}
+
+h1 {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: 24px;
+}
+
+table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+    table-layout: fixed; /* Establecer un ancho fijo para las celdas */
+}
+
+th, td {
+    padding: 10px 20px;
+    border: 1px solid #000;
+    word-wrap: break-word; /* Permitir el ajuste de texto en las celdas */
+}
+
+th {
+    background-color: #ccc;
+}
+
+.tabs-container {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: column;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px; /* Aumentar el padding horizontal */
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.tab.active {
+    background-color: #ddd;
+}
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+.tab img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+}
+
+.tab span {
+    white-space: nowrap; /* Evitar el salto de línea del texto */
+}
+
+.content {
+    margin-left: 200px;
+}
+
+
