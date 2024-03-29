@@ -18,10 +18,10 @@ public class Proveedor extends Persona{
     private String username;
 
     @Column(name = "proveedor_pass", nullable = false, length = 64)
-    private String contrasena;
+    private String pass;
 
     @Column(name = "proveedor_acceso")
-    private Boolean estaAutorizado;
+    private Boolean autorizado;
 
     @OneToOne(
             mappedBy = "proveedor",
