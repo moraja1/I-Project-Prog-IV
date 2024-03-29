@@ -14,23 +14,34 @@ import java.util.Objects;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance
+@Table(name = "Persona")
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "tipo_persona")
 public abstract class Persona {
 
     @Id
     @Column(name = "id")
     protected String id;
+
     @Column(name = "nombre")
     protected String name;
+
     @Column(name = "apellidos")
     protected String lastName;
+
     @Column(name = "telefono")
     protected String phoneNumber;
+
     @Column(name = "correo")
     protected String email;
+
     @Column(name = "tipo_id")
     @Enumerated(EnumType.STRING)
     private TiposCedula tipoId;
+
+    @Column(name = "tipo_persona", insertable=false, updatable=false)
+    private String tipoPersona;
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

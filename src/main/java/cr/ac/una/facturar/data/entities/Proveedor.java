@@ -11,13 +11,9 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "Proveedores")
+@DiscriminatorValue("Proveedor")
 public class Proveedor extends Persona{
-
-    @Column(name = "proveedor_username")
-    private String username;
-
-    @Column(name = "proveedor_pass", nullable = false, length = 64)
+    @Column(name = "proveedor_pass", length = 64)
     private String pass;
 
     @Column(name = "proveedor_acceso")

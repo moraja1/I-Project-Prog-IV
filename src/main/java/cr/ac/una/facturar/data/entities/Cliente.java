@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Entity
-@Table(name = "Clientes")
+@DiscriminatorValue("Cliente")
 public class Cliente extends Persona{
 
     @ManyToOne

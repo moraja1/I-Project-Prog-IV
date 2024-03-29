@@ -1,28 +1,28 @@
 -- use prog4db;
 
-insert into admin (id, correo, apellidos, nombre, telefono, tipo_id, admin_pass) values
-('404440444', 'admin@admin.com', 'Mora', 'Jaison', '88888888', 'Fisica', 'admin');
+insert into persona (id, tipo_persona, correo, apellidos, nombre, telefono, tipo_id, admin_pass) values
+('404440444', 'Admin','admin@admin.com', 'Mora', 'Jaison', '88888888', 'Fisica', 'admin');
 
-insert into admin (id, correo, apellidos, nombre, telefono, tipo_id, admin_pass) values
-('402290985', 'admin2@admin.com', 'Prubarton', 'Testino', '555555585', 'Fisica', 'testingLikeNeva');
+insert into persona (id, tipo_persona, correo, apellidos, nombre, telefono, tipo_id, admin_pass) values
+('402290985', 'Admin', 'admin2@admin.com', 'Prubarton', 'Testino', '555555585', 'Fisica', 'testingLikeNeva');
 
 -- ------------------------------KEEP THIS BLOCK UNCOMMENT FOR TESTING----------------------------------------------- --
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('506320478', 'Fisica', 'Gerardo', 'Gonzalez', 'gerardo@proveedor.com', '99999991', 'gerar', 'pass', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('506320478', 'Proveedor', 'Fisica', 'Gerardo', 'Gonzalez', 'gerardo@proveedor.com', '99999991', 'pass', false);
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('901020304', 'Fisica', 'Olman', 'Sequeira', 'Olman@proveedor.com', '99999992', 'olman', 'pass1', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('901020304', 'Proveedor', 'Fisica', 'Olman', 'Sequeira', 'Olman@proveedor.com', '99999992', 'pass1', false);
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('802040608', 'Fisica', 'Steven', 'Jimenez', 'steven@proveedor.com', '99999993', 'steve', 'pass2', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('802040608', 'Proveedor', 'Fisica', 'Steven', 'Jimenez', 'steven@proveedor.com', '99999993', 'pass2', false);
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('703060907', 'Fisica', 'Melisa', 'Victor', 'melisa@proveedor.com', '99999994', 'melis', 'pass3', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('703060907', 'Proveedor', 'Fisica', 'Melisa', 'Victor', 'melisa@proveedor.com', '99999994', 'pass3', false);
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('405000500', 'Fisica', 'Gabriel', 'Tenorio', 'gabriel@proveedor.com', '99999995', 'gabriel', 'pass4', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('405000500', 'Proveedor', 'Fisica', 'Gabriel', 'Tenorio', 'gabriel@proveedor.com', '99999995', 'pass4', false);
 insert into
-proveedores (id, tipo_id, nombre, apellidos, correo, telefono, proveedor_username, proveedor_pass, proveedor_acceso)
-values ('207040108', 'Fisica', 'Marta', 'Fonseca', 'marta@proveedor.com', '99999996', 'marta', 'pass5', false);
+    persona (id, tipo_persona, tipo_id, nombre, apellidos, correo, telefono, proveedor_pass, proveedor_acceso)
+values ('207040108', 'Proveedor', 'Fisica', 'Marta', 'Fonseca', 'marta@proveedor.com', '99999996', 'pass5', false);
 -- ---------------------------------------------------------------------------------------------------------------------

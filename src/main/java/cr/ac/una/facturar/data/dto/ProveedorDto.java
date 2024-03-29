@@ -18,6 +18,5 @@ public class ProveedorDto implements Serializable {
     private String phoneNumber;
     private String email;
     private TiposCedula tipoId;
-    private String username;
     private Boolean estaAutorizado;
 }

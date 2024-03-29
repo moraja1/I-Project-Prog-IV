@@ -46,7 +46,6 @@ public class ProveedorServiceImplement implements ServiceTemplate<ProveedorDto> 
                 .lastName(proveedor.getLastName())
                 .email(proveedor.getEmail())
                 .phoneNumber(proveedor.getPhoneNumber())
-                .username(proveedor.getUsername())
                 .estaAutorizado(proveedor.getAutorizado())
                 .build();
     }
