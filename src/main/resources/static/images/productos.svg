@@ -1,6 +1,3 @@
-<svg width="24" height="24" x=".5" y=".5">
-    <path fill="transparent" d="M0 0h24v24H0z" class="stencil__selection-helper"/>
-    <svg xmlns="http://www.w3.org/2000/svg" id="mq-stencil-icon-12d5c97c" stroke="none" stroke-dasharray="none" stroke-width="0" preserveAspectRatio="none" viewBox="0 0 24 24">
-        <path d="M15 3H5a2 2 0 0 0-1.99 2L3 19a2 2 0 0 0 1.99 2H19a2 2 0 0 0 2-2V9l-6-6zM8 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 1V4.5l5.5 5.5H14z"/>
-    </svg>
+<svg xmlns="http://www.w3.org/2000/svg" stroke="none" stroke-dasharray="none" stroke-width="0" preserveAspectRatio="none" viewBox="0 0 24 24" width="24" height="24">
+    <path d="M15 3H5a2 2 0 0 0-1.99 2L3 19a2 2 0 0 0 1.99 2H19a2 2 0 0 0 2-2V9l-6-6zM8 17c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm0-4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 1V4.5l5.5 5.5H14z"/>
 </svg>
