@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link th:href="@{../css/Login.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="/static/css/Login.css"/>
 </head>
 <body>
 <header>
     <h1>Facturar UNA</h1>
 </header>
     <section>
-        <form action="index.html" method="post">
+        <form action="/signin" method="post">
             <label for="user">Username:</label>
             <input type="text" id="user" name="user" required><br><br>
             <label for="password">Password:</label>
