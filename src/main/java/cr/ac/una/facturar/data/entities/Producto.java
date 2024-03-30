@@ -1,20 +1,31 @@
 package cr.ac.una.facturar.data.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Entity
 public class Producto {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long costo;
     private String descripcion;
+
+    @ManyToOne
+    @JoinColumn(name = "cuenta_id",
+            foreignKey = @ForeignKey(name = "CUENTA_PRODUCTO_FK")
+    )
+    private Cuenta cuenta;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id",
+            foreignKey = @ForeignKey(name = "FACTURA_PRODUCTO_FK")
+    )
+    private Factura factura;
 }

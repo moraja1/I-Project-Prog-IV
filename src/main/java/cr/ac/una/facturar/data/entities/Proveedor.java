@@ -19,27 +19,7 @@ public class Proveedor extends Persona{
     @Column(name = "proveedor_acceso")
     private Boolean autorizado;
 
-    @OneToOne(
-            mappedBy = "proveedor",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    @ToString.Exclude
+    @OneToOne
+    @JoinColumn(name = "info_com_id")
     private Cuenta cuenta;
-
-    @Transient
-    private InformacionComercial infoComercial;
-
-    public void agragarCuenta(Cuenta cuenta) {
-        cuenta.setProveedor(this);
-        this.cuenta = cuenta;
-    }
-
-    public void eliminarCuenta() {
-        if (cuenta != null) {
-            cuenta.setProveedor(null);
-            this.cuenta = null;
-        }
-    }
 }

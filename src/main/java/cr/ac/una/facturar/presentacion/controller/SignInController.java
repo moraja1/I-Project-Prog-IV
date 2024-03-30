@@ -33,6 +33,6 @@ public class SignInController {
         return "Perfil";
 
         //Si no tiene acceso
-        return "Otra cosa";
+        //return "Otra cosa";
     }
 }

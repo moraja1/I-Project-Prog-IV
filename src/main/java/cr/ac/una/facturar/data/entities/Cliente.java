@@ -16,10 +16,11 @@ public class Cliente extends Persona{
 
     @ManyToOne
     @JoinColumn(name = "cuenta_id",
-            foreignKey = @ForeignKey(name = "CUENTA_ID_FK")
+            foreignKey = @ForeignKey(name = "CUENTA_CLIENTE_FK")
     )
     private Cuenta cuenta;
 
-    @Transient
+    @OneToOne
+    @JoinColumn(name = "info_com_id")
     private InformacionComercial infoComercial;
 }

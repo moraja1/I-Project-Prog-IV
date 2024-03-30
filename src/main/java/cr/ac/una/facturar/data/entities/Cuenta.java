@@ -2,7 +2,6 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -20,16 +19,15 @@ public class Cuenta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "proveedor_id",
-            foreignKey = @ForeignKey(name = "PROVEEDOR_ID_FK"))
-    private Proveedor proveedor;
-
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cliente> clientes;
 
-    /*@OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Producto> productos;*/
+    @OneToOne
+    @JoinColumn(name = "info_com_id")
+    private InformacionComercial infoComercial;
+
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Producto> productos;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Factura> facturas;
@@ -42,6 +40,26 @@ public class Cuenta {
     public void eliminarCliente(Cliente cliente) {
         clientes.remove(cliente);
         cliente.setCuenta(null);
+    }
+
+    public void agregarFactura(Factura factura) {
+        facturas.add(factura);
+        factura.setCuenta(this);
+    }
+
+    public void eliminarFactura(Factura factura) {
+        facturas.remove(factura);
+        factura.setCuenta(null);
+    }
+
+    public void agregarProducto(Producto producto) {
+        productos.add(producto);
+        producto.setCuenta(this);
+    }
+
+    public void eliminarProducto(Producto producto) {
+        productos.remove(producto);
+        producto.setCuenta(null);
     }
 
     @Override
@@ -62,7 +80,12 @@ public class Cuenta {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + "(" +
-                "proveedor = " + proveedor + ")";
+        return "Cuenta{" +
+                "id=" + id +
+                ", clientes=" + clientes +
+                ", infoComercial=" + infoComercial +
+                ", productos=" + productos +
+                ", facturas=" + facturas +
+                '}';
     }
 }
