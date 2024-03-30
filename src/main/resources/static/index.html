@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
@@ -7,8 +7,9 @@
 </head>
 <body>
 <header>
-    <h1>Facturar UNA</h1>
+    <h1 th:text="#{index.title}">Facturar UNA</h1>
 </header>
+
 <section>
     <form action="/signin" method="post">
         <label for="user">Username:</label>
