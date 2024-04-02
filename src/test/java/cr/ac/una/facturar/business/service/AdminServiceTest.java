@@ -1,7 +1,5 @@
 package cr.ac.una.facturar.business.service;
 
-import cr.ac.una.facturar.business.service.impl.AdminServiceImplement;
-import cr.ac.una.facturar.data.dto.AdminDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
