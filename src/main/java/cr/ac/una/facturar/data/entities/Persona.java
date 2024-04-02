@@ -13,8 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Inheritance
 @Table(name = "Persona")
-@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "tipo_persona")
-public abstract class Persona {
+public class Persona {
     @Id
     @Column(name = "id")
     protected String id;
@@ -37,6 +36,9 @@ public abstract class Persona {
 
     @Column(name = "password", length = 64)
     private String pass;
+
+    @Column(insertable = false, updatable = false)
+    private String dtype;
 
     @OneToOne
     @JoinColumn(name = "info_com_id")

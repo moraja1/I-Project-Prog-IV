@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
-    <link rel="stylesheet" type="text/css" href="../static/css/Homepage.css">
+    <link rel="stylesheet" type="text/css" href="css/Homepage.css">
 </head>
 <body>
 <div class="tabs-container">
     <div class="tabs">
         <a href="#home" class="tab active">
-            <img src="../static/images/casa.svg" alt="">
+            <img src="images/casa.svg" alt="">
             <span>Home</span>
         </a>
         <a href="Perfil.html" class="tab" target="_blank">
-            <img src="../static/images/perfil.svg">
+            <img src="images/perfil.svg">
             <span>Perfil</span>
         </a>
         <a href="Accesos.html" class="tab" target="_blank">
-            <img src="../static/images/accesos.svg">
+            <img src="images/accesos.svg">
             <span>Accesos</span>
         </a>
     </div>
 </div>
 <div id="home" class="content">
     <div class="container">
-        <h1>Bienvenido Usuario</h1>
+        <h1 th:text="Bienvenido ${person.name}"></h1>
         <h2 style="text-align: left;">Usuarios Registrados</h2>
         <table>
             <thead>
