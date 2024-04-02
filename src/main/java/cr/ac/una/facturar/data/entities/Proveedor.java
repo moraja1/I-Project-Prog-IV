@@ -13,13 +13,10 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @DiscriminatorValue("Proveedor")
 public class Proveedor extends Persona{
-    @Column(name = "proveedor_pass", length = 64)
-    private String pass;
-
     @Column(name = "proveedor_acceso")
     private Boolean autorizado;
 
     @OneToOne
-    @JoinColumn(name = "info_com_id")
+    @JoinColumn(name = "cuenta_id")
     private Cuenta cuenta;
 }

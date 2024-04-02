@@ -22,18 +22,4 @@ public class Direccion {
     private String provincia;
     private String canton;
     private String distrito;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Direccion direccion = (Direccion) o;
-        return Objects.equals(id, direccion.id) && Objects.equals(provincia, direccion.provincia) &&
-                Objects.equals(canton, direccion.canton) && Objects.equals(distrito, direccion.distrito);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, provincia, canton, distrito);
-    }
 }

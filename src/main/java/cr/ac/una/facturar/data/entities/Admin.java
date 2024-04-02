@@ -13,9 +13,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 @Entity
-@AllArgsConstructor
 @DiscriminatorValue("Admin")
 public class Admin extends Persona{
-    @Column(name = "admin_pass", length = 64)
-    private String pass;
 }

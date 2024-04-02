@@ -22,10 +22,6 @@ public class Cuenta {
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Cliente> clientes;
 
-    @OneToOne
-    @JoinColumn(name = "info_com_id")
-    private InformacionComercial infoComercial;
-
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Producto> productos;
 
@@ -60,32 +56,5 @@ public class Cuenta {
     public void eliminarProducto(Producto producto) {
         productos.remove(producto);
         producto.setCuenta(null);
-    }
-
-    @Override
-    public final boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
-        Cuenta cuenta = (Cuenta) o;
-        return getId() != null && Objects.equals(getId(), cuenta.getId());
-    }
-
-    @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "Cuenta{" +
-                "id=" + id +
-                ", clientes=" + clientes +
-                ", infoComercial=" + infoComercial +
-                ", productos=" + productos +
-                ", facturas=" + facturas +
-                '}';
     }
 }
