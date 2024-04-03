@@ -27,13 +27,14 @@ public class SignInController {
     }
 
     @GetMapping("/signin")
-    public String getAccess(@ModelAttribute("user") Usuario user, RedirectAttributes model) {
+    public String getAccess(@ModelAttribute("user") Usuario user, RedirectAttributes redirectAttributes) {
         PersonaDto person = personaService.userHasAccess(user.email(), user.password());
-        if(person != null){
-            model.addFlashAttribute("person", person);
-            return "redirect:/home";
-        } else {
-            return "redirect:/";
-        }
+
+        //Not registered or not authorized
+        if(person == null) return "redirect:/";
+
+        //Authenticated
+        redirectAttributes.addFlashAttribute("person", person);
+        return "redirect:/home";
     }
 }

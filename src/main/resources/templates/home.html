@@ -9,15 +9,15 @@
 <body>
 <div class="tabs-container">
     <div class="tabs">
-        <a href="#home" class="tab active">
+        <a href="/home.html" th:href="@{/home}" class="tab active">
             <img src="images/casa.svg" alt="">
             <span>Home</span>
         </a>
-        <a href="Perfil.html" class="tab" target="_blank">
+        <a href="/Perfil.html" th:href="@{/Perfil}" class="tab" target="_blank">
             <img src="images/perfil.svg">
             <span>Perfil</span>
         </a>
-        <a href="Accesos.html" class="tab" target="_blank">
+        <a href="/Accesos.html" th:href="@{/Accesos}" class="tab" target="_blank">
             <img src="images/accesos.svg">
             <span>Accesos</span>
         </a>
@@ -25,7 +25,7 @@
 </div>
 <div id="home" class="content">
     <div class="container">
-        <h1 th:text="Bienvenido ${person.name}"></h1>
+        <h1><span th:utext="#{home.welcome(${person.name})}"></span></h1>
         <h2 style="text-align: left;">Usuarios Registrados</h2>
         <table>
             <thead>

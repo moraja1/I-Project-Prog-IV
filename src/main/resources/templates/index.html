@@ -3,33 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="css/Login.css"/>
+    <link rel="stylesheet" href="../css/Login.css" th:href="@{css/Login.css}"/>
 </head>
 <body>
-<header>
-    <h1 th:text="#{index.title}">Facturar UNA</h1>
-</header>
-
+<header th:insert="~{fragments/header :: headerIndex}"></header>
 <section>
     <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
-        <label for="email">Email:</label>
+        <label for="email"><span th:text="#{index.email}"></span></label>
         <input
                 type="text"
                 id="email"
                 name="email"
                 th:field="*{email}"
-                placeholder="Email"
+                th:attr="placeholder=#{index.email}"
                 required><br><br>
-        <label for="password">Password:</label>
+        <label for="password"><span th:text="#{index.password}"></span></label>
         <input
                 type="password"
                 id="password"
                 name="password"
                 th:field="*{password}"
-                placeholder="Password"
+                th:attr="placeholder=#{index.password}"
                 required><br><br>
-        <a class="registerLink" href="/register">Registrarse</a><br><br>
-        <input type="submit" value="Log In">
+        <a class="registerLink" href="/register"><span th:text="#{index.register}"></span></a><br><br>
+        <input type="submit" value="Log In" th:attr="value=#{index.submit}">
     </form>
 </section>
 </body>
