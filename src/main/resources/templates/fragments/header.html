@@ -6,6 +6,14 @@
 </div>
 
 <div th:fragment="headerHome (user)">
-    <h1><span th:text="#{home.welcome(${user.name})}"></span></h1>
+    <h1><span th:text="#{home.title(${user.name})}"></span></h1>
+</div>
+
+<div th:fragment="headerProfile">
+    <h1><span th:text="#{profile.title}"></span></h1>
+</div>
+
+<div th:fragment="headerRegister">
+    <h1><span th:text="#{register.title}"></span></h1>
 </div>
 </html>

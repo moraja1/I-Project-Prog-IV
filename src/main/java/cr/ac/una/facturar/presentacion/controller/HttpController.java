@@ -7,15 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Optional;
-
 @Controller
-public class SignInController {
+public class HttpController {
     private final PersonaService personaService;
 
-    public SignInController(PersonaService personaService) {
+    public HttpController(PersonaService personaService) {
         this.personaService = personaService;
     }
 
@@ -36,5 +35,10 @@ public class SignInController {
         //Authenticated
         redirectAttributes.addFlashAttribute("person", person);
         return "redirect:/home";
+    }
+
+    @PostMapping("/register")
+    public String registerSupplier(@ModelAttribute("user") Usuario user){
+
     }
 }

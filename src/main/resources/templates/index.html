@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/Login.css" th:href="@{css/Login.css}"/>
-    <link rel="stylesheet" type="text/css" href="/css/fragments.css" th:href="@{css/fragments.css}">
+    <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
 </head>
 <body>
 <header th:insert="~{fragments/header :: headerIndex}"></header>
 <section>
     <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
-        <label for="email"><span th:text="#{index.email}"></span></label>
+        <label for="email"><span th:text="#{index.email}"></span>Correo Electrónico</label>
         <input
                 type="text"
                 id="email"
@@ -18,7 +17,7 @@
                 th:field="*{email}"
                 th:attr="placeholder=#{index.email}"
                 required><br><br>
-        <label for="password"><span th:text="#{index.password}"></span></label>
+        <label for="password"><span th:text="#{index.password}"></span>Contraseña</label>
         <input
                 type="password"
                 id="password"
@@ -26,7 +25,7 @@
                 th:field="*{password}"
                 th:attr="placeholder=#{index.password}"
                 required><br><br>
-        <a class="registerLink" href="/register"><span th:text="#{index.register}"></span></a><br><br>
+        <a class="registerLink" href="/register"><span th:text="#{index.register}"></span>Registrarse</a><br><br>
         <input type="submit" value="Log In" th:value="#{index.submit}">
     </form>
 </section>

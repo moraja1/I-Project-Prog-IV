@@ -1,43 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
-    <link rel="stylesheet" type="text/css" href="../css/Perfil.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
-<div class="tabs-container">
-    <div class="tabs">
-        <a href="home.html" class="tab" target="_blank">
-            <img src="casa.png">
-            <span>Home</span>
-        </a>
-        <a href="#perfil" class="tab active">
-            <img src="perfil.png">
-            <span>Perfil</span>
-        </a>
-        <a href="Accesos.html" class="tab" target="_blank">
-            <img src="check.png">
-            <span>Accesos</span>
-        </a>
+<header th:insert="~{fragments/header :: headerProfile}"></header>
+<div th:insert="~{fragments/menu :: menuSideBar (${user})}"></div>
+<section>
+    <div class="container">
+        <h1 class="centered-title">Perfil de Usuario</h1>
+        <form id="userForm" action="home.html" method="GET" target="_blank">
+            <label for="cedula">Cédula:</label>
+            <input type="text" id="cedula" name="cedula" required>
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono" required>
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" required>
+            <input type="submit" id="guardar">Guardar</input>
+        </form>
     </div>
-</div>
-<div class="container">
-    <h1 class="centered-title">Perfil de Usuario</h1>
-    <form id="userForm" action="home.html" method="GET" target="_blank">
-        <label for="cedula">Cédula:</label>
-        <input type="text" id="cedula" name="cedula" required>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
-        <label for="telefono">Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" required>
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" name="correo" required>
-        <button type="submit" id="guardar">Guardar</button>
-    </form>
-</div>
+</section>
 </body>
 </html>

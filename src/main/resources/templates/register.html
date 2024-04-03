@@ -1,34 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registro</title>
-    <link rel="stylesheet" type="text/css" href="/css/Registrer.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
-<header>
-    <h1>Registro facturar UNA</h1>
-</header>
+<header th:insert="~{fragments/header :: headerRegister}">Registrarse como Proveedor</header>
 <section>
-    <form action="Login.html" method="post">
-        <label id="uno" for="cedula">Tipo de cedula:</label>
-        <label for="nombre">Nombre:</label><br>
-        <select id="cedula" name="cedula" required>
-            <option>Fisica</option>
-            <option>Juridica</option>
-        </select>
-        <input type="text" id="nombre" name="nombre" required><br>
-
-        <label id="2" for="ape">Apellidos:</label>
-        <label for="tel">Telefono:</label><br>
-        <input type="text" id="ape" name="ape" required>
-        <input type="text" id="tel" name="tel" required><br>
-
-        <label id="3" for="correo">Correo electronico:</label>
-        <label for="password">Password:</label><br>
-        <input type="text" id="correo" name="correo" required>
-        <input type="password" id="password" name="password" required><br><br>
-
+    <form role="form" th:action="@{/register}" method="post" th:object="${user}">
+        <div id="data_combo">
+            <label for="cedula">Tipo de cedula:</label>
+            <select id="cedula"
+                    name="cedula"
+                    th:field="*{tipoId}"
+                    th:attr="placeholder=#{register.tipoId}"
+                    required>
+                <option>Física</option>
+                <option>Jurídica</option>
+            </select>
+        </div>
+        <div class="data_input">
+            <label for="nombre">Nombre:</label><br>
+            <input type="text"
+                   id="nombre"
+                   name="nombre"
+                   required><br>
+        </div>
+        <div class="data_input">
+            <label id="2" for="ape">Apellidos:</label>
+            <input type="text" id="ape" name="ape" required>
+        </div>
+        <div class="data_input">
+            <label for="tel">Telefono:</label><br>
+            <input type="text" id="tel" name="tel" required><br>
+        </div>
+        <div class="data_input">
+            <label id="3" for="correo">Correo electronico:</label>
+            <input type="text" id="correo" name="correo" required>
+        </div>
+        <div class="data_input">
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
         <input type="submit" value="Registrarse">
     </form>
 </section>
