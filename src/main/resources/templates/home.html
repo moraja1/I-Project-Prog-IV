@@ -4,90 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage</title>
-    <link rel="stylesheet" type="text/css" href="css/Homepage.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/Homepage.css" th:href="@{css/Homepage.css}">
+    <link rel="stylesheet" type="text/css" href="/static/css/fragments.css" th:href="@{css/fragments.css}">
 </head>
 <body>
-<div class="tabs-container">
-    <div class="tabs">
-        <a href="/home.html" th:href="@{/home}" class="tab active">
-            <img src="images/casa.svg" alt="">
-            <span>Home</span>
-        </a>
-        <a href="/Perfil.html" th:href="@{/Perfil}" class="tab" target="_blank">
-            <img src="images/perfil.svg">
-            <span>Perfil</span>
-        </a>
-        <a href="/Accesos.html" th:href="@{/Accesos}" class="tab" target="_blank">
-            <img src="images/accesos.svg">
-            <span>Accesos</span>
-        </a>
+<header th:insert="~{fragments/header :: headerHome (${user})}"></header>
+<div th:insert="~{fragments/menu :: menuSideBar (${user})}"></div>
+<section id="table-section">
+    <div id="home" class="content">
+
+        <div class="container">
+            <h2><span th:text="#{home.registeredUsers}"></span></h2>
+            <table class="table" th:if="!persons.empty">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellidos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="person : ${persons}">
+                    <td th:text="${person.id}"></td>
+                    <td th:text="${person.name}"></td>
+                    <td th:text="${person.lastName}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <h3 th:if="persons.empty">No hay usuarios registrados</h3>
+        </div>
     </div>
-</div>
-<div id="home" class="content">
-    <div class="container">
-        <h1><span th:utext="#{home.welcome(${person.name})}"></span></h1>
-        <h2 style="text-align: left;">Usuarios Registrados</h2>
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellidos</th>
-            </tr>
-            </thead>
-            <tbody>
-            <!-- Filas dinámicas de usuarios -->
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <!-- Agregar más filas vacías -->
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<div id="perfil" class="content" style="display: none;"></div>
-<div id="accesos" class="content" style="display: none;"></div>
+</section>
 </body>
 </html>

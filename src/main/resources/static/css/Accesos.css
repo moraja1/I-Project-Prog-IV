@@ -3,37 +3,6 @@ body {
     margin: 0;
     padding: 0;
 }
-.tabs-container {
-    position: absolute;
-    top: 50px;
-    left: 20px;
-}
-.tabs {
-    display: flex;
-    flex-direction: column;
-}
-.tab {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ddd;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-decoration: none;
-    color: inherit;
-}
-.tab.active {
-    background-color: #ddd;
-}
-.tab:hover {
-    background-color: #ddd;
-}
-.tab img {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-}
 .content {
     margin-left: 150px; /* Mover el contenido un poco más a la izquierda */
     padding: 20px;

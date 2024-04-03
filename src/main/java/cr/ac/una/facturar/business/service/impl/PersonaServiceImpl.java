@@ -6,8 +6,12 @@ import cr.ac.una.facturar.data.entities.Persona;
 import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.PersonaRepository;
 import cr.ac.una.facturar.data.repository.ProveedorRepository;
+import cr.ac.una.facturar.presentacion.model.RegisteredUser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,6 +45,25 @@ public class PersonaServiceImpl implements PersonaService {
 
         //Proveedor not authorized
         return null;
+    }
+
+    @Override
+    public List<RegisteredUser> findAllRegisteredUsers() {
+        List<Proveedor> proveedores = proveedorRepository.findAllByAutorizado(true);
+
+        //No authorized suppliers
+        if(proveedores.isEmpty()) return new ArrayList<>();
+
+        //returning registered suppliers
+        return proveedores.stream().map(this::mapToRegisteredUser).toList();
+    }
+
+    private RegisteredUser mapToRegisteredUser(Proveedor proveedor) {
+        return RegisteredUser.builder()
+                .id(proveedor.getId())
+                .name(proveedor.getName())
+                .lastName(proveedor.getLastName())
+                .build();
     }
 
     private PersonaDto mapToDto(Persona persona) {

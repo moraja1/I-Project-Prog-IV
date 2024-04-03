@@ -1,16 +1,32 @@
-<div class="tabs-container" th:fragment="menuSideBar">
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<div class="tabs-container" th:fragment="menuSideBar (user)">
     <div class="tabs">
-        <a href="#home" class="tab active">
-            <img src="../static/images/casa.svg" alt="">
-            <span>Home</span>
+        <a href="/home" th:href="@{/home}" class="tab">
+            <img src="/static/images/casa.svg" th:src="@{images/casa.svg}" alt="">
+            <label>Home</label>
         </a>
-        <a href="../Perfil.html" th:href="@{/tempates/Perfil}" class="tab">
-            <img src="../static/images/perfil.svg">
-            <span>Perfil</span>
+        <a href="/profile" th:href="@{/profile/(id=${user.id})}" class="tab">
+            <img src="/static/images/perfil.svg" th:src="@{images/perfil.svg}" alt="">
+            <label>Perfil</label>
         </a>
-        <a href="#accesos" class="tab">
-            <img src="../static/images/accesos.svg">
-            <span>Accesos</span>
+        <a th:if="${user.dtype} == 'Admin'" type="" href="/requests" th:href="@{/requests}" class="tab">
+            <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
+            <label>Accesos</label>
+        </a>
+        <a th:if="${user.dtype} == 'Proveedor'" type="" href="/clients" th:href="@{/clients}" class="tab">
+            <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
+            <label>Clientes</label>
+        </a>
+        <a th:if="${user.dtype} == 'Proveedor'" type="" href="/products" th:href="@{/products}" class="tab">
+            <img src="/static/images/productos.svg" th:src="@{images/productos.svg}" alt="">
+            <label>Clientes</label>
+        </a>
+        <a th:if="${user.dtype} == 'Proveedor'" type="" href="/invoices" th:href="@{/invoices}" class="tab">
+            <img src="/static/images/declarar.svg" th:src="@{images/declarar.svg}" alt="">
+            <label>Clientes</label>
         </a>
     </div>
 </div>
+</html>

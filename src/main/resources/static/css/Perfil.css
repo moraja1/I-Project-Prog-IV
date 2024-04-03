@@ -4,42 +4,6 @@ body {
     padding: 0;
 }
 
-.tabs-container {
-    background-color: #f2f2f2;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.tabs {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.tab {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    text-decoration: none;
-    color: #333;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.tab.active {
-    background-color: #ddd;
-}
-
-.tab img {
-    width: 24px;
-    height: 24px;
-    margin-right: 5px;
-}
-
 .container {
     max-width: 600px;
     margin: 0 auto;

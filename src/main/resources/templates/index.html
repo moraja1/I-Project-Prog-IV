@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="../css/Login.css" th:href="@{css/Login.css}"/>
+    <link rel="stylesheet" type="text/css" href="/css/fragments.css" th:href="@{css/fragments.css}">
 </head>
 <body>
 <header th:insert="~{fragments/header :: headerIndex}"></header>
@@ -26,7 +27,7 @@
                 th:attr="placeholder=#{index.password}"
                 required><br><br>
         <a class="registerLink" href="/register"><span th:text="#{index.register}"></span></a><br><br>
-        <input type="submit" value="Log In" th:attr="value=#{index.submit}">
+        <input type="submit" value="Log In" th:value="#{index.submit}">
     </form>
 </section>
 </body>
