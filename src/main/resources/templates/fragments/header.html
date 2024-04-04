@@ -2,7 +2,7 @@
 
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="headerIndex">
-    <h1><span th:text="#{index.title}"></span></h1>
+    <h1><span th:text="#{index.title}">Facturar UNA</span></h1>
 </div>
 
 <div th:fragment="headerHome (user)">
@@ -15,5 +15,9 @@
 
 <div th:fragment="headerRegister">
     <h1><span th:text="#{register.title}"></span></h1>
+</div>
+
+<div th:fragment="headerConfirmation">
+    <h1><span th:text="#{confirmation.title}">Confirmaci&oacute;n de Registro</span></h1>
 </div>
 </html>

@@ -83,12 +83,10 @@ label {
     margin-bottom: 8px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="submit"]{
+.signin_input{
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 1em;
     box-sizing: border-box;
 }
 
@@ -97,6 +95,10 @@ input[type="submit"] {
     font-size: large;
     color: #fff;
     cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1em;
+    box-sizing: border-box;
 }
 
 .registerLink {
@@ -120,4 +122,32 @@ th, td {
 
 th {
     background-color: #ccc;
+}
+
+.register_form {
+    width: 100%;
+    text-align: center;
+}
+
+.register_form form div {
+    margin: 0.1em;
+    width: 49%;
+    display: inline-block;
+}
+
+.register_form form div input, #tipo_cedula {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+.register_form label {
+    text-align: left;
+}
+
+.register_submit{
+    padding: 1em;
+    width: 75%;
+
 }

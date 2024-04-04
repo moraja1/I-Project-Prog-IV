@@ -18,10 +18,6 @@ public class Persona {
     @Column(name = "id")
     protected String id;
 
-    @Column(name = "tipo_id")
-    @Enumerated(EnumType.STRING)
-    private TiposCedula tipoId;
-
     @Column(name = "nombre")
     protected String name;
 

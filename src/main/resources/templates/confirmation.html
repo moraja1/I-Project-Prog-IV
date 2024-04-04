@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmacion</title>
+    <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
+</head>
+<body>
+    <header th:insert="~{fragments/header :: headerConfirmation}"></header>
+    <section>
+        <p th:text="((${isAccepted} == true) ? #{confirmation.positive} : #{confirmation.negative})"></p>
+    </section>
+</body>
+</html>

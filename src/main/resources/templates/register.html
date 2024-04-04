@@ -8,43 +8,69 @@
 <body>
 <header th:insert="~{fragments/header :: headerRegister}">Registrarse como Proveedor</header>
 <section>
-    <form role="form" th:action="@{/register}" method="post" th:object="${user}">
-        <div id="data_combo">
-            <label for="cedula">Tipo de cedula:</label>
-            <select id="cedula"
-                    name="cedula"
-                    th:field="*{tipoId}"
-                    th:attr="placeholder=#{register.tipoId}"
-                    required>
-                <option>Física</option>
-                <option>Jurídica</option>
-            </select>
-        </div>
-        <div class="data_input">
-            <label for="nombre">Nombre:</label><br>
-            <input type="text"
-                   id="nombre"
-                   name="nombre"
-                   required><br>
-        </div>
-        <div class="data_input">
-            <label id="2" for="ape">Apellidos:</label>
-            <input type="text" id="ape" name="ape" required>
-        </div>
-        <div class="data_input">
-            <label for="tel">Telefono:</label><br>
-            <input type="text" id="tel" name="tel" required><br>
-        </div>
-        <div class="data_input">
-            <label id="3" for="correo">Correo electronico:</label>
-            <input type="text" id="correo" name="correo" required>
-        </div>
-        <div class="data_input">
-            <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" required><br><br>
-        </div>
-        <input type="submit" value="Registrarse">
-    </form>
+    <div class="register_form">
+        <form role="form" th:action="@{/register}" method="post" th:object="${user}">
+            <div>
+                <label for="name"><span th:text="#{name}">Nombre</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="name"
+                        name="name"
+                        th:field="*{name}"
+                        th:attr="placeholder=#{name}"
+                        required>
+                <label for="phone"><span th:text="#{phone}">Teléfono</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        th:field="*{phoneNumber}"
+                        th:attr="placeholder=#{phone}"
+                        required>
+                <label for="id"><span th:text="#{identification}">Cédula</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="id"
+                        name="id"
+                        th:field="*{id}"
+                        th:attr="placeholder=#{identification}"
+                        required>
+            </div>
+            <div>
+                <label for="lastName"><span th:text="#{lastName}">Apellidos</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        th:field="*{lastName}"
+                        th:attr="placeholder=#{lastName}"
+                        required>
+                <label for="email"><span th:text="#{email}">Correo Electrónico</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="email"
+                        name="email"
+                        th:field="*{email}"
+                        th:attr="placeholder=#{email}"
+                        required>
+                <label for="password"><span th:text="#{password}">Contraseña</span></label>
+                <input
+                        class="register_input"
+                        type="password"
+                        id="password"
+                        name="password"
+                        th:field="*{pass}"
+                        th:attr="placeholder=#{password}"
+                        required>
+            </div>
+            <input class="register_submit" type="submit" value="Registrarse" th:value="#{register.submit}">
+        </form>
+    </div>
 </section>
 </body>
 </html>
