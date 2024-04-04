@@ -9,6 +9,12 @@
     <header th:insert="~{fragments/header :: headerConfirmation}"></header>
     <section>
         <p th:text="((${isAccepted} == true) ? #{confirmation.positive} : #{confirmation.negative})"></p>
+        <div class="go_home">
+            <a th:href="@{/}" href="/">
+                <span th:text="#{goHome}">Ir a la página de inicio</span>
+            </a>
+        </div>
+
     </section>
 </body>
 </html>

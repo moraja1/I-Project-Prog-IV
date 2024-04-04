@@ -149,5 +149,8 @@ th {
 .register_submit{
     padding: 1em;
     width: 75%;
+}
 
+.go_home{
+    text-align: center;
 }
