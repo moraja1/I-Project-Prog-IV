@@ -61,20 +61,20 @@ public class PersonaServiceImpl implements PersonaService {
 
     @Override
     public boolean saveProveedor(PersonaDto person) {
-        //External request to ministry
-        String uri = "http://localhost:8080/ministryStub/api/user/207930197";
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(uri, String.class);
+        //Actualmente registrado
+        if(personaRepository.existsById(person.id())) return false;
 
+        //External request to ministry
+        String uri = String.format("http://localhost:8080/api/user/%s", person.id());
+        RestTemplate restTemplate = new RestTemplate();
+        Boolean isRegisteredInMinistry = restTemplate.getForObject(uri, Boolean.class);
         //Validation of request to Ministry
-        boolean isRegisteredInMinistry = responseEntity.getStatusCode().equals(HttpStatus.OK);
-        if(!isRegisteredInMinistry) return false;
+        if(Boolean.FALSE.equals(isRegisteredInMinistry)) return false;
 
         //Saving proveedor
         Proveedor proveedor = mapDtoRegistrationToProveedor(person);
-        Proveedor savedProveedor = proveedorRepository.save(proveedor);
-
-        return proveedor.equals(savedProveedor);
+        proveedorRepository.save(proveedor);
+        return true;
     }
 
     private Proveedor mapDtoRegistrationToProveedor(PersonaDto person) {

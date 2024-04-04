@@ -7,6 +7,5 @@ import org.springframework.boot.test.context.SpringBootTest;
 class IProjectProgIvApplicationTest {
     @Test
     void contextLoads(){
-        System.out.println(String.valueOf(TiposCedula.Fisica));
     }
 }
