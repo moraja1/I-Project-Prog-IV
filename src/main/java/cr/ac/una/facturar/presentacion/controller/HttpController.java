@@ -2,41 +2,50 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class HttpController {
     private final PersonaService personaService;
-
-    @Autowired
-    private MessageSource messageSource;
 
     public HttpController(PersonaService personaService) {
         this.personaService = personaService;
     }
 
     @GetMapping("/")
-    public String getSignInPage(Model model) {
+    public String getSignInPage(Model model, HttpSession session) {
+        if(session.getAttribute("access") != null) if((Boolean) session.getAttribute("access")) return "redirect:/home";
+
+        model.addAttribute("sessionId", session.getId());
         model.addAttribute("user", PersonaDto.builder().build());
+
         return "index";
     }
 
     @GetMapping("/signin")
-    public String getAccess(@ModelAttribute("user") PersonaDto user, RedirectAttributes redirectAttributes) {
+    public String getAccess(@ModelAttribute("user") PersonaDto user,
+                            HttpServletRequest request) {
+
         PersonaDto person = personaService.userHasAccess(user.email(), user.pass());
 
         //Not registered or not authorized
         if(person == null) return "redirect:/";
 
         //Authenticated
-        redirectAttributes.addFlashAttribute("person", person);
+        request.getSession().setAttribute("access", true);
+        request.getSession().setAttribute("email", person.email());
+        request.getSession().setAttribute("name", person.name());
+        request.getSession().setAttribute("lastName", person.lastName());
+        request.getSession().setAttribute("id", person.id());
+        request.getSession().setAttribute("phone", person.phoneNumber());
+        request.getSession().setAttribute("role", person.dtype());
+
         return "redirect:/home";
     }
 

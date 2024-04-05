@@ -2,6 +2,7 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +21,23 @@ public class HomeController {
     }
 
     @GetMapping
-    public String getHomePage(@ModelAttribute("person") PersonaDto user, Model model){
-        model.addAttribute("user", user);
+    public String getHomePage(Model model, HttpSession session){
+        PersonaDto person = getAttrsFromSession(session);
+        model.addAttribute("user", person);
         List<PersonaDto> persons = personaService.findAllRegisteredUsers();
         model.addAttribute("persons", persons);
 
         return "home";
+    }
+
+    private PersonaDto getAttrsFromSession(HttpSession session) {
+        return PersonaDto.builder()
+                .id((String) session.getAttribute("id"))
+                .name((String) session.getAttribute("name"))
+                .lastName((String) session.getAttribute("lastName"))
+                .phoneNumber((String) session.getAttribute("phone"))
+                .email((String) session.getAttribute("email"))
+                .dtype((String) session.getAttribute("role"))
+                .build();
     }
 }
