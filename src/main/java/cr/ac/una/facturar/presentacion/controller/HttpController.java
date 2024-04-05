@@ -40,6 +40,7 @@ public class HttpController {
         //Authenticated
         request.getSession().setAttribute("access", true);
         request.getSession().setAttribute("email", person.email());
+        request.getSession().setAttribute("pass", user.pass());
         request.getSession().setAttribute("name", person.name());
         request.getSession().setAttribute("lastName", person.lastName());
         request.getSession().setAttribute("id", person.id());
@@ -59,6 +60,8 @@ public class HttpController {
     public String registerSupplier(@ModelAttribute("register") PersonaDto person, Model model){
         //Validation of saving into db
         model.addAttribute("isAccepted", personaService.saveProveedor(person));
+        model.addAttribute("isReg", true);
+        model.addAttribute("next", "/");
 
         return "confirmation";
     }

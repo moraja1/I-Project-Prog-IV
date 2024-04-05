@@ -7,29 +7,33 @@
 </head>
 <body>
 <header th:insert="~{fragments/header :: headerIndex}"></header>
-<section>
-    <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
-        <label for="email"><span th:text="#{email}">Correo Electrónico</span></label>
-        <input
-                class="signin_input"
-                type="text"
-                id="email"
-                name="email"
-                th:field="*{email}"
-                th:attr="placeholder=#{email}"
-                required><br><br>
-        <label for="password"><span th:text="#{password}">Contraseña</span></label>
-        <input
-                class="signin_input"
-                type="password"
-                id="password"
-                name="password"
-                th:field="*{pass}"
-                th:attr="placeholder=#{password}"
-                required><br><br>
-        <a class="registerLink" href="/register"><span th:text="#{index.register}">Registrarse</span></a><br><br>
-        <input type="submit" value="Log In" th:value="#{index.submit}">
-    </form>
+<section class="content">
+    <div class="wrap">
+        <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
+            <div class="input_comp">
+                <label for="email"><span th:text="#{email}">Correo Electrónico</span></label>
+                <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        th:field="*{email}"
+                        th:attr="placeholder=#{email}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <label for="password"><span th:text="#{password}">Contraseña</span></label>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        th:field="*{pass}"
+                        th:attr="placeholder=#{password}"
+                        required>
+            </div>
+            <a class="registerLink" href="/register"><span th:text="#{index.register}">Registrarse</span></a><br><br>
+            <input class="button_submit" type="submit" value="Log In" th:value="#{index.submit}">
+        </form>
+    </div>
 </section>
 </body>
 </html>

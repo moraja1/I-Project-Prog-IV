@@ -7,11 +7,11 @@
 </head>
 <body>
     <header th:insert="~{fragments/header :: headerConfirmation}"></header>
-    <section>
-        <p th:text="((${isAccepted} == true) ? #{confirmation.positive} : #{confirmation.negative})"></p>
+    <section class="content">
+        <p th:text="((${isAccepted} == true) ? #{request.positive} : #{request.negative})"></p>
         <div class="go_home">
-            <a th:href="@{/}" href="/">
-                <span th:text="#{goHome}">Ir a la página de inicio</span>
+            <a th:href="@{${next}}" href="/">
+                <span th:text="((${isReg} == true) ? #{goHome} : #{goProfile})">Ir a la página de inicio</span>
             </a>
         </div>
 

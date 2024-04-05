@@ -1,5 +1,7 @@
 /* ------------------------------------ FRAGMENTS ------------------------------------------- */
-
+.tabs {
+    display: flex;
+}
 .tab {
     width: 100px;
     display: block;
@@ -27,7 +29,6 @@
     height: 24px;
     margin-left: auto;
     margin-right: auto;
-
 }
 
 .tab label {
@@ -42,6 +43,46 @@
 
 .tab span {
     white-space: nowrap;
+}
+
+.input_par {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column-gap: 10px;
+    width: 100%;
+    margin-bottom: 0.5em;
+
+}
+
+.input_comp {
+    margin-bottom: 0.5em;
+    width: 100%;
+}
+
+.input_comp label {
+    display: block;
+    text-align: left;
+}
+
+.input_comp input[type="text"],
+.input_comp input[type="password"]{
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.wrap {
+    width: 100%;
+}
+
+.button_submit {
+    background-color: #333;
+    font-size: large;
+    color: #fff;
+    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------------------------- */
@@ -60,13 +101,13 @@ header {
     padding: 10px;
 }
 
-section {
+.content {
     max-width: 600px;
-    margin: 20px auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 2em auto;
 }
 
 h1 {
@@ -78,23 +119,7 @@ h2 {
     font-size: 24px;
 }
 
-label {
-    display: block;
-    margin-bottom: 8px;
-}
-
 .signin_input{
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 1em;
-    box-sizing: border-box;
-}
-
-input[type="submit"] {
-    background-color: #333;
-    font-size: large;
-    color: #fff;
-    cursor: pointer;
     width: 100%;
     padding: 10px;
     margin-bottom: 1em;
@@ -122,33 +147,6 @@ th, td {
 
 th {
     background-color: #ccc;
-}
-
-.register_form {
-    width: 100%;
-    text-align: center;
-}
-
-.register_form form div {
-    margin: 0.1em;
-    width: 49%;
-    display: inline-block;
-}
-
-.register_form form div input, #tipo_cedula {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 1em;
-    box-sizing: border-box;
-}
-
-.register_form label {
-    text-align: left;
-}
-
-.register_submit{
-    padding: 1em;
-    width: 75%;
 }
 
 .go_home{
