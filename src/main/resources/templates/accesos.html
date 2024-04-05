@@ -1,54 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accesos</title>
-    <link rel="stylesheet" type="text/css" href="../css/Accesos.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
-<div class="tabs-container">
-    <div class="tabs">
-        <a href="home.html" class="tab" target="_blank">
-            <img src="casa.png"> Home
-        </a>
-        <a href="perfil.html" class="tab" target="_blank">
-            <img src="perfil.png"> Perfil
-        </a>
-        <a href="#" class="tab active">
-            <img src="check.png"> Accesos
-        </a>
-    </div>
-</div>
-<div class="content">
-    <h1 class="centered-title">Solicitud de Acceso</h1>
-    <h2 class="left-aligned">Solicitudes</h2>
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Acceso</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Filas dinámicas de solicitudes -->
-        <tr>
-            <td>1</td>
-            <td>Dixon Bustos</td>
-            <td>Sin acceso</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Jason Mora</td>
-            <td>Sin acceso</td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="button-container">
-        <button class="small-button">Rechazar</button>
-        <button class="small-button">Aprobar</button>
-    </div>
-</div>
+<header th:insert="~{fragments/header :: headerRequests}"></header>
+<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 </body>
 </html>

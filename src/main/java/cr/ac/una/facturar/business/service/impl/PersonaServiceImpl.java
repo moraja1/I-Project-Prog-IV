@@ -2,12 +2,11 @@ package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
+import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Persona;
 import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.PersonaRepository;
 import cr.ac.una.facturar.data.repository.ProveedorRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -75,6 +74,38 @@ public class PersonaServiceImpl implements PersonaService {
         Proveedor proveedor = mapDtoRegistrationToProveedor(person);
         proveedorRepository.save(proveedor);
         return true;
+    }
+
+    @Override
+    public boolean updatePersonProfile(PersonaDto user) {
+        Optional<Persona> p = personaRepository.findById(user.id());
+
+        //Id does not correspond to DB
+        if(p.isEmpty()) return false;
+
+        //Proceed to update info
+        Persona persisted = p.get();
+        updateDtoToPersona(persisted, user);
+
+        return true;
+    }
+
+    @Override
+    public List<PersonaDto> findAllUnauthorizedProvs() {
+        List<Proveedor> proveedores = proveedorRepository.findAllByAutorizado(false);
+
+        //No authorized suppliers
+        if(proveedores.isEmpty()) return new ArrayList<>();
+
+        //returning registered suppliers
+        return proveedores.stream().map(this::mapProveedorToDto).toList();
+    }
+
+    private void updateDtoToPersona(Persona persona, PersonaDto user) {
+        persona.setName(user.name());
+        persona.setLastName(user.lastName());
+        persona.setEmail(user.email());
+        persona.setPhoneNumber(user.phoneNumber());
     }
 
     private Proveedor mapDtoRegistrationToProveedor(PersonaDto person) {
