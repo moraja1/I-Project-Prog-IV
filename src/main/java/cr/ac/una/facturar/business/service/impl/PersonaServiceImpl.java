@@ -37,8 +37,8 @@ public class PersonaServiceImpl implements PersonaService {
         String id = persona.get().getId();
         Optional<Proveedor> proveedor = proveedorRepository.findById(id);
 
-        //Asserting while testing app
-        assert(proveedor.isPresent());
+        //Proveedor is not loggin in
+        if(proveedor.isEmpty()) return null;
 
         //Proveedor authorized
         if(proveedor.get().getAutorizado()) return persona.map(this::mapPersonaToDto).orElse(null);

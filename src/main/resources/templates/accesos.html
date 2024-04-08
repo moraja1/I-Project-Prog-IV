@@ -6,7 +6,33 @@
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
-<header th:insert="~{fragments/header :: headerRequests}"></header>
-<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
+    <header th:insert="~{fragments/header :: headerRequests}"></header>
+    <div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
+    <section class="content">
+        <div class="container">
+            <h2><span th:text="#{home.access}"></span></h2>
+            <table class="table" th:if="!persons.empty">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col" colspan="2">Apellidos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="person : ${persons}">
+                    <td th:text="${person.id}"></td>
+                    <td th:text="${person.name}"></td>
+                    <td th:text="${person.lastName}"></td>
+                    <td>
+                        <a th:href="@{'/giveAccess/' + ${person.id}}"><img class="access_img" th:src="@{images/accesos.svg}" src="../static/images/accesos.svg" alt="Accept"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3 th:if="persons.empty">No hay usuarios registrados</h3>
+        </div>
+        </div>
+    </section>
 </body>
 </html>

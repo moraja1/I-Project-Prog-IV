@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+    <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
+</head>
 <div class="tabs-container" th:fragment="menuSideBar (user)">
     <div class="tabs">
         <a href="/home" th:href="@{/home}" class="tab">
             <img src="/static/images/casa.svg" th:src="@{images/casa.svg}" alt="">
-            <label>Home</label>
+            <label th:text="#{menu.home}"></label>
         </a>
         <a href="../perfil.html" th:href="@{/profile}" class="tab">
             <img src="/static/images/perfil.svg" th:src="@{images/perfil.svg}" alt="">
@@ -26,6 +30,10 @@
         <a th:if="${user.dtype} == 'Proveedor'" type="" href="../invoices" th:href="@{/invoices}" class="tab">
             <img src="/static/images/declarar.svg" th:src="@{images/declarar.svg}" alt="">
             <label>Clientes</label>
+        </a>
+        <a type="" href="../logout" th:href="@{/logout}" class="tab">
+            <img src="/static/images/door-closed.svg" th:src="@{images/door-closed.svg}" alt="">
+            <label th:text="#{menu.logout}">Logout</label>
         </a>
     </div>
 </div>

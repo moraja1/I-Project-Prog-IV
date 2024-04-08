@@ -30,7 +30,7 @@ public class HttpController {
 
     @GetMapping("/signin")
     public String getAccess(@ModelAttribute("user") PersonaDto user,
-                            HttpServletRequest request) {
+                            HttpSession session) {
 
         PersonaDto person = personaService.userHasAccess(user.email(), user.pass());
 
@@ -38,14 +38,8 @@ public class HttpController {
         if(person == null) return "redirect:/";
 
         //Authenticated
-        request.getSession().setAttribute("access", true);
-        request.getSession().setAttribute("email", person.email());
-        request.getSession().setAttribute("pass", user.pass());
-        request.getSession().setAttribute("name", person.name());
-        request.getSession().setAttribute("lastName", person.lastName());
-        request.getSession().setAttribute("id", person.id());
-        request.getSession().setAttribute("phone", person.phoneNumber());
-        request.getSession().setAttribute("role", person.dtype());
+        session.setAttribute("user", person);
+        session.setAttribute("access", true);
 
         return "redirect:/home";
     }
@@ -64,5 +58,12 @@ public class HttpController {
         model.addAttribute("next", "/");
 
         return "confirmation";
+    }
+
+    @GetMapping("/logout")
+    public String doLogout(HttpSession session){
+        session.setAttribute("access", false);
+        session.invalidate();
+        return "redirect:/";
     }
 }
