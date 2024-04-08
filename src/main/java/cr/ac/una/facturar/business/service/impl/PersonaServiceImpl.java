@@ -48,7 +48,7 @@ public class PersonaServiceImpl implements PersonaService {
     }
 
     @Override
-    public List<PersonaDto> findAllRegisteredUsers() {
+    public List<PersonaDto> findAllSuppliersWithAccess() {
         List<Proveedor> proveedores = proveedorRepository.findAllByAutorizado(true);
 
         //No authorized suppliers

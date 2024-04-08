@@ -10,28 +10,28 @@
     <div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
     <section class="content">
         <div class="container">
-            <h2><span th:text="#{home.access}"></span></h2>
-            <table class="table" th:if="!persons.empty">
+            <h2><span th:text="#{home.access}">Solicitudes de Acceso</span></h2>
+            <table class="table" th:if="${not #lists.isEmpty(persons)}">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
-                    <th scope="col" colspan="2">Apellidos</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="person : ${persons}">
                     <td th:text="${person.id}"></td>
-                    <td th:text="${person.name}"></td>
-                    <td th:text="${person.lastName}"></td>
+                    <td th:text="${person.name}">sdsdsd</td>
+                    <td th:text="${person.lastName}">sdsdsd</td>
                     <td>
                         <a th:href="@{'/giveAccess/' + ${person.id}}"><img class="access_img" th:src="@{images/accesos.svg}" src="../static/images/accesos.svg" alt="Accept"></a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <h3 th:if="persons.empty">No hay usuarios registrados</h3>
-        </div>
+            <h3 th:if="${#lists.isEmpty(persons)}">No hay solicitudes de acceso</h3>
         </div>
     </section>
 </body>

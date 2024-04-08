@@ -2,14 +2,13 @@ package cr.ac.una.facturar.business.service;
 
 
 import cr.ac.una.facturar.data.dto.PersonaDto;
-import cr.ac.una.facturar.data.dto.ProveedorDto;
 
 import java.util.List;
 
 public interface PersonaService {
     PersonaDto userHasAccess(String email, String password);
 
-    List<PersonaDto> findAllRegisteredUsers();
+    List<PersonaDto> findAllSuppliersWithAccess();
 
     boolean saveProveedor(PersonaDto person);
 

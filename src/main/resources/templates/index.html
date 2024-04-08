@@ -6,7 +6,11 @@
     <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
 </head>
 <body>
-<header th:insert="~{fragments/header :: headerIndex}"></header>
+<header th:replace="~{fragments/header :: headerIndex}">
+    <div>
+        <h1><span th:text="#{index.title}">Facturar UNA</span></h1>
+    </div>
+</header>
 <section class="content">
     <div class="wrap">
         <form role="form" th:action="@{/signin}" method="get" th:object="${user}">

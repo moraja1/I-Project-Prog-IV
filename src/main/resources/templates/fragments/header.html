@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="headerIndex">
+<header th:fragment="headerIndex">
     <h1><span th:text="#{index.title}">Facturar UNA</span></h1>
-</div>
+</header>
 
 <div th:fragment="headerHome (user)">
     <h1><span th:text="#{home.title(${user.name})}"></span></h1>

@@ -2,7 +2,6 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -61,9 +60,11 @@ public class HttpController {
     }
 
     @GetMapping("/logout")
-    public String doLogout(HttpSession session){
+    public String doLogout(Model model, HttpSession session){
         session.setAttribute("access", false);
         session.invalidate();
-        return "redirect:/";
+        model.addAttribute("user", PersonaDto.builder().build());
+
+        return "index";
     }
 }

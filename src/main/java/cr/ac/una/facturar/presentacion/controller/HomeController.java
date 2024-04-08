@@ -2,7 +2,6 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
-import cr.ac.una.facturar.data.dto.ProveedorDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,18 +27,13 @@ public class HomeController {
         if(access == null || !access) return "redirect:/";
 
         //Capture access data
-        PersonaDto person;
-        if((person = (PersonaDto) session.getAttribute("info")) == null) {
-            //Set user to session
-            person = getAttrsFromSession(session);
-            session.setAttribute("info", person);
-        }
+        PersonaDto person = (PersonaDto) session.getAttribute("user");
 
         //Sets model
         model.addAttribute("user", person);
 
         //Find registered suppliers
-        List<PersonaDto> persons = personaService.findAllRegisteredUsers();
+        List<PersonaDto> persons = personaService.findAllSuppliersWithAccess();
         model.addAttribute("persons", persons);
 
         return "home";
@@ -52,16 +46,10 @@ public class HomeController {
         if(access == null || !access) return "redirect:/";
 
         //Set user from session to view
-        model.addAttribute("user", getPersonFromSession(session));
+        model.addAttribute("user", session.getAttribute("user"));
 
         //Envía la info a la ventana con el model
         return "perfil";
-    }
-
-    private PersonaDto getPersonFromSession(HttpSession session) {
-        PersonaDto person;
-        if((person = (PersonaDto) session.getAttribute("info")) == null) person = getAttrsFromSession(session);
-        return person;
     }
 
     @PostMapping("/profile")
@@ -92,7 +80,7 @@ public class HomeController {
         if(access == null || !access) return "redirect:/";
 
         //Set user from session to view
-        model.addAttribute("user", getPersonFromSession(session));
+        model.addAttribute("user", session.getAttribute("user"));
 
         List<PersonaDto> unauthorizedProvs = personaService.findAllUnauthorizedProvs();
         model.addAttribute("persons", unauthorizedProvs);
