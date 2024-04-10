@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerIndex}">
+    <div>
+        <h1><span th:text="#{index.title}">Registrar productos</span></h1>
+    </div>
+</header>
+<section class="content">
+    <div class="wrap">
+        <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
+            <div class="input_comp">
+                <label for="id"><span th:text="#{id}">Id</span></label>
+                <input
+                        type="text"
+                        id="id"
+                        name="id"
+                        th:field="*{id}"
+                        th:attr="placeholder=#{id}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <label for="cost"><span th:text="#{costo}">Costo</span></label>
+                <input
+                        type="text"
+                        id="cost"
+                        name="cost"
+                        th:field="*{costo}"
+                        th:attr="placeholder=#{costo}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <label for="desc"><span th:text="#{descripcion}">Descripcion</span></label>
+                <input
+                        type="text"
+                        id="desc"
+                        name="desc"
+                        th:field="*{descripcion}"
+                        th:attr="placeholder=#{descripcion}"
+                        required>
+            </div>
+           <br><br>
+            <input class="button_submit" type="submit" value="Registrar" th:value="#{index.submit}">
+        </form>
+    </div>
+</section>
+</body>
+</html>
