@@ -152,3 +152,7 @@ th {
 .go_home{
     text-align: center;
 }
+
+.bottom_separator {
+    margin-bottom: 1em;
+}

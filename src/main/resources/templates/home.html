@@ -11,24 +11,91 @@
 <section class="content">
     <div id="home">
         <div class="container">
-            <h2><span th:text="#{home.registeredUsers}"></span></h2>
-            <table class="table" th:if="${not #lists.isEmpty(auth)}">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Apellidos</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="person : ${auth}">
-                    <td th:text="${person.id}"></td>
-                    <td th:text="${person.name}"></td>
-                    <td th:text="${person.lastName}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <h3 th:if="${#lists.isEmpty(auth)}">No hay usuarios registrados</h3>
+            <div class="forAdmin" th:if="${#strings.equals(user.dtype, 'Admin')}">
+                <h2><span  th:text="#{home.registeredUsers}"></span></h2>
+                <table class="table" th:if="${not #lists.isEmpty(auth)}">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellidos</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="person : ${auth}">
+                        <td th:text="${person.id}"></td>
+                        <td th:text="${person.name}"></td>
+                        <td th:text="${person.lastName}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3 th:if="${#lists.isEmpty(auth)}">No hay usuarios registrados</h3>
+            </div>
+
+            <div class="forProvs" th:if="${#strings.equals(user.dtype, 'Proveedor')}">
+                <div class="bottom_separator">
+                    <h2><span  th:text="#{home.declaredInvoices}"></span></h2>
+                    <table class="table" th:if="${not #lists.isEmpty(invoices)}">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="invoice : ${invoices}">
+                            <td th:text="${invoice.id}"></td>
+                            <td th:text="${invoice.name}"></td>
+                            <td th:text="${invoice.lastName}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 th:if="${#lists.isEmpty(invoices)}">No hay facturas declaradas</h3>
+                </div>
+
+                <div class="bottom_separator">
+                    <h2><span  th:text="#{home.clients}"></span></h2>
+                    <table class="table" th:if="${not #lists.isEmpty(clients)}">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="invoice : ${clients}">
+                            <td th:text="${invoice.id}"></td>
+                            <td th:text="${invoice.name}"></td>
+                            <td th:text="${invoice.lastName}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 th:if="${#lists.isEmpty(clients)}">No hay clientes registrados</h3>
+                </div>
+
+                <div class="bottom_separator">
+                    <h2><span  th:text="#{home.products}"></span></h2>
+                    <table class="table" th:if="${not #lists.isEmpty(products)}">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.id}"></td>
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${product.lastName}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h3 th:if="${#lists.isEmpty(products)}">No hay productos registrados</h3>
+                </div>
+            </div>
         </div>
     </div>
 </section>

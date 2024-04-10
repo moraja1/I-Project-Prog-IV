@@ -1,5 +1,6 @@
 package cr.ac.una.facturar.business.service;
 
+import cr.ac.una.facturar.data.dto.FacturaDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Proveedor;
 
@@ -13,4 +14,6 @@ public interface ProveedorService {
     boolean save(ProveedorDto proveedor);
 
     Proveedor findProveedorById(String id);
+
+    Proveedor save(Proveedor p);
 }

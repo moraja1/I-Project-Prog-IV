@@ -35,20 +35,21 @@ public class PersonaServiceImpl implements PersonaService {
     public PersonaDto userHasAccess(String email, String password) {
         Optional<Persona> persona = personaRepository.findByEmailAndPass(email, password);
         //Person is not registered
-        if(persona.isEmpty()) return null;
+        if (persona.isEmpty()) return null;
 
         //Person is Admin
-        if(persona.get().getDtype().equals("Admin")) return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
+        if (persona.get().getDtype().equals("Admin"))
+            return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
 
         //Person is proveedor
         String id = persona.get().getId();
         ProveedorDto proveedor = proveedorService.findById(id);
 
         //Proveedor is not loggin in
-        if(proveedor == null) return null;
+        if (proveedor == null) return null;
 
         //Proveedor authorized
-        if(proveedor.getAutorizado()) return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
+        if (proveedor.getAutorizado()) return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
 
         //Proveedor not authorized
         return null;
@@ -59,7 +60,7 @@ public class PersonaServiceImpl implements PersonaService {
         List<ProveedorDto> proveedores = proveedorService.findAllByAutorizado(true);
 
         //No authorized suppliers
-        if(proveedores.isEmpty()) return new ArrayList<>();
+        if (proveedores.isEmpty()) return new ArrayList<>();
 
         //returning registered suppliers
         return proveedores.stream().map(ProveedorMapper::mapProveedorDtoToPersonaDto).toList();
@@ -68,14 +69,14 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public boolean saveProveedor(PersonaDto person) {
         //Actualmente registrado
-        if(personaRepository.existsById(person.id())) return false;
+        if (personaRepository.existsById(person.id())) return false;
 
         //External request to ministry
         String uri = String.format("http://localhost:8080/api/user/%s", person.id());
         RestTemplate restTemplate = new RestTemplate();
         Boolean isRegisteredInMinistry = restTemplate.getForObject(uri, Boolean.class);
         //Validation of request to Ministry
-        if(Boolean.FALSE.equals(isRegisteredInMinistry)) return false;
+        if (Boolean.FALSE.equals(isRegisteredInMinistry)) return false;
 
         //Saving proveedor
         ProveedorDto proveedor = mapPersonaDtoToProveedorDto(person);
@@ -88,7 +89,7 @@ public class PersonaServiceImpl implements PersonaService {
         Optional<Persona> p = personaRepository.findById(id);
 
         //Id does not correspond to DB
-        if(p.isEmpty()) return null;
+        if (p.isEmpty()) return null;
 
         //Proceed to update info
         Persona persisted = p.get();
@@ -105,7 +106,7 @@ public class PersonaServiceImpl implements PersonaService {
         List<ProveedorDto> proveedores = proveedorService.findAllByAutorizado(false);
 
         //No authorized suppliers
-        if(proveedores.isEmpty()) return new ArrayList<>();
+        if (proveedores.isEmpty()) return new ArrayList<>();
 
         //returning registered suppliers
         return proveedores.stream().map(ProveedorMapper::mapProveedorDtoToPersonaDto).toList();
@@ -116,7 +117,7 @@ public class PersonaServiceImpl implements PersonaService {
         ProveedorDto prov = proveedorService.findById(person);
 
         //Proveedor does not exist by any reason
-        if(prov == null) return null;
+        if (prov == null) return null;
         prov.setAutorizado(true);
 
         //Save Prov with account
@@ -126,5 +127,9 @@ public class PersonaServiceImpl implements PersonaService {
         return mapProveedorDtoToPersonaDto(prov);
     }
 
-
+    @Override
+    public PersonaDto findById(String id) {
+        Optional<Persona> personaOptional = personaRepository.findById(id);
+        return personaOptional.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
+    }
 }

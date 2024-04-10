@@ -1,11 +1,10 @@
 package cr.ac.una.facturar.business.service.impl;
 
+import cr.ac.una.facturar.business.mappers.ProveedorMapper;
 import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.mappers.CuentaMapper;
 import cr.ac.una.facturar.business.service.ProveedorService;
-import cr.ac.una.facturar.data.dto.CuentaDto;
-import cr.ac.una.facturar.data.dto.PersonaDto;
-import cr.ac.una.facturar.data.dto.ProveedorDto;
+import cr.ac.una.facturar.data.dto.*;
 import cr.ac.una.facturar.data.entities.*;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +50,9 @@ public class CuentaServiceImpl implements CuentaService {
         Cuenta c = createsNewAccount();
 
         //Assign Account
-        p.setCuentaId(c.getId());
-        if(proveedorService.save(p)) return p;
+        p.setCuenta(c);
+        p.setAutorizado(true);
+        if(proveedorService.save(p) != null) return ProveedorMapper.mapProveedorToProveedorDto(p);
 
         return null;
     }
@@ -78,5 +78,20 @@ public class CuentaServiceImpl implements CuentaService {
         Optional<Cuenta> cuentaPersisted = cuentaRepository.findById(id);
 
         return cuentaPersisted.orElse(null);
+    }
+
+    @Override
+    public List<FacturaDto> findFacturaDtoList(Long id) {
+        throw new UnsupportedOperationException("No se ha implementado FindFacturaDtoList en CuentaServiceImpl");
+    }
+
+    @Override
+    public List<PersonaDto> findClientesDtoList(Long cuentaId) {
+        throw new UnsupportedOperationException("No se ha implementado findClientesDtoList en CuentaServiceImpl");
+    }
+
+    @Override
+    public List<ProductoDto> findProductosDtoList(Long cuentaId) {
+        throw new UnsupportedOperationException("No se ha implementado findProductosDtoList en CuentaServiceImpl");
     }
 }

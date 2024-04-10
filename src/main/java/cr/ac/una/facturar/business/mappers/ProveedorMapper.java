@@ -45,8 +45,8 @@ public class ProveedorMapper {
                 .dtype(proveedor.getDtype())
                 .email(proveedor.getEmail())
                 .autorizado(proveedor.getAutorizado())
-                .cuentaId(proveedor.getCuenta().getId())
-                .infoComercialId(proveedor.getInfoComercial().getId())
+                .cuentaId((proveedor.getCuenta() != null) ? proveedor.getCuenta().getId() : null)
+                .infoComercialId((proveedor.getInfoComercial() != null) ? proveedor.getInfoComercial().getId() : null)
                 .build();
     }
 }

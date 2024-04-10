@@ -2,7 +2,11 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.service.PersonaService;
+import cr.ac.una.facturar.business.service.ProveedorService;
+import cr.ac.una.facturar.data.dto.FacturaDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
+import cr.ac.una.facturar.data.dto.ProductoDto;
+import cr.ac.una.facturar.data.dto.ProveedorDto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,10 +22,12 @@ import java.util.stream.Collectors;
 public class HomeController {
     private final PersonaService personaService;
     private final CuentaService cuentaService;
+    private final ProveedorService proveedorService;
 
-    public HomeController(PersonaService personaService, CuentaService cuentaService) {
+    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService) {
         this.personaService = personaService;
         this.cuentaService = cuentaService;
+        this.proveedorService = proveedorService;
     }
 
     @GetMapping("/home")
@@ -37,12 +43,42 @@ public class HomeController {
         model.addAttribute("user", person);
 
         //Find registered suppliers
-        List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
-        if(authorizedProvs == null) {
-            authorizedProvs = personaService.findAllAuthorizedProvs();
-            session.setAttribute("auth", authorizedProvs);
+        if(person.dtype().equals("Admin")) {
+            List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
+            if (authorizedProvs == null) {
+                authorizedProvs = personaService.findAllAuthorizedProvs();
+                session.setAttribute("auth", authorizedProvs);
+            }
+            model.addAttribute("auth", authorizedProvs);
         }
-        model.addAttribute("auth", authorizedProvs);
+        if(person.dtype().equals("Proveedor")) {
+            //Obtains prov
+            ProveedorDto prov = proveedorService.findById(person.id());
+
+            //FACTURAS
+            List<FacturaDto> invoices = (List<FacturaDto>) session.getAttribute("invoices");
+            if (invoices == null) {
+                invoices = cuentaService.findFacturaDtoList(prov.getCuentaId());
+                session.setAttribute("invoices", invoices);
+            }
+
+            //CLIENTES
+            List<PersonaDto> clients = (List<PersonaDto>) session.getAttribute("clients");
+            if (clients == null) {
+                clients = cuentaService.findClientesDtoList(prov.getCuentaId());
+                session.setAttribute("clients", clients);
+            }
+
+            //PRODUCTOS
+            List<ProductoDto> products = (List<ProductoDto>) session.getAttribute("products");
+            if (products == null) {
+                products = cuentaService.findProductosDtoList(prov.getCuentaId());
+                session.setAttribute("products", products);
+            }
+            model.addAttribute("invoices", invoices);
+            model.addAttribute("clients", clients);
+            model.addAttribute("products", products);
+        }
 
         return "home";
     }
@@ -106,7 +142,8 @@ public class HomeController {
     @GetMapping("/giveAccess/")
     public String giveAccess(@RequestParam("person") String person, Model model, HttpSession session) {
         //Give access to proveedor
-        PersonaDto newAccess = personaService.giveAccessToProv(person);
+        PersonaDto newAccess = personaService.findById(person);
+        ProveedorDto newProv = cuentaService.addCuentaToProv(newAccess);
 
         //Evaluate personaService output
         if(newAccess == null) return confirmationMessage(false, model);
@@ -119,6 +156,10 @@ public class HomeController {
         List<PersonaDto> unauthorizedProvs = (List<PersonaDto>) session.getAttribute("unauth");
         unauthorizedProvs = unauthorizedProvs.stream().filter(a -> !(a.id().equals(newAccess.id()))).collect(Collectors.toList());
         session.setAttribute("unauth", unauthorizedProvs);
+
+        List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
+        authorizedProvs.add(newAccess);
+        session.setAttribute("auth", authorizedProvs);
 
         return "redirect:/requests";
     }

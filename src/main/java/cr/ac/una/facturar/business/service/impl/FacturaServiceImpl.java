@@ -22,9 +22,7 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public FacturaDto findById(Long id) {
         Optional<Factura> factura = facturaRepository.findById(id);
+        return factura.map(FacturaMapper::mapFacturaToFacturaDto).orElse(null);
 
-        if(factura.isEmpty()) return null;
-
-        return FacturaMapper.mapFacturaToFacturaDto(factura.get());
     }
 }

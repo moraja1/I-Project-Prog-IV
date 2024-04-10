@@ -24,7 +24,7 @@ class CuentaServiceImplTest {
     @Test
     void CuentaIsBeingCreated() {
         PersonaDto p = PersonaDto.builder()
-                .id("103580495")
+                .id("207040108")
                 .build();
 
         ProveedorDto prov = cuentaService.addCuentaToProv(p);
