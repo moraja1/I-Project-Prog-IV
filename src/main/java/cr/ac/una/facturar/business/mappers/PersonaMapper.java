@@ -15,6 +15,7 @@ public class PersonaMapper {
                 .phoneNumber(persona.getPhoneNumber())
                 .email(persona.getEmail())
                 .dtype(persona.getDtype())
+                .infoComercialId((persona.getInfoComercial() != null) ? persona.getInfoComercial().getId() : null)
                 .build();
     }
 

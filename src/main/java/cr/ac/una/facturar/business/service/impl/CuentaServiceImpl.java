@@ -1,8 +1,7 @@
 package cr.ac.una.facturar.business.service.impl;
 
-import cr.ac.una.facturar.business.mappers.ProveedorMapper;
+import cr.ac.una.facturar.business.mappers.*;
 import cr.ac.una.facturar.business.service.CuentaService;
-import cr.ac.una.facturar.business.mappers.CuentaMapper;
 import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.*;
 import cr.ac.una.facturar.data.entities.*;
@@ -81,17 +80,38 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     @Override
-    public List<FacturaDto> findFacturaDtoList(Long id) {
-        throw new UnsupportedOperationException("No se ha implementado FindFacturaDtoList en CuentaServiceImpl");
+    public List<FacturaDto> findFacturaDtoList(Long cuentaId) {
+        Cuenta c = findCuentaById(cuentaId);
+
+        //if there is no acc for any reason
+        if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findFacturaDtoList en CuentaServiceImpl");
+
+        List<Factura> facturas = c.getFacturas();
+        if(facturas == null) return new ArrayList<>();
+        return facturas.stream().map(FacturaMapper::mapFacturaToFacturaDto).toList();
     }
 
     @Override
     public List<PersonaDto> findClientesDtoList(Long cuentaId) {
-        throw new UnsupportedOperationException("No se ha implementado findClientesDtoList en CuentaServiceImpl");
+        Cuenta c = findCuentaById(cuentaId);
+
+        //if there is no acc for any reason
+        if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findClientesDtoList en CuentaServiceImpl");
+
+        List<Cliente> clientes = c.getClientes();
+        if(clientes == null) return new ArrayList<>();
+        return clientes.stream().map(PersonaMapper::mapPersonaToPersonaDto).toList();
     }
 
     @Override
     public List<ProductoDto> findProductosDtoList(Long cuentaId) {
-        throw new UnsupportedOperationException("No se ha implementado findProductosDtoList en CuentaServiceImpl");
+        Cuenta c = findCuentaById(cuentaId);
+
+        //if there is no acc for any reason
+        if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findProductosDtoList en CuentaServiceImpl");
+
+        List<Producto> productos = c.getProductos();
+        if(productos == null) return new ArrayList<>();
+        return productos.stream().map(ProductoMapper::mapProductoToProductoDto).toList();
     }
 }
