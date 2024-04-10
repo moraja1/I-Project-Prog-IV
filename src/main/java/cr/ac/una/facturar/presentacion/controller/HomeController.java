@@ -1,5 +1,6 @@
 package cr.ac.una.facturar.presentacion.controller;
 
+import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import jakarta.servlet.http.HttpSession;
@@ -11,13 +12,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
     private final PersonaService personaService;
+    private final CuentaService cuentaService;
 
-    public HomeController(PersonaService personaService) {
+    public HomeController(PersonaService personaService, CuentaService cuentaService) {
         this.personaService = personaService;
+        this.cuentaService = cuentaService;
     }
 
     @GetMapping("/home")
@@ -33,8 +37,12 @@ public class HomeController {
         model.addAttribute("user", person);
 
         //Find registered suppliers
-        List<PersonaDto> persons = personaService.findAllSuppliersWithAccess();
-        model.addAttribute("persons", persons);
+        List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
+        if(authorizedProvs == null) {
+            authorizedProvs = personaService.findAllAuthorizedProvs();
+            session.setAttribute("auth", authorizedProvs);
+        }
+        model.addAttribute("auth", authorizedProvs);
 
         return "home";
     }
@@ -61,13 +69,15 @@ public class HomeController {
         if(access == null || !access) return "redirect:/";
 
         //Password incorrect
-        if(!user.pass().equals(session.getAttribute("pass"))) return confirmationMessage(false, model);
-
-        //Update info
-        user = normalizeUser(user, session);
+        PersonaDto p = (PersonaDto) session.getAttribute("user");
+        p = personaService.userHasAccess(p.email(), user.pass());
+        if(p == null) return confirmationMessage(false, model);
 
         //Update correct
-        if(personaService.updatePersonProfile(user)) return confirmationMessage(true, model);
+        if((p = personaService.updatePersonProfile(p.id(), user)) != null) {
+            session.setAttribute("user", p);
+            return confirmationMessage(true, model);
+        }
 
         //Update incorrect
         else return confirmationMessage(false, model);
@@ -82,45 +92,42 @@ public class HomeController {
         //Set user from session to view
         model.addAttribute("user", session.getAttribute("user"));
 
-        List<PersonaDto> unauthorizedProvs = personaService.findAllUnauthorizedProvs();
-        model.addAttribute("persons", unauthorizedProvs);
+        //Get unathorized list
+        List<PersonaDto> unauthorizedProvs = (List<PersonaDto>) session.getAttribute("unauth");
+        if(unauthorizedProvs == null) {
+            unauthorizedProvs = personaService.findAllUnauthorizedProvs();
+            session.setAttribute("unauth", unauthorizedProvs);
+        }
+        model.addAttribute("unauth", unauthorizedProvs);
 
         return "accesos";
     }
 
-    @GetMapping("/giveAccess/{id}")
-    public String giveAccess(@RequestParam String id, Model model, HttpSession session) {
+    @GetMapping("/giveAccess/")
+    public String giveAccess(@RequestParam("person") String person, Model model, HttpSession session) {
+        //Give access to proveedor
+        PersonaDto newAccess = personaService.giveAccessToProv(person);
+
+        //Evaluate personaService output
+        if(newAccess == null) return confirmationMessage(false, model);
+
+        //Use cuentaService to give an Acc to prov
+        cuentaService.addCuentaToProv(newAccess);
 
 
-        return "/accesos";
+        //Update unauthorized provs list
+        List<PersonaDto> unauthorizedProvs = (List<PersonaDto>) session.getAttribute("unauth");
+        unauthorizedProvs = unauthorizedProvs.stream().filter(a -> !(a.id().equals(newAccess.id()))).collect(Collectors.toList());
+        session.setAttribute("unauth", unauthorizedProvs);
+
+        return "redirect:/requests";
     }
 
     private String confirmationMessage(boolean b, Model model) {
-        model.addAttribute("isAccepted", false);
-        model.addAttribute("isReg", false);
+        model.addAttribute("isAccepted", b);
+        model.addAttribute("isReg", b);
         model.addAttribute("next", "/profile");
 
         return "confirmation";
-    }
-
-    private PersonaDto normalizeUser(PersonaDto user, HttpSession session) {
-        return PersonaDto.builder()
-                .id((String) session.getAttribute("id"))
-                .name(user.name())
-                .lastName(user.lastName())
-                .email(user.email())
-                .phoneNumber(user.phoneNumber())
-                .build();
-    }
-
-    private PersonaDto getAttrsFromSession(HttpSession session) {
-        return PersonaDto.builder()
-                .id((String) session.getAttribute("id"))
-                .name((String) session.getAttribute("name"))
-                .lastName((String) session.getAttribute("lastName"))
-                .phoneNumber((String) session.getAttribute("phone"))
-                .email((String) session.getAttribute("email"))
-                .dtype((String) session.getAttribute("role"))
-                .build();
     }
 }

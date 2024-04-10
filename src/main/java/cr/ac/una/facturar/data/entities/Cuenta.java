@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -20,13 +21,13 @@ public class Cuenta {
     private Long id;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Cliente> clientes;
+    private List<Cliente> clientes;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Producto> productos;
+    private List<Producto> productos;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Factura> facturas;
+    private List<Factura> facturas;
 
     public void agregarCliente(Cliente cliente) {
         clientes.add(cliente);

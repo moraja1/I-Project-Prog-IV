@@ -12,7 +12,7 @@
     <div id="home">
         <div class="container">
             <h2><span th:text="#{home.registeredUsers}"></span></h2>
-            <table class="table" th:if="${not #lists.isEmpty(persons)}">
+            <table class="table" th:if="${not #lists.isEmpty(auth)}">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -21,14 +21,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="person : ${persons}">
+                <tr th:each="person : ${auth}">
                     <td th:text="${person.id}"></td>
                     <td th:text="${person.name}"></td>
                     <td th:text="${person.lastName}"></td>
                 </tr>
                 </tbody>
             </table>
-            <h3 th:if="${#lists.isEmpty(persons)}">No hay usuarios registrados</h3>
+            <h3 th:if="${#lists.isEmpty(auth)}">No hay usuarios registrados</h3>
         </div>
     </div>
 </section>

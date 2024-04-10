@@ -1,7 +1,7 @@
 package cr.ac.una.facturar.data.dto;
 
-import lombok.Builder;
-import lombok.Value;
+import cr.ac.una.facturar.data.entities.Cuenta;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -9,6 +9,10 @@ import java.io.Serializable;
  * DTO for {@link cr.ac.una.facturar.data.entities.Proveedor}
  */
 @Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProveedorDto implements Serializable {
     String id;
     String name;
@@ -18,4 +22,6 @@ public class ProveedorDto implements Serializable {
     String pass;
     String dtype;
     Boolean autorizado;
+    Long cuentaId;
+    Long infoComercialId;
 }

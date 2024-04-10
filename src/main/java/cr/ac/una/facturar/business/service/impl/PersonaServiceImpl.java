@@ -1,12 +1,14 @@
 package cr.ac.una.facturar.business.service.impl;
 
+import cr.ac.una.facturar.business.mappers.PersonaMapper;
+import cr.ac.una.facturar.business.mappers.ProveedorMapper;
 import cr.ac.una.facturar.business.service.PersonaService;
+import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Persona;
-import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.PersonaRepository;
-import cr.ac.una.facturar.data.repository.ProveedorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -14,14 +16,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static cr.ac.una.facturar.business.mappers.PersonaMapper.mapPersonaDtoToProveedorDto;
+import static cr.ac.una.facturar.business.mappers.PersonaMapper.mapPersonaToPersonaDto;
+import static cr.ac.una.facturar.business.mappers.ProveedorMapper.*;
+
 @Service
 public class PersonaServiceImpl implements PersonaService {
     private final PersonaRepository personaRepository;
-    private final ProveedorRepository proveedorRepository;
+    private final ProveedorService proveedorService;
 
-    public PersonaServiceImpl(PersonaRepository personaRepository, ProveedorRepository proveedorRepository) {
+    @Autowired
+    public PersonaServiceImpl(PersonaRepository personaRepository, ProveedorService proveedorService) {
         this.personaRepository = personaRepository;
-        this.proveedorRepository = proveedorRepository;
+        this.proveedorService = proveedorService;
     }
 
     @Override
@@ -31,31 +38,31 @@ public class PersonaServiceImpl implements PersonaService {
         if(persona.isEmpty()) return null;
 
         //Person is Admin
-        if(persona.get().getDtype().equals("Admin")) return persona.map(this::mapPersonaToDto).orElse(null);
+        if(persona.get().getDtype().equals("Admin")) return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
 
         //Person is proveedor
         String id = persona.get().getId();
-        Optional<Proveedor> proveedor = proveedorRepository.findById(id);
+        ProveedorDto proveedor = proveedorService.findById(id);
 
         //Proveedor is not loggin in
-        if(proveedor.isEmpty()) return null;
+        if(proveedor == null) return null;
 
         //Proveedor authorized
-        if(proveedor.get().getAutorizado()) return persona.map(this::mapPersonaToDto).orElse(null);
+        if(proveedor.getAutorizado()) return persona.map(PersonaMapper::mapPersonaToPersonaDto).orElse(null);
 
         //Proveedor not authorized
         return null;
     }
 
     @Override
-    public List<PersonaDto> findAllSuppliersWithAccess() {
-        List<Proveedor> proveedores = proveedorRepository.findAllByAutorizado(true);
+    public List<PersonaDto> findAllAuthorizedProvs() {
+        List<ProveedorDto> proveedores = proveedorService.findAllByAutorizado(true);
 
         //No authorized suppliers
         if(proveedores.isEmpty()) return new ArrayList<>();
 
         //returning registered suppliers
-        return proveedores.stream().map(this::mapProveedorToDto).toList();
+        return proveedores.stream().map(ProveedorMapper::mapProveedorDtoToPersonaDto).toList();
     }
 
     @Override
@@ -71,74 +78,53 @@ public class PersonaServiceImpl implements PersonaService {
         if(Boolean.FALSE.equals(isRegisteredInMinistry)) return false;
 
         //Saving proveedor
-        Proveedor proveedor = mapDtoRegistrationToProveedor(person);
-        proveedorRepository.save(proveedor);
+        ProveedorDto proveedor = mapPersonaDtoToProveedorDto(person);
+        proveedorService.save(proveedor);
         return true;
     }
 
     @Override
-    public boolean updatePersonProfile(PersonaDto user) {
-        Optional<Persona> p = personaRepository.findById(user.id());
+    public PersonaDto updatePersonProfile(String id, PersonaDto user) {
+        Optional<Persona> p = personaRepository.findById(id);
 
         //Id does not correspond to DB
-        if(p.isEmpty()) return false;
+        if(p.isEmpty()) return null;
 
         //Proceed to update info
         Persona persisted = p.get();
-        updateDtoToPersona(persisted, user);
+        persisted.setPhoneNumber(user.phoneNumber());
+        persisted.setEmail(user.email());
+        persisted.setName(user.name());
+        persisted.setLastName(user.lastName());
 
-        return true;
+        return mapPersonaToPersonaDto(persisted);
     }
 
     @Override
     public List<PersonaDto> findAllUnauthorizedProvs() {
-        List<Proveedor> proveedores = proveedorRepository.findAllByAutorizado(false);
+        List<ProveedorDto> proveedores = proveedorService.findAllByAutorizado(false);
 
         //No authorized suppliers
         if(proveedores.isEmpty()) return new ArrayList<>();
 
         //returning registered suppliers
-        return proveedores.stream().map(this::mapProveedorToDto).toList();
+        return proveedores.stream().map(ProveedorMapper::mapProveedorDtoToPersonaDto).toList();
     }
 
-    private void updateDtoToPersona(Persona persona, PersonaDto user) {
-        persona.setName(user.name());
-        persona.setLastName(user.lastName());
-        persona.setEmail(user.email());
-        persona.setPhoneNumber(user.phoneNumber());
-    }
+    @Override
+    public PersonaDto giveAccessToProv(String person) {
+        ProveedorDto prov = proveedorService.findById(person);
 
-    private Proveedor mapDtoRegistrationToProveedor(PersonaDto person) {
-        return Proveedor.builder()
-                .id(person.id())
-                .name(person.name())
-                .lastName(person.lastName())
-                .phoneNumber(person.phoneNumber())
-                .email(person.email())
-                .pass(person.pass())
-                .infoComercial(null)
-                .cuenta(null)
-                .autorizado(false)
-                .build();
+        //Proveedor does not exist by any reason
+        if(prov == null) return null;
+        prov.setAutorizado(true);
+
+        //Save Prov with account
+        proveedorService.save(prov);
+
+        //return dto
+        return mapProveedorDtoToPersonaDto(prov);
     }
 
 
-    private PersonaDto mapProveedorToDto(Proveedor proveedor) {
-        return PersonaDto.builder()
-                .id(proveedor.getId())
-                .name(proveedor.getName())
-                .lastName(proveedor.getLastName())
-                .build();
-    }
-
-    private PersonaDto mapPersonaToDto(Persona persona) {
-        return PersonaDto.builder()
-                .id(persona.getId())
-                .name(persona.getName())
-                .lastName(persona.getLastName())
-                .phoneNumber(persona.getPhoneNumber())
-                .email(persona.getEmail())
-                .dtype(persona.getDtype())
-                .build();
-    }
 }

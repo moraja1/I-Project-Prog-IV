@@ -2,11 +2,9 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,7 +27,7 @@ public class Factura {
     private Cliente clientInfo;
 
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Producto> productos;
+    private List<Producto> productos;
 
     private Double iva;
     private Long costoTotal;

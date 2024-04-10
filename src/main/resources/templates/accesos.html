@@ -11,7 +11,7 @@
     <section class="content">
         <div class="container">
             <h2><span th:text="#{home.access}">Solicitudes de Acceso</span></h2>
-            <table class="table" th:if="${not #lists.isEmpty(persons)}">
+            <table class="table" th:if="${not #lists.isEmpty(unauth)}">
                 <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -21,17 +21,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="person : ${persons}">
-                    <td th:text="${person.id}"></td>
-                    <td th:text="${person.name}">sdsdsd</td>
-                    <td th:text="${person.lastName}">sdsdsd</td>
+                <tr th:each="prov : ${unauth}">
+                    <td th:text="${prov.id()}"></td>
+                    <td th:text="${prov.name()}"></td>
+                    <td th:text="${prov.lastName()}"></td>
                     <td>
-                        <a th:href="@{'/giveAccess/' + ${person.id}}"><img class="access_img" th:src="@{images/accesos.svg}" src="../static/images/accesos.svg" alt="Accept"></a>
+                        <a th:href="@{/giveAccess/(person=${prov.id()})}" th:value="${prov}" th:name="person"><img class="access_img" th:src="@{images/accesos.svg}" src="../static/images/accesos.svg" alt="Accept"></a>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <h3 th:if="${#lists.isEmpty(persons)}">No hay solicitudes de acceso</h3>
+            <h3 th:if="${#lists.isEmpty(unauth)}">No hay solicitudes de acceso</h3>
         </div>
     </section>
 </body>
