@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Facturas del Usuario</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
+</head>
+<body>
+<header th:insert="~{fragments/header :: headerInvoices}"></header>
+<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
+<section>
+    <h1 th:text="#{invoices.info}">Facturas</h1>
+    <div></div>
+</section>
+</body>
+</html>

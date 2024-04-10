@@ -171,4 +171,9 @@ public class HomeController {
 
         return "confirmation";
     }
+
+    @GetMapping("/invoices")
+    public String getInvoices(Model model){
+        return "invoices";
+    }
 }
