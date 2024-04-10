@@ -1,7 +1,6 @@
 package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.mappers.ProveedorMapper;
-import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.service.InformacionComercialService;
 import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
@@ -18,13 +17,11 @@ import java.util.Optional;
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
     private final ProveedorRepository proveedorRepository;
-    private final CuentaService cuentaService;
     private final InformacionComercialService infoComercialService;
 
     @Autowired
-    public ProveedorServiceImpl(ProveedorRepository proveedorRepository, CuentaService cuentaService, InformacionComercialService infoComercialService) {
+    public ProveedorServiceImpl(ProveedorRepository proveedorRepository, InformacionComercialService infoComercialService) {
         this.proveedorRepository = proveedorRepository;
-        this.cuentaService = cuentaService;
         this.infoComercialService = infoComercialService;
     }
 
@@ -70,6 +67,11 @@ public class ProveedorServiceImpl implements ProveedorService {
         proveedorRepository.save(persistedEntity);
 
         return true;
+    }
+
+    @Override
+    public Proveedor findProveedorById(String id) {
+        return null;
     }
 
     private void updateEntity(Proveedor entity, ProveedorDto data, Cuenta cuenta, InformacionComercial infoComercial) {

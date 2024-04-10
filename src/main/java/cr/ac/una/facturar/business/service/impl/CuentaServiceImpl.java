@@ -6,10 +6,7 @@ import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.CuentaDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
-import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.Factura;
-import cr.ac.una.facturar.data.entities.Persona;
-import cr.ac.una.facturar.data.entities.Producto;
+import cr.ac.una.facturar.data.entities.*;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,11 +30,7 @@ public class CuentaServiceImpl implements CuentaService {
 
     private Cuenta createsNewAccount() {
         //Creates new Acc
-        Cuenta newCuenta = Cuenta.builder()
-                .clientes(new ArrayList<>())
-                .productos(new ArrayList<>())
-                .facturas(new ArrayList<>())
-                .build();
+        Cuenta newCuenta = Cuenta.builder().build();
 
         //Persists acc
         newCuenta = cuentaRepository.save(newCuenta);
@@ -48,7 +41,7 @@ public class CuentaServiceImpl implements CuentaService {
     @Override
     public ProveedorDto addCuentaToProv(PersonaDto prov) {
         //Find persisted prov
-        ProveedorDto p = proveedorService.findById(prov.id());
+        Proveedor p = proveedorService.findProveedorById(prov.id());
 
         //Evaluates result
         if(p == null) return null;
