@@ -10,5 +10,5 @@ import java.io.Serializable;
  */
 @Builder
 public record PersonaDto(String id, String name, String lastName, String phoneNumber, String email,
-                         String pass, String dtype) implements Serializable {
+                         String pass, String dtype, Long infoComercialId) implements Serializable {
 }

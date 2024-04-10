@@ -12,7 +12,9 @@
     <div id="home">
         <div class="container">
             <div class="forAdmin" th:if="${#strings.equals(user.dtype, 'Admin')}">
-                <h2><span  th:text="#{home.registeredUsers}"></span></h2>
+
+                <h2><span th:text="#{home.registeredUsers}"></span></h2>
+
                 <table class="table" th:if="${not #lists.isEmpty(auth)}">
                     <thead>
                     <tr>
@@ -34,20 +36,31 @@
 
             <div class="forProvs" th:if="${#strings.equals(user.dtype, 'Proveedor')}">
                 <div class="bottom_separator">
-                    <h2><span  th:text="#{home.declaredInvoices}"></span></h2>
+                    <h2><span th:text="#{home.declaredInvoices}"></span></h2>
+
                     <table class="table" th:if="${not #lists.isEmpty(invoices)}">
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
+                            <th scope="col">Total</th>
+                            <th scope="col">IVA</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">PDF</th>
+                            <th scope="col">XML</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="invoice : ${invoices}">
                             <td th:text="${invoice.id}"></td>
-                            <td th:text="${invoice.name}"></td>
-                            <td th:text="${invoice.lastName}"></td>
+                            <td th:text="${invoice.costoTotal}"></td>
+                            <td th:text="${invoice.iva}"></td>
+                            <td th:text="${invoice.date}"></td>
+                            <td>
+                                <a th:href="@{/home/printPdf/(id=${invoice.id})}" th:name="id"><img class="access_img" th:src="@{images/filetype-pdf.svg}" src="../static/images/filetype-pdf.svg" alt="Accept"></a>
+                            </td>
+                            <td>
+                                <a th:href="@{/home/printXml/(id=${invoice.id})}" th:name="id"><img class="access_img" th:src="@{images/filetype-xml.svg}" src="../static/images/filetype-xml.svg" alt="Accept"></a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
@@ -55,7 +68,8 @@
                 </div>
 
                 <div class="bottom_separator">
-                    <h2><span  th:text="#{home.clients}"></span></h2>
+                    <h2><span th:text="#{home.clients}"></span></h2>
+
                     <table class="table" th:if="${not #lists.isEmpty(clients)}">
                         <thead>
                         <tr>
@@ -65,10 +79,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="invoice : ${clients}">
-                            <td th:text="${invoice.id}"></td>
-                            <td th:text="${invoice.name}"></td>
-                            <td th:text="${invoice.lastName}"></td>
+                        <tr th:each="person : ${clients}">
+                            <td th:text="${person.id}"></td>
+                            <td th:text="${person.name}"></td>
+                            <td th:text="${person.lastName}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -76,20 +90,21 @@
                 </div>
 
                 <div class="bottom_separator">
-                    <h2><span  th:text="#{home.products}"></span></h2>
+                    <h2><span th:text="#{home.products}"></span></h2>
+
                     <table class="table" th:if="${not #lists.isEmpty(products)}">
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Apellidos</th>
+                            <th scope="col">Descripción</th>
+                            <th scope="col">Costo</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="product : ${products}">
                             <td th:text="${product.id}"></td>
-                            <td th:text="${product.name}"></td>
-                            <td th:text="${product.lastName}"></td>
+                            <td th:text="${product.descripcion}"></td>
+                            <td th:text="${product.costo}"></td>
                         </tr>
                         </tbody>
                     </table>
