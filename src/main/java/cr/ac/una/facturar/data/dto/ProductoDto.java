@@ -15,4 +15,5 @@ public class ProductoDto implements Serializable {
     Long id;
     Long costo;
     String descripcion;
+    Integer cantidad;
 }

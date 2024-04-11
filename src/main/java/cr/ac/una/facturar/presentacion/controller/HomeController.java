@@ -182,18 +182,14 @@ public class HomeController {
     public String getProductos(Model model, HttpSession session){
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
-
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("product", ProductoDto.builder().build());
-
-
         return "productos";
     }
 
     @PostMapping("/products/find")
     public String findProduct(@ModelAttribute("product") ProductoDto product, Model model, HttpSession session) {
         System.out.println();
-
         return "";
     }
 

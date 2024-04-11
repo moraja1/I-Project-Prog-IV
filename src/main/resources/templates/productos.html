@@ -14,7 +14,7 @@
 <section class="content">
     <div class="wrap">
         <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
-            <label for="busc">Buscar producto por id:</label><br>
+            <label for="busc">Buscar producto por descripcion:</label><br>
             <input
                     type="text"
                     id="busc"
@@ -25,13 +25,12 @@
         </form>
         <form role="form" th:action="@{/products}" method="post" th:object="${product}">
             <div class="input_comp">
-                <br><label for="id"><span th:text="'ID'">Id</span></label>
+                <br><label for="id"><span th:text="#{product.description}">Descripcion</span></label>
                 <input
                         type="text"
                         id="id"
                         name="id"
-                        th:field="*{id}"
-                        th:value="${not #strings.isEmpty(id)} ? ${id}"
+                        th:field="*{descripcion}"
                         required>
             </div>
             <div class="input_comp">
@@ -44,12 +43,12 @@
                         required>
             </div>
             <div class="input_comp">
-                <label for="desc"><span th:text="#{product.descrption}">Descripcion</span></label>
+                <label for="desc"><span th:text="#{product.cantidad}">Descripcion</span></label>
                 <input
                         type="text"
                         id="desc"
                         name="desc"
-                        th:field="*{descripcion}"
+                        th:field="*{cantidad}"
                         required>
             </div>
            <br><br>
