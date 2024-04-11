@@ -9,65 +9,57 @@
 <header th:insert="~{fragments/header :: headerInvoices}"></header>
 <div th:replace="~{fragments/menu :: menuSideBar (${prov})}"></div>
 <section class="content" style="text-align: center">
+    <h1 th:text="#{invoices.info}">Declarar Facturas</h1>
     <form role="form" th:action="@{/invoices}" method="post">
-        <section id="declararFacturas">
-            <h1 th:text="#{invoices.info}">Declarar Facturas</h1>
-            <div class="snippet-container">
-                <label for="cliente"><span th:text="#{invoices.client}">Cliente</span></label>
-                <select id="cliente" name="cliente">
-                    <option th:each="c:${clientes}" th:value="${c.name} ${c.lastName}" th:text="${c.name} ${c.lastName}"></option>
-                </select>
+        <div class="snippet-container">
+            <label for="cliente"><span th:text="#{invoices.client}">Cliente</span></label>
+            <select id="cliente" name="cliente" th:field="*{invoice.clientId}">
+                <option th:each="c:${clientes}" th:value="${c.id}" th:text="${c.name} ${c.lastName}"></option>
+            </select>
 
-                <label for="date"><span th:text="#{invoices.date}">Fecha</span></label>
-                <input id="date" type="date" name="date">
+            <label for="date"><span th:text="#{invoices.date}">Fecha</span></label>
+            <input id="date" type="date" name="date" th:field="*{invoice.date}">
 
-                <label for="id"><span th:text="#{invoices.id}">ID</span></label>
-                <input id="id" name="id" type="text" th:value="${prov.name}" disabled>
-            </div>
-        </section>
-        <section id="agregarProductos">
-            <h1 th:text="#{invoices.productsTitle}">Agregar Producto</h1>
-            <div>
-                <label for="productos"><span th:text="#{invoices.product}">Producto</span></label>
-                <select id="productos" name="productos">
-                    <option th:each="p:${productos}" th:value="${p.descripcion}" th:text="${p.descripcion}"></option>
-                </select>
-                <label for="cantidad"><span th:text="#{invoices.amount}">Cantidad</span></label>
-                <input id="cantidad" name="cantidad" type="text">
-            </div>
-        </section>
-        <section id="tablaProductos">
-            <h3 th:text="#{invoices.products}">Productos</h3>
-            <div>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">Costo</th>
-                        <th scope="col">Cantidad</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="prod:${productsList}">
-                        <td th:text="${prod.id}"></td>
-                        <td th:text="${prod.descripcion}"></td>
-                        <td th:text="${prod.costo}"></td>
-                        <td th:text="${prod.cantidad}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-        <section id="ivaYtotal">
-            <div>
-                <label for="iva">IVA</label>
-                <input type="text" id="iva" name="iva" disabled>
-                <label for="total">Total</label>
-                <input type="text" id="total" name="total" disabled><br>
-            </div>
-            <input type="submit" th:value="Declarar" value="Declarar" class="button_submit" style="margin-top: 15px">
-        </section>
+            <label for="id"><span th:text="#{invoices.id}">ID</span></label>
+            <input id="id" name="id" type="text" th:value="${prov.name}" th:field="*{invoice.id}" disabled>
+        </div>
+        <h1 th:text="#{invoices.productsTitle}">Agregar Producto</h1>
+        <div>
+            <label for="productos"><span th:text="#{invoices.product}">Producto</span></label>
+            <select id="productos" name="productos" th:field="*{invoice.productosId}">
+                <option th:each="p:${productos}" th:value="${invoice.productosId.add(p.id)}" th:text="${p.descripcion}"></option>
+            </select>
+            <label for="cantidad"><span th:text="#{invoices.amount}">Cantidad</span></label>
+            <input id="cantidad" name="cantidad" type="text">
+        </div>
+        <h3 th:text="#{invoices.products}">Productos</h3>
+        <div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">Costo</th>
+                    <th scope="col">Cantidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="prod:${productsList}">
+                    <td th:text="${prod.id}"></td>
+                    <td th:text="${prod.descripcion}"></td>
+                    <td th:text="${prod.costo}"></td>
+                    <td th:text="${prod.cantidad}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <label for="iva">IVA</label>
+            <input type="text" id="iva" name="iva" th:field="*{invoice.iva}" disabled>
+            <label for="total">Total</label>
+            <input type="text" id="total" name="total" th:field="*{invoice.costoTotal}" disabled><br>
+        </div>
+        <input type="submit" th:value="Declarar" value="Declarar" class="button_submit" style="margin-top: 15px">
     </form>
 </section>
 </body>
