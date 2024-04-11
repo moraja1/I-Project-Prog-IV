@@ -11,13 +11,15 @@ import cr.ac.una.facturar.data.entities.Producto;
 import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
 import cr.ac.una.facturar.data.repository.ProductoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository PR;
     private final CuentaRepository CR;
-
+    @Autowired
     public ProductoServiceImpl(ProductoRepository PR, CuentaRepository CR) {
         this.PR = PR;
         this.CR = CR;

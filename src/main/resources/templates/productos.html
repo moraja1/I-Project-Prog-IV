@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Productos</title>
     <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
 </head>
 <body>
@@ -13,7 +13,7 @@
 </header>
 <section class="content">
     <div class="wrap">
-        <form role="form" th:action="@{/signin}" method="get" th:object="${user}">
+        <form role="form" th:action="@{/products}" method="post" th:object="${user}">
             <label for="busc">Buscar producto por id:</label><br>
             <input type="text" id="busc">
             <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{index.submit}">
@@ -33,7 +33,7 @@
                         type="text"
                         id="cost"
                         name="cost"
-                        th:field="*{costo}"
+                        th:field="*{id}"
                         th:attr="placeholder=#{costo}"
                         required>
             </div>
@@ -43,7 +43,7 @@
                         type="text"
                         id="desc"
                         name="desc"
-                        th:field="*{descripcion}"
+                        th:field="*{id}"
                         th:attr="placeholder=#{descripcion}"
                         required>
             </div>

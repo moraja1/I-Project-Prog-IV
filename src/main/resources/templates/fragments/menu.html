@@ -23,7 +23,7 @@
             <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
             <label>Clientes</label>
         </a>
-        <a th:if="${user.dtype} == 'Proveedor'" type="" href="../products" th:href="@{/products}" class="tab">
+        <a th:if="${user.dtype} == 'Proveedor'" type="" href="../productos.html" th:href="@{/products}" class="tab">
             <img src="/static/images/productos.svg" th:src="@{images/productos.svg}" alt="">
             <label>Productos</label>
         </a>

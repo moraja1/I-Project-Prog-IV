@@ -2,6 +2,7 @@ package cr.ac.una.facturar.presentacion.controller;
 
 import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.service.PersonaService;
+import cr.ac.una.facturar.business.service.ProductoService;
 import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.FacturaDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
@@ -24,10 +25,13 @@ public class HomeController {
     private final CuentaService cuentaService;
     private final ProveedorService proveedorService;
 
-    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService) {
+    private final ProductoService productosService;
+
+    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ProductoService PS) {
         this.personaService = personaService;
         this.cuentaService = cuentaService;
         this.proveedorService = proveedorService;
+        this.productosService = PS;
     }
 
     @GetMapping("/home")
@@ -172,8 +176,18 @@ public class HomeController {
         return "confirmation";
     }
 
+    @GetMapping("/products")
+    public String getProductos(Model model, HttpSession session){
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+        model.addAttribute("user", session.getAttribute("user"));
+        return "productos";
+    }
+
     @GetMapping("/invoices")
-    public String getInvoices(Model model){
+    public String getInvoices(Model model, HttpSession session){
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
         return "invoices";
     }
 }
