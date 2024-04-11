@@ -1,6 +1,5 @@
 package cr.ac.una.facturar.data.dto;
 
-import cr.ac.una.facturar.data.entities.Direccion;
 import lombok.Builder;
 import lombok.Value;
 

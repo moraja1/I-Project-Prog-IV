@@ -14,5 +14,8 @@ public class InformacionComercialDto implements Serializable {
     Long id;
     String razonSocial;
     String nombre;
-    Long direccionId;
+    String provincia;
+    String canton;
+    String distrito;
+
 }

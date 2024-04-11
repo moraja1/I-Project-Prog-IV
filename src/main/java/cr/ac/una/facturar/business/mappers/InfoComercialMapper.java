@@ -11,7 +11,9 @@ public class InfoComercialMapper {
                 .id(infoComercial.getId())
                 .nombre(infoComercial.getNombre())
                 .razonSocial(infoComercial.getRazonSocial())
-                .direccionId(infoComercial.getDireccion().getId())
+                .provincia(infoComercial.getProvincia())
+                .canton(infoComercial.getCanton())
+                .distrito(infoComercial.getDistrito())
                 .build();
     }
 }

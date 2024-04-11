@@ -13,42 +13,47 @@
 </header>
 <section class="content">
     <div class="wrap">
-        <form role="form" th:action="@{/products}" method="post" th:object="${user}">
+        <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
             <label for="busc">Buscar producto por id:</label><br>
-            <input type="text" id="busc">
-            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{index.submit}">
+            <input
+                    type="text"
+                    id="busc"
+                    name="busc"
+                    th:field="*{id}"
+                    required>
+            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{product.submit}">
+        </form>
+        <form role="form" th:action="@{/products}" method="post" th:object="${product}">
             <div class="input_comp">
-                <br><label for="id"><span th:text="#{id}">Id</span></label>
+                <br><label for="id"><span th:text="'ID'">Id</span></label>
                 <input
                         type="text"
                         id="id"
                         name="id"
                         th:field="*{id}"
-                        th:attr="placeholder=#{id}"
+                        th:value="${not #strings.isEmpty(id)} ? ${id}"
                         required>
             </div>
             <div class="input_comp">
-                <label for="cost"><span th:text="#{costo}">Costo</span></label>
+                <label for="cost"><span th:text="#{product.costo}">Costo</span></label>
                 <input
                         type="text"
                         id="cost"
                         name="cost"
-                        th:field="*{id}"
-                        th:attr="placeholder=#{costo}"
+                        th:field="*{costo}"
                         required>
             </div>
             <div class="input_comp">
-                <label for="desc"><span th:text="#{descripcion}">Descripcion</span></label>
+                <label for="desc"><span th:text="#{product.descrption}">Descripcion</span></label>
                 <input
                         type="text"
                         id="desc"
                         name="desc"
-                        th:field="*{id}"
-                        th:attr="placeholder=#{descripcion}"
+                        th:field="*{descripcion}"
                         required>
             </div>
            <br><br>
-            <input class="button_submit" type="submit" value="Registrar" th:value="#{index.submit}">
+            <input class="button_submit" type="submit" value="Registrar" th:value="#{product.submit}">
         </form>
     </div>
 </section>

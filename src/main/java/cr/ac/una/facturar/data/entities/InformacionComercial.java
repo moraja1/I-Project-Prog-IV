@@ -19,8 +19,7 @@ public class InformacionComercial {
     private Long id;
     private String razonSocial;
     private String nombre;
-
-    @OneToOne
-    @JoinColumn(name = "direccion_id")
-    private Direccion direccion;
+    private String provincia;
+    private String canton;
+    private String distrito;
 }

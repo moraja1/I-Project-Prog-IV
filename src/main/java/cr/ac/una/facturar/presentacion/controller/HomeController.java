@@ -182,21 +182,36 @@ public class HomeController {
     public String getProductos(Model model, HttpSession session){
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
+
         model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("product", ProductoDto.builder().build());
+
+
         return "productos";
+    }
+
+    @PostMapping("/products/find")
+    public String findProduct(@ModelAttribute("product") ProductoDto product, Model model, HttpSession session) {
+        System.out.println();
+
+        return "";
+    }
+
+    @PostMapping("/products")
+    public String saveOrUpdateProduct(@ModelAttribute("product") ProductoDto product, HttpSession session) {
+        System.out.println();
+        return "";
     }
 
     @GetMapping("/invoices")
     public String getInvoices(Model model, HttpSession session){
-<<<<<<< HEAD
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
-=======
+
         PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
         model.addAttribute("prov", personaDto);
 //        model.addAttribute("clientes", session.getAttribute("clients"));
 //        model.addAttribute("productos", session.getAttribute("products"));
->>>>>>> 839012f70a6f760a33bf2fd60821c7d1132b3379
         return "invoices";
     }
 }

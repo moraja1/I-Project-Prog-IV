@@ -2,6 +2,7 @@ package cr.ac.una.facturar.data.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 @Getter
 @Setter
@@ -16,6 +17,7 @@ public class Producto {
     private Long id;
     private Long costo;
     private String descripcion;
+    private Integer cantidad;
 
     @ManyToOne
     @JoinColumn(name = "cuenta_id",
