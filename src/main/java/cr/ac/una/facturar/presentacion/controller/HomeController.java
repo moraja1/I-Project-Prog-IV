@@ -176,8 +176,8 @@ public class HomeController {
 
     @GetMapping("/invoices")
     public String getInvoices(Model model, HttpSession session){
-//        PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
-//        model.addAttribute("prov", personaDto);
+        PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
+        model.addAttribute("prov", personaDto);
 //        model.addAttribute("clientes", session.getAttribute("clients"));
 //        model.addAttribute("productos", session.getAttribute("products"));
         return "invoices";
