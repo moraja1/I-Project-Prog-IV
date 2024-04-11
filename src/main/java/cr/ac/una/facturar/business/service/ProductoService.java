@@ -10,9 +10,10 @@ import java.util.List;
 public interface ProductoService {
     ProductoDto findById(Long id);
 
-    boolean save(ProductoDto producto, ProveedorDto proveedor);
+    boolean save(ProductoDto producto);
 
     Producto findProductoById(Long id);
 
     Producto save(Producto p);
+
 }

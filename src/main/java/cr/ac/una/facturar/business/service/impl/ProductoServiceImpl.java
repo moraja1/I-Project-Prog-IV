@@ -14,15 +14,14 @@ import cr.ac.una.facturar.data.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ProductoServiceImpl implements ProductoService {
     private final ProductoRepository PR;
-    private final CuentaRepository CR;
     @Autowired
     public ProductoServiceImpl(ProductoRepository PR, CuentaRepository CR) {
         this.PR = PR;
-        this.CR = CR;
     }
 
     @Override
@@ -32,11 +31,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public boolean save(ProductoDto producto, ProveedorDto proveedor) {
-        Long cuentaId = proveedor.getCuentaId();
-        Optional<Cuenta> cOptional = CR.findById(cuentaId);
-        Cuenta cuenta = cOptional.orElse(null);
-
+    public boolean save(ProductoDto producto) {
         //Save
         Optional<Producto> persisted = PR.findById(producto.getId());
         if(persisted.isEmpty()) {
@@ -68,5 +63,8 @@ public class ProductoServiceImpl implements ProductoService {
         entity.setId(data.getId());
         entity.setCosto(data.getCosto());
         entity.setDescripcion(data.getDescripcion());
+        entity.setCantidad(data.getCantidad());
     }
+
+
 }

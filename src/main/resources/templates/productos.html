@@ -6,30 +6,39 @@
     <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
 </head>
 <body>
-<header th:replace="~{fragments/header :: headerIndex}">
+<header>
     <div>
-        <h1><span th:text="#{index.title}">Registrar productos</span></h1>
+        <h1><span th:text="#{products.title}">Registrar productos</span></h1>
     </div>
 </header>
 <section class="content">
     <div class="wrap">
         <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
-            <label for="busc">Buscar producto por descripcion:</label><br>
+            <label for="busc">Buscar producto por id:</label><br>
             <input
                     type="text"
                     id="busc"
                     name="busc"
                     th:field="*{id}"
                     required>
-            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{product.submit}">
+            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{products.submit}">
         </form>
-        <form role="form" th:action="@{/products}" method="post" th:object="${product}">
+        <form role="form" th:action="@{/products}" method="POST" th:object="${product}">
             <div class="input_comp">
-                <br><label for="id"><span th:text="#{product.description}">Descripcion</span></label>
+                <br><label for="id"><span th:text="#{product.id}">Descripcion</span></label>
                 <input
                         type="text"
                         id="id"
                         name="id"
+                        th:field="*{id}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <br><label for="des"><span th:text="#{product.description}">Descripcion</span></label>
+                <input
+                        type="text"
+                        id="des"
+                        name="des"
                         th:field="*{descripcion}"
                         required>
             </div>
@@ -52,7 +61,7 @@
                         required>
             </div>
            <br><br>
-            <input class="button_submit" type="submit" value="Registrar" th:value="#{product.submit}">
+            <input class="button_submit" type="submit" value="Registrar" th:value="#{productos.submit}">
         </form>
     </div>
 </section>

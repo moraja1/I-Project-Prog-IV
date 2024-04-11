@@ -13,7 +13,6 @@ import org.hibernate.annotations.NaturalId;
 @Entity
 public class Producto {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long costo;
     private String descripcion;

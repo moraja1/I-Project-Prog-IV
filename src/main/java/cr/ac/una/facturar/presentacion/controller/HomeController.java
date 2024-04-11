@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -207,14 +208,21 @@ public class HomeController {
 
     @PostMapping("/products/find")
     public String findProduct(@ModelAttribute("product") ProductoDto product, Model model, HttpSession session) {
-        System.out.println();
-        return "";
+        Long id = (Long) model.getAttribute("busc");
+        model.addAttribute("product", productosService.findProductoById(id));
+        return "productos";
     }
 
     @PostMapping("/products")
-    public String saveOrUpdateProduct(@ModelAttribute("product") ProductoDto product, HttpSession session) {
-        System.out.println();
-        return "";
+    public String saveOrUpdateProduct(@ModelAttribute("product") ProductoDto producto, Model model, HttpSession session) {
+        model.addAttribute("Accepted", productosService.save(producto));
+        List<ProductoDto> productos = (List<ProductoDto>) session.getAttribute("products");
+        if (productos == null) {
+            productos = new ArrayList<>();
+        }
+        productos.add(producto);
+        session.setAttribute("products", productos);
+        return "redirect:/home";
     }
 
     @GetMapping("/invoices")
