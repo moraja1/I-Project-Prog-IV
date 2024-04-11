@@ -7,6 +7,8 @@ import cr.ac.una.facturar.data.dto.FacturaDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.dto.ProductoDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
+import cr.ac.una.facturar.data.entities.Cliente;
+import cr.ac.una.facturar.data.entities.Producto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -173,7 +175,11 @@ public class HomeController {
     }
 
     @GetMapping("/invoices")
-    public String getInvoices(Model model){
+    public String getInvoices(Model model, HttpSession session){
+//        PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
+//        model.addAttribute("prov", personaDto);
+//        model.addAttribute("clientes", session.getAttribute("clients"));
+//        model.addAttribute("productos", session.getAttribute("products"));
         return "invoices";
     }
 }
