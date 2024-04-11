@@ -13,10 +13,20 @@
 </header>
 <section class="content">
     <div class="register_form" th:fragment="profile_form (user, link)">
+        <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
+            <label for="busc">Buscar cliente por identificacion:</label><br>
+            <input
+                    type="text"
+                    id="busc"
+                    name="busc"
+                    th:field="*{id}"
+                    required>
+            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{product.submit}">
+        </form>
         <form role="form" th:action="@{${link}}" method="post" th:object="${user}" >
             <div class="input_par">
                 <div class="input_comp">
-                    <label for="name"><span th:text="#{name}">Nombre</span></label>
+                    <br><label for="name"><span th:text="#{name}">Nombre</span></label>
                     <input
                             class="register_input"
                             type="text"
@@ -27,7 +37,7 @@
                             required>
                 </div>
                 <div class="input_comp">
-                    <label for="lastName"><span th:text="#{lastName}">Apellidos</span></label>
+                    <br><label for="lastName"><span th:text="#{lastName}">Apellidos</span></label>
                     <input
                             class="register_input"
                             type="text"

@@ -4,10 +4,7 @@ import cr.ac.una.facturar.business.service.CuentaService;
 import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.business.service.ProductoService;
 import cr.ac.una.facturar.business.service.ProveedorService;
-import cr.ac.una.facturar.data.dto.FacturaDto;
-import cr.ac.una.facturar.data.dto.PersonaDto;
-import cr.ac.una.facturar.data.dto.ProductoDto;
-import cr.ac.una.facturar.data.dto.ProveedorDto;
+import cr.ac.una.facturar.data.dto.*;
 import cr.ac.una.facturar.data.entities.Cliente;
 import cr.ac.una.facturar.data.entities.Producto;
 import jakarta.servlet.http.HttpSession;
@@ -177,7 +174,28 @@ public class HomeController {
 
         return "confirmation";
     }
+    //Dixon
+    @GetMapping("/clients")
+    public String getCliente(Model model, HttpSession session){
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+        model.addAttribute("user", session.getAttribute("user"));
+        model.addAttribute("client", ProductoDto.builder().build());
+        return "cliente";
+    }
 
+    @PostMapping("/clients/find")
+    public String findCliente(@ModelAttribute("client") ClienteDto client, Model model, HttpSession session) {
+        System.out.println();
+        return "";
+    }
+
+    @PostMapping("/clients")
+    public String saveOrUpdateCliente(@ModelAttribute("client") ClienteDto client, HttpSession session) {
+        System.out.println();
+        return "";
+    }
+    //Dylan
     @GetMapping("/products")
     public String getProductos(Model model, HttpSession session){
         Boolean access = (Boolean) session.getAttribute("access");
