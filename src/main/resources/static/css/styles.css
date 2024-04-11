@@ -156,3 +156,18 @@ th {
 .bottom_separator {
     margin-bottom: 1em;
 }
+
+input[id="busc"]{
+    width: 75%;
+    padding: 10px;
+}
+
+input[id="buscar"]{
+    background-color: #333;
+    font-size: large;
+    color: #fff;
+    cursor: pointer;
+    width: 20%;
+    padding: 10px;
+    box-sizing: border-box;
+}

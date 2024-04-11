@@ -1,4 +1,70 @@
 package cr.ac.una.facturar.business.service.impl;
 
-public class ProductoServiceImpl {
+import cr.ac.una.facturar.business.mappers.ProductoMapper;
+import cr.ac.una.facturar.business.mappers.ProveedorMapper;
+import cr.ac.una.facturar.business.service.ProductoService;
+import cr.ac.una.facturar.data.dto.ProductoDto;
+import cr.ac.una.facturar.data.dto.ProveedorDto;
+import cr.ac.una.facturar.data.entities.Cuenta;
+import cr.ac.una.facturar.data.entities.InformacionComercial;
+import cr.ac.una.facturar.data.entities.Producto;
+import cr.ac.una.facturar.data.entities.Proveedor;
+import cr.ac.una.facturar.data.repository.CuentaRepository;
+import cr.ac.una.facturar.data.repository.ProductoRepository;
+
+import java.util.Optional;
+
+public class ProductoServiceImpl implements ProductoService {
+    private final ProductoRepository PR;
+    private final CuentaRepository CR;
+
+    public ProductoServiceImpl(ProductoRepository PR, CuentaRepository CR) {
+        this.PR = PR;
+        this.CR = CR;
+    }
+
+    @Override
+    public ProductoDto findById(Long id) {
+        Optional<Producto> persistedProv = PR.findById(id);
+        return persistedProv.map(ProductoMapper::mapProductoToProductoDto).orElse(null);
+    }
+
+    @Override
+    public boolean save(ProductoDto producto, ProveedorDto proveedor) {
+        Long cuentaId = proveedor.getCuentaId();
+        Optional<Cuenta> cOptional = CR.findById(cuentaId);
+        Cuenta cuenta = cOptional.orElse(null);
+
+        //Save
+        Optional<Producto> persisted = PR.findById(producto.getId());
+        if(persisted.isEmpty()) {
+            Producto toSave = ProductoMapper.mapProductoDtoToProducto(producto);
+            PR.save(toSave);
+            return true;
+        }
+
+        //Si ya existe
+        Producto persistedEntity = persisted.get();
+        updateEntity(persistedEntity, producto);
+        PR.save(persistedEntity);
+        return true;
+    }
+
+    @Override
+    public Producto findProductoById(Long id) {
+        Optional<Producto> producto = PR.findById(id);
+        return producto.orElse(null);
+    }
+
+    @Override
+    public Producto save(Producto p) {
+        p = PR.save(p);
+        return p;
+    }
+
+    private void updateEntity(Producto entity, ProductoDto data) {
+        entity.setId(data.getId());
+        entity.setCosto(data.getCosto());
+        entity.setDescripcion(data.getDescripcion());
+    }
 }

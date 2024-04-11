@@ -11,4 +11,12 @@ public class ProductoMapper {
                 .descripcion(producto.getDescripcion())
                 .build();
     }
+
+    public static Producto mapProductoDtoToProducto(ProductoDto producto) {
+        return Producto.builder()
+                .id(producto.getId())
+                .costo(producto.getCosto())
+                .descripcion(producto.getDescripcion())
+                .build();
+    }
 }

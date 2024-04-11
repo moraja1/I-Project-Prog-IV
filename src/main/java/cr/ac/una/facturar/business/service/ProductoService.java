@@ -8,11 +8,11 @@ import cr.ac.una.facturar.data.entities.Proveedor;
 import java.util.List;
 
 public interface ProductoService {
-    ProductoDto findById(String id);
+    ProductoDto findById(Long id);
 
-    boolean save(ProductoDto producto);
+    boolean save(ProductoDto producto, ProveedorDto proveedor);
 
-    Producto findProductoById(String id);
+    Producto findProductoById(Long id);
 
-    Producto save(Proveedor p);
+    Producto save(Producto p);
 }
