@@ -70,7 +70,14 @@
     width: 100%;
     box-sizing: border-box;
 }
-
+.input_comp input[type="text"],
+.input_comp input[type="password"],
+.input_comp select {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Tamaño de letra */
+}
 .wrap {
     width: 100%;
 }
@@ -170,4 +177,34 @@ input[id="buscar"]{
     width: 20%;
     padding: 10px;
     box-sizing: border-box;
+=======
+.input_comp input[type="text"],
+.input_comp input[type="password"],
+.input_comp select {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Tamaño de letra */
+}
+
+.input_par {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    margin-bottom: 0.5em;
+}
+
+.input_comp label {
+    display: block;
+    text-align: left;
+}
+
+.input_comp input[type="text"],
+.input_comp input[type="password"],
+.input_comp select {
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px; /* Tamaño de letra */
+>>>>>>> cd7bec3ebf900d3f7ddb5ebec06834b2ec77c8f5
 }

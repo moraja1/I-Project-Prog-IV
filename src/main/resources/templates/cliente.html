@@ -1,10 +1,170 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Clientes</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
+<header th:replace="~{fragments/header :: headerIndex}">
+    <div>
+        <h1><span th:text="#{index.title}">Registrar Cliente</span></h1>
+    </div>
+</header>
+<section class="content">
+    <div class="register_form" th:fragment="profile_form (user, link)">
+        <form role="form" th:action="@{${link}}" method="post" th:object="${user}" >
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="name"><span th:text="#{name}">Nombre</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="name"
+                            name="name"
+                            th:field="*{name}"
+                            th:attr="placeholder=#{name}"
+                            required>
+                </div>
+                <div class="input_comp">
+                    <label for="lastName"><span th:text="#{lastName}">Apellidos</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            th:field="*{lastName}"
+                            th:attr="placeholder=#{lastName}"
+                            required>
+                </div>
+            </div>
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="phone"><span th:text="#{phone}">Teléfono</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            th:field="*{phoneNumber}"
+                            th:attr="placeholder=#{phone}"
+                            required>
+                </div>
+                <div class="input_comp">
+                    <label for="email"><span th:text="#{email}">Correo Electrónico</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="email"
+                            name="email"
+                            th:field="*{email}"
+                            th:attr="placeholder=#{email}"
+                            required>
+                </div>
+            </div>
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="id"><span th:text="#{identification}">Tipo de Cédula</span></label>
+                    <select class="register_input" id="id" name="id" th:field="*{id}" th:disabled="(${link} == '/profile')" required>
+                        <option value="" disabled selected><span th:text="#{select}">Seleccionar</span></option>
+                        <option value="Cedula Juridica">Cédula Jurídica</option>
+                        <option value="Cedula Fisicas">Cédula Física</option>
+                    </select>
+                </div>
+                <div class="input_comp">
+                    <label for="id"><span th:text="#{identification}">Cédula</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="id"
+                            name="id"
+                            th:attr="placeholder=#{identification}"
+                            th:disabled="(${link} == '/profile')"
+                            required>
+                </div>
+            </div>
+            <div>
+                <h2 style="text-align: center;">Información Comercial</h2>
+            </div>
+
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="commercialId"><span th:text="#{commercialId}">Cedula Juridica/Fisica</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="commercialId"
+                            name="commercialId"
+                            th:field="*{commercialId}"
+                            th:attr="placeholder=#{commercialId}"
+                            required>
+                </div>
+                <div class="input_comp">
+                    <label for="name"><span th:text="#{name}">Nombre</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="name"
+                            name="name"
+                            th:field="*{name}"
+                            th:attr="placeholder=#{name}"
+                            required>
+                </div>
+            </div>
+
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="socialReason"><span th:text="#{socialReason}">Razón Social</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="socialReason"
+                            name="socialReason"
+                            th:field="*{socialReason}"
+                            th:attr="placeholder=#{socialReason}"
+                            required>
+                </div>
+                <div class="input_comp">
+                    <label for="province"><span th:text="#{province}">Provincia</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="province"
+                            name="province"
+                            th:field="*{province}"
+                            th:attr="placeholder=#{province}"
+                            required>
+                </div>
+            </div>
+
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="canton"><span th:text="#{canton}">Canton</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="canton"
+                            name="canton"
+                            th:field="*{canton}"
+                            th:attr="placeholder=#{canton}"
+                            required>
+                </div>
+                <div class="input_comp">
+                    <label for="district"><span th:text="#{district}">Distrito</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="district"
+                            name="district"
+                            th:field="*{district}"
+                            th:attr="placeholder=#{district}"
+                            required>
+                </div>
+            </div>
+            <input class="button_submit" type="submit" value="Registrarse" th:value="(${link} == '/register') ? #{register.submit} : #{profile.submit}">
+        </form>
+    </div>
+</section>
 
 </body>
 </html>
