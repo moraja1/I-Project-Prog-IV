@@ -5,8 +5,6 @@ import cr.ac.una.facturar.business.service.PersonaService;
 import cr.ac.una.facturar.business.service.ProductoService;
 import cr.ac.una.facturar.business.service.ProveedorService;
 import cr.ac.una.facturar.data.dto.*;
-import cr.ac.una.facturar.data.entities.Cliente;
-import cr.ac.una.facturar.data.entities.Producto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -224,8 +223,25 @@ public class HomeController {
 
         PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
         model.addAttribute("prov", personaDto);
-//        model.addAttribute("clientes", session.getAttribute("clients"));
-//        model.addAttribute("productos", session.getAttribute("products"));
+        model.addAttribute("invoice", FacturaDto.builder().build());
+
+        //FOR TESTING
+        List<ProductoDto> productoDtoList = new ArrayList<>();
+        productoDtoList.add(ProductoDto.builder().build());
+        productoDtoList.add(ProductoDto.builder().build());
+        productoDtoList.add(ProductoDto.builder().build());
+        model.addAttribute("productsList", productoDtoList);
+
+
+
+        model.addAttribute("clientes", session.getAttribute("clients"));
+        model.addAttribute("productos", session.getAttribute("products"));
         return "invoices";
+    }
+
+    @PostMapping("/invoices")
+    public String postInvoices(){
+        //FOR TESTING
+        return "redirect:/home";
     }
 }

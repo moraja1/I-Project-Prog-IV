@@ -209,13 +209,3 @@ input[id="buscar"]{
     font-size: 16px; /* Tamaño de letra */
 >>>>>>> cd7bec3ebf900d3f7ddb5ebec06834b2ec77c8f5
 }
-
-#declararFacturas, #agregarProductos, #ivaYtotal{
-    text-align: center;
-}
-
-#tablaProductos{
-    width: 50%;
-    margin-left: 25%;
->>>>>>> Stashed changes
-}
