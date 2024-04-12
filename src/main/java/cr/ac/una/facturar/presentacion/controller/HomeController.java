@@ -1,7 +1,10 @@
 package cr.ac.una.facturar.presentacion.controller;
 
+import cr.ac.una.facturar.business.mappers.ProductoMapper;
 import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
+import cr.ac.una.facturar.data.entities.Cuenta;
+import cr.ac.una.facturar.data.entities.Producto;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -223,7 +226,7 @@ public class HomeController {
         if (productos == null) {
             productos = new ArrayList<>();
         }
-        productos.add(producto);
+//        productos.add(producto);
         session.setAttribute("products", productos);
         return "redirect:/home";
     }
@@ -238,10 +241,14 @@ public class HomeController {
         model.addAttribute("invoice", FacturaDto.builder().build());
 
         //FOR TESTING
+        Long id = 123L; Long costo = 321L;
+        Cuenta cuenta=new Cuenta();
+        Producto producto=new Producto(id,costo,"Prueba",1,cuenta, null);
         List<ProductoDto> productoDtoList = new ArrayList<>();
-        productoDtoList.add(ProductoDto.builder().build());
-        productoDtoList.add(ProductoDto.builder().build());
-        productoDtoList.add(ProductoDto.builder().build());
+
+        productoDtoList.add(ProductoMapper.mapProductoToProductoDto(producto));
+        productoDtoList.add(ProductoMapper.mapProductoToProductoDto(producto));
+        productoDtoList.add(ProductoMapper.mapProductoToProductoDto(producto));
         model.addAttribute("productsList", productoDtoList);
 
 
