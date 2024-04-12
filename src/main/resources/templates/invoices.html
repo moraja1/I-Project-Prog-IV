@@ -27,7 +27,7 @@
         <div>
             <label for="productos"><span th:text="#{invoices.product}">Producto</span></label>
             <select id="productos" name="productos" th:field="*{invoice.productosId}">
-                <option th:each="p:${productos}" th:value="${invoice.productosId.add(p.id)}" th:text="${p.descripcion}"></option>
+                <option th:each="p:${productsList}" th:value="${p.id}" th:text="${p.descripcion}"></option>
             </select>
             <label for="cantidad"><span th:text="#{invoices.amount}">Cantidad</span></label>
             <input id="cantidad" name="cantidad" type="text">
@@ -55,11 +55,11 @@
         </div>
         <div>
             <label for="iva">IVA</label>
-            <input type="text" id="iva" name="iva" th:field="*{invoice.iva}" disabled>
+            <input type="text" id="iva" name="iva" th:field="*{invoice.iva}" style="border: solid black 1px" disabled>
             <label for="total">Total</label>
-            <input type="text" id="total" name="total" th:field="*{invoice.costoTotal}" disabled><br>
+            <input type="text" id="total" name="total" th:field="*{invoice.costoTotal}" style="border: solid black 1px" disabled><br>
         </div>
-        <input type="submit" th:value="Declarar" value="Declarar" class="button_submit" style="margin-top: 15px">
+        <input type="submit" th:value="#{invoices.submit}" value="Declarar" class="button_submit" style="margin-top: 15px">
     </form>
 </section>
 </body>
