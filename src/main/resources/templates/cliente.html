@@ -11,6 +11,7 @@
         <h1><span th:text="#{client.title}">Registrar Cliente</span></h1>
     </div>
 </header>
+<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 <section class="content">
         <form role="form" th:action="@{/clients/find}" th:object="${client}">
             <label for="busc">Buscar cliente por identificacion:</label><br>

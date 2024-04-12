@@ -11,6 +11,7 @@
         <h1><span th:text="#{products.title}">Registrar productos</span></h1>
     </div>
 </header>
+<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 <section class="content">
     <div class="wrap">
         <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
