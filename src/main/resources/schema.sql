@@ -6,7 +6,7 @@ create table cuentas (id bigint not null auto_increment, primary key (id)) engin
 create table factura (id bigint not null auto_increment, costo_total bigint, date datetime(6), iva float(53),
                       cliente_id varchar(255), cuenta_id bigint, primary key (id)) engine=InnoDB;
 create table persona (dtype varchar(31) not null, id varchar(255) not null, correo varchar(255), apellidos varchar(255),
-                      nombre varchar(255), password varchar(64), telefono varchat r(255), proveedor_acceso bit, cuenta_id bigint, primary key (id)) engine=InnoDB;
+                      nombre varchar(255), password varchar(64), telefono varchar(255), proveedor_acceso bit, cuenta_id bigint, primary key (id)) engine=InnoDB;
 create table producto (id bigint not null, cantidad integer, costo bigint, descripcion varchar(255),
                        cuenta_id bigint, factura_id bigint, primary key (id)) engine=InnoDB;
 ALTER table persona add direccion varchar(255);
