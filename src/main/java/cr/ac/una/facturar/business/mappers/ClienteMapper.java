@@ -14,6 +14,7 @@ public class ClienteMapper {
                 .lastName(cliente.getLastName())
                 .phoneNumber(cliente.getPhoneNumber())
                 .email(cliente.getEmail())
+                .direccion(cliente.getDireccion())
                 .build();
     }
     public static ClienteDto mapClienteToClienteDto(Cliente cliente) {
@@ -24,6 +25,7 @@ public class ClienteMapper {
                 .phoneNumber(cliente.getPhoneNumber())
                 .email(cliente.getEmail())
                 .dtype(cliente.getDtype())
+                .direccion(cliente.getDireccion())
                 .infoComercialId(cliente.getInfoComercial().getId())
                 .build();
     }
@@ -35,6 +37,7 @@ public class ClienteMapper {
                 .lastName(client.getLastName())
                 .phoneNumber(client.getPhoneNumber())
                 .email(client.getEmail())
+                .direccion(client.getDireccion())
                 .dtype(client.getDtype())
                 .build();
     }

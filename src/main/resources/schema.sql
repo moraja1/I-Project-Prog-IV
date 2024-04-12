@@ -13,7 +13,7 @@ create table persona (dtype varchar(31) not null, id varchar(255) not null, corr
                       info_com_id bigint, cuenta_id bigint, primary key (id)) engine=InnoDB;
 create table producto (id bigint not null, cantidad integer, costo bigint, descripcion varchar(255),
                        cuenta_id bigint, factura_id bigint, primary key (id)) engine=InnoDB;
-
+ALTER table persona add direccion varchar(255);
 -- ---------------------------------SESSION DATABASE TABLES SQL--------------------------------------------------------
 
 CREATE TABLE SPRING_SESSION (

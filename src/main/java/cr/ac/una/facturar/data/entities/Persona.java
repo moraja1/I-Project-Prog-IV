@@ -21,6 +21,9 @@ public class Persona {
     @Column(name = "nombre")
     protected String name;
 
+    @Column(name = "direccion")
+    protected String direccion;
+
     @Column(name = "apellidos")
     protected String lastName;
 

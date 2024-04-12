@@ -18,5 +18,6 @@ public class ClienteDto implements Serializable {
     String email;
     String dtype;
     Long infoComercialId;
+    String direccion;
 
 }

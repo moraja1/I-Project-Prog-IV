@@ -6,14 +6,13 @@
     <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">
 </head>
 <body>
-<header th:replace="~{fragments/header :: headerIndex}">
+<header >
     <div>
-        <h1><span th:text="#{index.title}">Registrar Cliente</span></h1>
+        <h1><span th:text="#{client.title}">Registrar Cliente</span></h1>
     </div>
 </header>
 <section class="content">
-    <div class="register_form" th:fragment="profile_form (user, link)">
-        <form role="form" th:action="@{/products/find}" method="post" th:object="${product}">
+        <form role="form" th:action="@{/clients/find}" th:object="${client}">
             <label for="busc">Buscar cliente por identificacion:</label><br>
             <input
                     type="text"
@@ -21,19 +20,18 @@
                     name="busc"
                     th:field="*{id}"
                     required>
-            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{product.submit}">
+            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{client.submit}">
         </form>
-        <form role="form" th:action="@{${link}}" method="post" th:object="${user}" >
+        <form role="form" th:action="@{/clients}" method="POST" th:object="${client}" >
             <div class="input_par">
                 <div class="input_comp">
-                    <br><label for="name"><span th:text="#{name}">Nombre</span></label>
+                    <br><label for="nombre"><span th:text="#{name}">Nombre</span></label>
                     <input
                             class="register_input"
                             type="text"
-                            id="name"
-                            name="name"
+                            id="nombre"
+                            name="nombre"
                             th:field="*{name}"
-                            th:attr="placeholder=#{name}"
                             required>
                 </div>
                 <div class="input_comp">
@@ -44,7 +42,6 @@
                             id="lastName"
                             name="lastName"
                             th:field="*{lastName}"
-                            th:attr="placeholder=#{lastName}"
                             required>
                 </div>
             </div>
@@ -57,7 +54,6 @@
                             id="phone"
                             name="phone"
                             th:field="*{phoneNumber}"
-                            th:attr="placeholder=#{phone}"
                             required>
                 </div>
                 <div class="input_comp">
@@ -68,18 +64,19 @@
                             id="email"
                             name="email"
                             th:field="*{email}"
-                            th:attr="placeholder=#{email}"
                             required>
                 </div>
             </div>
             <div class="input_par">
                 <div class="input_comp">
-                    <label for="id"><span th:text="#{identification}">Tipo de Cédula</span></label>
-                    <select class="register_input" id="id" name="id" th:field="*{id}" th:disabled="(${link} == '/profile')" required>
-                        <option value="" disabled selected><span th:text="#{select}">Seleccionar</span></option>
-                        <option value="Cedula Juridica">Cédula Jurídica</option>
-                        <option value="Cedula Fisicas">Cédula Física</option>
-                    </select>
+                    <label for="Diireccion"><span th:text="#{client.direccion}">Direccion</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="Diireccion"
+                            name="id"
+                            th:field="*{direccion}"
+                            required>
                 </div>
                 <div class="input_comp">
                     <label for="id"><span th:text="#{identification}">Cédula</span></label>
@@ -88,90 +85,11 @@
                             type="text"
                             id="id"
                             name="id"
-                            th:attr="placeholder=#{identification}"
-                            th:disabled="(${link} == '/profile')"
+                            th:field="*{id}"
                             required>
                 </div>
             </div>
-            <div>
-                <h2 style="text-align: center;">Información Comercial</h2>
-            </div>
-
-            <div class="input_par">
-                <div class="input_comp">
-                    <label for="commercialId"><span th:text="#{commercialId}">Cedula Juridica/Fisica</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="commercialId"
-                            name="commercialId"
-                            th:field="*{commercialId}"
-                            th:attr="placeholder=#{commercialId}"
-                            required>
-                </div>
-                <div class="input_comp">
-                    <label for="name"><span th:text="#{name}">Nombre</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="name"
-                            name="name"
-                            th:field="*{name}"
-                            th:attr="placeholder=#{name}"
-                            required>
-                </div>
-            </div>
-
-            <div class="input_par">
-                <div class="input_comp">
-                    <label for="socialReason"><span th:text="#{socialReason}">Razón Social</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="socialReason"
-                            name="socialReason"
-                            th:field="*{socialReason}"
-                            th:attr="placeholder=#{socialReason}"
-                            required>
-                </div>
-                <div class="input_comp">
-                    <label for="province"><span th:text="#{province}">Provincia</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="province"
-                            name="province"
-                            th:field="*{province}"
-                            th:attr="placeholder=#{province}"
-                            required>
-                </div>
-            </div>
-
-            <div class="input_par">
-                <div class="input_comp">
-                    <label for="canton"><span th:text="#{canton}">Canton</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="canton"
-                            name="canton"
-                            th:field="*{canton}"
-                            th:attr="placeholder=#{canton}"
-                            required>
-                </div>
-                <div class="input_comp">
-                    <label for="district"><span th:text="#{district}">Distrito</span></label>
-                    <input
-                            class="register_input"
-                            type="text"
-                            id="district"
-                            name="district"
-                            th:field="*{district}"
-                            th:attr="placeholder=#{district}"
-                            required>
-                </div>
-            </div>
-            <input class="button_submit" type="submit" value="Registrarse" th:value="(${link} == '/register') ? #{register.submit} : #{profile.submit}">
+            <input class="button_submit" type="submit" value="Registrarse" th:value="#{clients.submit}">
         </form>
     </div>
 </section>

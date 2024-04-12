@@ -1,9 +1,6 @@
 package cr.ac.una.facturar.presentacion.controller;
 
-import cr.ac.una.facturar.business.service.CuentaService;
-import cr.ac.una.facturar.business.service.PersonaService;
-import cr.ac.una.facturar.business.service.ProductoService;
-import cr.ac.una.facturar.business.service.ProveedorService;
+import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -24,12 +21,14 @@ public class HomeController {
     private final ProveedorService proveedorService;
 
     private final ProductoService productosService;
+    private final ClienteService clienteService;
 
-    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ProductoService PS) {
+    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ClienteService clienteS ,ProductoService PS) {
         this.personaService = personaService;
         this.cuentaService = cuentaService;
         this.proveedorService = proveedorService;
         this.productosService = PS;
+        this.clienteService= clienteS;
     }
 
     @GetMapping("/home")
@@ -179,7 +178,7 @@ public class HomeController {
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
         model.addAttribute("user", session.getAttribute("user"));
-        model.addAttribute("client", ProductoDto.builder().build());
+        model.addAttribute("client", ClienteDto.builder().build());
         return "cliente";
     }
 
@@ -190,9 +189,15 @@ public class HomeController {
     }
 
     @PostMapping("/clients")
-    public String saveOrUpdateCliente(@ModelAttribute("client") ClienteDto client, HttpSession session) {
-        System.out.println();
-        return "";
+    public String saveOrUpdateCliente(@ModelAttribute("client") ClienteDto cliente, HttpSession session, Model model) {
+        model.addAttribute("Accepted", clienteService.save(cliente));
+        List<ClienteDto> client = (List<ClienteDto>) session.getAttribute("clients");
+        if (client == null) {
+            client = new ArrayList<>();
+        }
+        client.add(cliente);
+        session.setAttribute("products", client);
+        return "redirect:/home";
     }
     //Dylan
     @GetMapping("/products")

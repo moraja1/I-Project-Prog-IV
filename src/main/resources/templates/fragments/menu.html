@@ -19,7 +19,7 @@
             <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
             <label th:text="#{menu.acceses}">Accesos</label>
         </a>
-        <a th:if="${user.dtype} == 'Proveedor'" type="" href="../clients" th:href="@{/clients}" class="tab">
+        <a th:if="${user.dtype} == 'Proveedor'" type="" href="../cliente.html" th:href="@{/clients}" class="tab">
             <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
             <label>Clientes</label>
         </a>
