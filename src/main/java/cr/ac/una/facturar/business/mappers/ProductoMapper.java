@@ -9,7 +9,6 @@ public class ProductoMapper {
                 .id(producto.getId())
                 .costo(producto.getCosto())
                 .descripcion(producto.getDescripcion())
-                .cantidad(producto.getCantidad())
                 .build();
     }
 
@@ -18,7 +17,6 @@ public class ProductoMapper {
                 .id(producto.getId())
                 .costo(producto.getCosto())
                 .descripcion(producto.getDescripcion())
-                .cantidad(producto.getCantidad())
                 .build();
     }
 }

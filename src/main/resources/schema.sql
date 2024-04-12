@@ -3,13 +3,20 @@ use prog4db;
 
 -- ------------------------------KEEP THIS BLOCK UNCOMMENT FOR TESTING-----------------------------------------------
 create table cuentas (id bigint not null auto_increment, primary key (id)) engine=InnoDB;
-create table factura (id bigint not null auto_increment, costo_total bigint, date datetime(6), iva float(53),
-                      cliente_id varchar(255), cuenta_id bigint, primary key (id)) engine=InnoDB;
-create table persona (dtype varchar(31) not null, id varchar(255) not null, correo varchar(255), apellidos varchar(255),
-                      nombre varchar(255), password varchar(64), telefono varchar(255), proveedor_acceso bit, cuenta_id bigint, primary key (id)) engine=InnoDB;
-create table producto (id bigint not null, cantidad integer, costo bigint, descripcion varchar(255),
-                       cuenta_id bigint, factura_id bigint, primary key (id)) engine=InnoDB;
-ALTER table persona add direccion varchar(255);
+create table factura (id bigint not null auto_increment, costo_total bigint, date datetime(6),
+                      iva float(53), cliente_id varchar(255), cuenta_id bigint, info_com_id bigint,
+                      factura_producto_cant_id bigint, primary key (id)) engine=InnoDB;
+create table factura_producto_cantidad (id bigint not null auto_increment, cantidad bigint, producto_id bigint,
+                                        primary key (id)) engine=InnoDB;
+create table informacion_comercial (id bigint not null auto_increment, canton varchar(255), distrito varchar(255),
+                                    nombre varchar(255), provincia varchar(255), razon_social varchar(255),
+                                    primary key (id)) engine=InnoDB;
+create table persona (dtype varchar(31) not null, id varchar(255) not null, direccion varchar(255),
+                      correo varchar(255), apellidos varchar(255), nombre varchar(255), password varchar(64),
+                      telefono varchar(255), proveedor_acceso bit, info_com_id bigint, cuenta_id bigint,
+                      primary key (id)) engine=InnoDB;
+create table producto (id bigint not null auto_increment, costo bigint, descripcion varchar(255), cuenta_id bigint,
+                       factura_id bigint, primary key (id)) engine=InnoDB;
 -- ---------------------------------SESSION DATABASE TABLES SQL--------------------------------------------------------
 
 CREATE TABLE SPRING_SESSION (

@@ -82,6 +82,19 @@
                             required="">
                 </div>
             </div>
+            <div class="input_par">
+                <div class="input_comp">
+                    <label for="address"><span th:text="#{address}">Dirección</span></label>
+                    <input
+                            class="register_input"
+                            type="text"
+                            id="address"
+                            name="address"
+                            th:field="*{direccion}"
+                            th:placeholder="#{address}"
+                            required="">
+                </div>
+            </div>
             <input class="button_submit" type="submit" value="Registrarse" th:value="(${link} == '/register') ? #{register.submit} : #{profile.submit}">
         </form>
     </div>

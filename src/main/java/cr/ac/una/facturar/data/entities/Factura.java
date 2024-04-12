@@ -38,6 +38,10 @@ public class Factura {
     )
     private Cuenta cuenta;
 
+    @OneToOne
+    @JoinColumn(name = "factura_producto_cant_id")
+    private FacturaProductoCantidad productoCantidad;
+
     public void agregarProducto(Producto producto) {
         productos.add(producto);
         producto.setFactura(this);

@@ -14,4 +14,6 @@ public interface CuentaService {
     List<FacturaDto> findFacturaDtoList(Long id);
     List<PersonaDto> findClientesDtoList(Long cuentaId);
     List<ProductoDto> findProductosDtoList(Long cuentaId);
+    boolean addClient(Long cuentaId, ClienteDto cliente);
+    boolean addProducto(Long cuentaId, ProductoDto producto);
 }

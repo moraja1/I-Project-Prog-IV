@@ -2,6 +2,7 @@ package cr.ac.una.facturar.business.service;
 
 import cr.ac.una.facturar.data.dto.ProductoDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
+import cr.ac.una.facturar.data.entities.Cuenta;
 import cr.ac.una.facturar.data.entities.Producto;
 import cr.ac.una.facturar.data.entities.Proveedor;
 
@@ -16,4 +17,5 @@ public interface ProductoService {
 
     Producto save(Producto p);
 
+    List<Producto> findAllByCuenta(Cuenta c);
 }

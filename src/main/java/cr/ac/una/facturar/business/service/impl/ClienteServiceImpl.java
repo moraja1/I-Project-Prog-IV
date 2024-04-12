@@ -16,6 +16,7 @@ import cr.ac.una.facturar.data.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -35,7 +36,6 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public boolean save(ClienteDto cliente) {
-
         //Save
         Optional<Cliente> persisted = PR.findById(cliente.getId());
         if(persisted.isEmpty()) {
@@ -59,8 +59,12 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public Cliente save(Cliente c) {
-        c = PR.save(c);
-        return c;
+        return c != null ? PR.save(c) : null;
+    }
+
+    @Override
+    public List<Cliente> findAllByCuenta(Cuenta c) {
+        return PR.findAllByCuenta(c);
     }
 
     private void updateEntity(Cliente entity, ClienteDto data) {

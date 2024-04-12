@@ -1,8 +1,7 @@
 package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.mappers.*;
-import cr.ac.una.facturar.business.service.CuentaService;
-import cr.ac.una.facturar.business.service.ProveedorService;
+import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
 import cr.ac.una.facturar.data.entities.*;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
@@ -13,17 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static cr.ac.una.facturar.business.mappers.ClienteMapper.mapClienteDtoToCliente;
 import static cr.ac.una.facturar.business.mappers.CuentaMapper.mapCuentaToDto;
+import static cr.ac.una.facturar.business.mappers.ProductoMapper.mapProductoDtoToProducto;
 
 @Service
 public class CuentaServiceImpl implements CuentaService {
     private final CuentaRepository cuentaRepository;
     private final ProveedorService proveedorService;
+    private final ClienteService clienteService;
+    private final FacturaService facturaService;
+    private final ProductoService productoService;
 
     @Autowired
-    public CuentaServiceImpl(CuentaRepository cuentaRepository, ProveedorService proveedorService) {
+    public CuentaServiceImpl(CuentaRepository cuentaRepository, ProveedorService proveedorService, ClienteService clienteService, FacturaService facturaService, ProductoService productoService) {
         this.cuentaRepository = cuentaRepository;
         this.proveedorService = proveedorService;
+        this.clienteService = clienteService;
+        this.facturaService = facturaService;
+        this.productoService = productoService;
     }
 
     private Cuenta createsNewAccount() {
@@ -86,7 +93,7 @@ public class CuentaServiceImpl implements CuentaService {
         //if there is no acc for any reason
         if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findFacturaDtoList en CuentaServiceImpl");
 
-        List<Factura> facturas = c.getFacturas();
+        List<Factura> facturas = facturaService.findAllByCuenta(c);
         if(facturas == null) return new ArrayList<>();
         return facturas.stream().map(FacturaMapper::mapFacturaToFacturaDto).toList();
     }
@@ -98,7 +105,7 @@ public class CuentaServiceImpl implements CuentaService {
         //if there is no acc for any reason
         if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findClientesDtoList en CuentaServiceImpl");
 
-        List<Cliente> clientes = c.getClientes();
+        List<Cliente> clientes = clienteService.findAllByCuenta(c);
         if(clientes == null) return new ArrayList<>();
         return clientes.stream().map(PersonaMapper::mapPersonaToPersonaDto).toList();
     }
@@ -110,8 +117,48 @@ public class CuentaServiceImpl implements CuentaService {
         //if there is no acc for any reason
         if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. findProductosDtoList en CuentaServiceImpl");
 
-        List<Producto> productos = c.getProductos();
+        List<Producto> productos = productoService.findAllByCuenta(c);
         if(productos == null) return new ArrayList<>();
         return productos.stream().map(ProductoMapper::mapProductoToProductoDto).toList();
+    }
+
+    @Override
+    public boolean addClient(Long cuentaId, ClienteDto cliente) {
+        Cuenta c = findCuentaById(cuentaId);
+
+        //if there is no acc for any reason
+        if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. addClient en CuentaServiceImpl");
+
+        //Save Client
+        Cliente client = mapClienteDtoToCliente(cliente);
+        client = clienteService.save(client);
+
+        //Evaluates operation
+        if(client == null) return false;
+
+        //Associate Cliente to Cuenta
+        c.agregarCliente(client);
+        cuentaRepository.save(c);
+        return true;
+    }
+
+    @Override
+    public boolean addProducto(Long cuentaId, ProductoDto producto) {
+        Cuenta c = findCuentaById(cuentaId);
+
+        //if there is no acc for any reason
+        if(c == null) throw new RuntimeException("El proveedor no tiene cuenta. addProducto en CuentaServiceImpl");
+
+        //Save Client
+        Producto product = mapProductoDtoToProducto(producto);
+        product = productoService.save(product);
+
+        //Evaluates operation
+        if(product == null) return false;
+
+        //Associate Cliente to Cuenta
+        c.agregarProducto(product);
+        cuentaRepository.save(c);
+        return true;
     }
 }

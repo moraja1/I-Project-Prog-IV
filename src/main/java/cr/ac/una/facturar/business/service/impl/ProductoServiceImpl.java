@@ -59,11 +59,14 @@ public class ProductoServiceImpl implements ProductoService {
         return p;
     }
 
+    @Override
+    public List<Producto> findAllByCuenta(Cuenta c) {
+        return PR.findAllByCuenta(c);
+    }
+
     private void updateEntity(Producto entity, ProductoDto data) {
-        entity.setId(data.getId());
         entity.setCosto(data.getCosto());
         entity.setDescripcion(data.getDescripcion());
-        entity.setCantidad(data.getCantidad());
     }
 
 

@@ -97,6 +97,7 @@ public class PersonaServiceImpl implements PersonaService {
         persisted.setEmail(user.email());
         persisted.setName(user.name());
         persisted.setLastName(user.lastName());
+        persisted.setDireccion(user.direccion());
 
         return mapPersonaToPersonaDto(persisted);
     }

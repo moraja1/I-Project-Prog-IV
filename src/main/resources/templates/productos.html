@@ -26,15 +26,6 @@
         </form>
         <form role="form" th:action="@{/products}" method="POST" th:object="${product}">
             <div class="input_comp">
-                <br><label for="id"><span th:text="#{product.id}">Descripcion</span></label>
-                <input
-                        type="text"
-                        id="id"
-                        name="id"
-                        th:field="*{id}"
-                        required>
-            </div>
-            <div class="input_comp">
                 <br><label for="des"><span th:text="#{product.description}">Descripcion</span></label>
                 <input
                         type="text"
@@ -50,15 +41,6 @@
                         id="cost"
                         name="cost"
                         th:field="*{costo}"
-                        required>
-            </div>
-            <div class="input_comp">
-                <label for="desc"><span th:text="#{product.cantidad}">Descripcion</span></label>
-                <input
-                        type="text"
-                        id="desc"
-                        name="desc"
-                        th:field="*{cantidad}"
                         required>
             </div>
            <br><br>

@@ -21,6 +21,7 @@ public class ProveedorDto implements Serializable {
     String email;
     String pass;
     String dtype;
+    String direccion;;
     Boolean autorizado;
     Long cuentaId;
     Long infoComercialId;

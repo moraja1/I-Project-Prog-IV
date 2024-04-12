@@ -2,12 +2,14 @@ package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.service.FacturaService;
 import cr.ac.una.facturar.data.dto.FacturaDto;
+import cr.ac.una.facturar.data.entities.Cuenta;
 import cr.ac.una.facturar.data.entities.Factura;
 import cr.ac.una.facturar.business.mappers.FacturaMapper;
 import cr.ac.una.facturar.data.repository.FacturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,5 +26,10 @@ public class FacturaServiceImpl implements FacturaService {
         Optional<Factura> factura = facturaRepository.findById(id);
         return factura.map(FacturaMapper::mapFacturaToFacturaDto).orElse(null);
 
+    }
+
+    @Override
+    public List<Factura> findAllByCuenta(Cuenta c) {
+        return facturaRepository.findAllByCuenta(c);
     }
 }

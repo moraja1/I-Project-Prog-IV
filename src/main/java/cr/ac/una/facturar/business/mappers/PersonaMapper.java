@@ -16,6 +16,7 @@ public class PersonaMapper {
                 .email(persona.getEmail())
                 .dtype(persona.getDtype())
                 .infoComercialId((persona.getInfoComercial() != null) ? persona.getInfoComercial().getId() : null)
+                .direccion(persona.getDireccion())
                 .build();
     }
 
@@ -29,6 +30,7 @@ public class PersonaMapper {
                 .pass(person.pass())
                 .cuentaId(null)
                 .autorizado(false)
+                .direccion(person.direccion())
                 .build();
     }
 }

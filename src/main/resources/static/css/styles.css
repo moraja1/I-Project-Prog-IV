@@ -59,20 +59,21 @@
     width: 100%;
 }
 
-.input_comp label {
+.input_comp label, .input_dir label {
     display: block;
     text-align: left;
 }
 
 .input_comp input[type="text"],
-.input_comp input[type="password"]{
+.input_comp input[type="password"],
+.input_comp select {
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
+    font-size: 16px; /* Tamaño de letra */
 }
-.input_comp input[type="text"],
-.input_comp input[type="password"],
-.input_comp select {
+
+.input_dir{
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
