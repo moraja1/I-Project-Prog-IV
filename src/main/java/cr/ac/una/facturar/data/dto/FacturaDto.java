@@ -20,5 +20,5 @@ public class FacturaDto implements Serializable {
     List<Long> productosId;
     Double iva;
     Long costoTotal;
-    Long facturaProductoCantidadId;
+    Long facturaProductoCantidad;
 }

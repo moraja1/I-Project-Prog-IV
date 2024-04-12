@@ -2,6 +2,8 @@ package cr.ac.una.facturar.data.dto;
 
 import cr.ac.una.facturar.data.entities.Persona;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Value;
 
 import java.io.Serializable;
 

@@ -39,7 +39,6 @@ public class HomeController {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
-
         //Capture access data
         PersonaDto person = (PersonaDto) session.getAttribute("user");
 
@@ -196,9 +195,14 @@ public class HomeController {
 
         ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
 
-        if(cliente != null) if(cuentaService.addClient(prov.getCuentaId(), cliente)) return confirmationMessage(true, model, "/clients");
+        if(cliente != null) if(!(cuentaService.addClient(prov.getCuentaId(), cliente))) return confirmationMessage(false, model, "/clients");
 
-        return confirmationMessage(false, model, "/clients");
+        List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
+        session.setAttribute("clients", clients);
+
+        return confirmationMessage(true, model, "/clients");
+
+
     }
     //Dylan
     @GetMapping("/products")
@@ -226,37 +230,95 @@ public class HomeController {
 
         ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
 
-        if(producto != null) if(cuentaService.addProducto(prov.getCuentaId(), producto)) return confirmationMessage(true, model, "/products");
+        if(producto != null) if(!(cuentaService.addProducto(prov.getCuentaId(), producto))) return confirmationMessage(false, model, "/products");
 
-        return confirmationMessage(false, model, "/products");
+        List<ProductoDto> products = cuentaService.findProductosDtoList(prov.getCuentaId());
+        session.setAttribute("products", products);
+
+        return confirmationMessage(true, model, "/products");
     }
 
     @GetMapping("/invoices")
     public String getInvoices(Model model, HttpSession session){
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
+        model.addAttribute("user", session.getAttribute("user"));
+        //removeInvoiceAttrs(session);
 
-        PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
-        model.addAttribute("prov", personaDto);
-        model.addAttribute("invoice", FacturaDto.builder().build());
+        Boolean hasClient = (Boolean) session.getAttribute("hasClient");
+        if(hasClient == null) {
+            hasClient = false;
+            session.setAttribute("hasClient", hasClient);
+        }
+        model.addAttribute("hasClient", hasClient);
 
-        //FOR TESTING
-        Cuenta cuenta=new Cuenta();
-        List<ProductoDto> productoDtoList = new ArrayList<>();
-        productoDtoList.add(ProductoDto.builder().build());
-        productoDtoList.add(ProductoDto.builder().build());
-        productoDtoList.add(ProductoDto.builder().build());
+        Boolean hasProducts = (Boolean) session.getAttribute("hasProducts");
+        if(hasProducts == null) {
+            hasProducts = false;
+            session.setAttribute("hasProducts", hasProducts);
+        }
+        model.addAttribute("hasProducts", hasProducts);
 
-        model.addAttribute("productsList", productoDtoList);
+        PersonaDto clientSelected = (PersonaDto) session.getAttribute("clientSelected");
+        if(clientSelected == null) {
+            clientSelected = PersonaDto.builder().build();
+            session.setAttribute("clientSelected", clientSelected);
+        }
+        model.addAttribute("clientSelected", clientSelected);
 
-        model.addAttribute("clientes", session.getAttribute("clients"));
-        model.addAttribute("productos", session.getAttribute("products"));
+        List<ProductoDto> products = (List<ProductoDto>) session.getAttribute("products");
+        if (products == null) {
+            ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+            products = cuentaService.findProductosDtoList(prov.getCuentaId());
+        }
+        model.addAttribute("products", products);
+
+        List<Long> productsSelected = (List<Long>) session.getAttribute("productsSelected");
+        if(productsSelected == null) {
+            productsSelected = new ArrayList<>();
+            session.setAttribute("productsSelected", productsSelected);
+        }
+        model.addAttribute("productsSelected", productsSelected);
+
+        model.addAttribute("cantidad", 0);
+
+        //CLIENTES
+        List<PersonaDto> clients = (List<PersonaDto>) session.getAttribute("clients");
+        model.addAttribute("clients", clients);
+
         return "invoices";
     }
 
-    @PostMapping("/invoices")
-    public String postInvoices(){
-        //FOR TESTING
+    private void removeInvoiceAttrs(HttpSession session) {
+        session.removeAttribute("hasClient");
+        session.removeAttribute("hasProducts");
+        session.removeAttribute("clientSelected");
+        session.removeAttribute("productsSelected");
+    }
+
+    @PostMapping("/invoices/client/")
+    public String addClientToInvoice(@ModelAttribute("clientSelected") PersonaDto clientSelected, Model model, HttpSession session){
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+
+        session.setAttribute("hasClient", true);
+        clientSelected = personaService.findById(clientSelected.id());
+        if(clientSelected == null) {
+            removeInvoiceAttrs(session);
+            return confirmationMessage(false, model, "/home");
+        }
+        session.setAttribute("clientSelected", clientSelected);
+
+        return "redirect:/invoices";
+    }
+
+    @GetMapping("/invoices/product/")
+    public String addProductToInvoice(
+            @RequestParam(value= "id") String id,
+            @RequestParam(value = "cantidad") Integer cantidad, Model model, HttpSession session) {
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+
         return "redirect:/home";
     }
 }
