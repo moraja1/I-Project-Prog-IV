@@ -190,13 +190,9 @@ public class HomeController {
         List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
 
         for (PersonaDto client : clients) {
-            if (Objects.equals(client.id(), id)) {
-                model.addAttribute("clienteInfo", client);
-            }
+            if (Objects.equals(client.id(), id)) model.addAttribute("clienteInfo", client);
         }
-        if (model.getAttribute("clienteInfo")==null){
-            return confirmationMessage(false, model, "/clients");
-        }
+        if (model.getAttribute("clienteInfo")==null) return confirmationMessage(false, model, "/clients");
         return "clientUpdate";
     }
 
