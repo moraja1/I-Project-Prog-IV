@@ -1,6 +1,7 @@
 package cr.ac.una.facturar.business.service;
 
 import cr.ac.una.facturar.data.dto.ClienteDto;
+import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.entities.Cliente;
 import cr.ac.una.facturar.data.entities.Cuenta;
 import cr.ac.una.facturar.data.entities.Producto;
@@ -16,4 +17,5 @@ public interface ClienteService {
     Cliente save(Cliente c);
 
     List<Cliente> findAllByCuenta(Cuenta c);
+    ClienteDto updateClientInfo(String id, PersonaDto user);
 }

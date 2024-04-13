@@ -2,29 +2,19 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Productos</title>
-    <link rel="stylesheet" href="/static/css/styles.css" th:href="@{css/styles.css}"/>
+    <title>Datos Producto</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{../css/styles.css}">
 </head>
 <body>
 <header>
     <div>
-        <h1><span th:text="#{products.title}">Registrar productos</span></h1>
+        <h1><span th:text="#{products.title}">Actualizar datos del producto</span></h1>
     </div>
 </header>
 <div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 <section class="content">
     <div class="wrap">
-        <form role="form" th:action="@{/products/find}" method="POST" th:object="${product}">
-            <label for="busc">Buscar producto por id:</label><br>
-            <input
-                    type="text"
-                    id="busc"
-                    name="busc"
-                    th:field="*{id}"
-                    required>
-            <input id="buscar" class="button_submit" type="submit" value="Buscar" th:value="#{products.submit}">
-        </form>
-        <form role="form" th:action="@{/products}" method="POST" th:object="${product}">
+        <form role="form" th:action="@{/products}" method="POST" th:object="${productoInfo}">
             <div class="input_comp">
                 <br><label for="id"><span th:text="#{product.id}">Descripcion</span></label>
                 <input
@@ -52,8 +42,8 @@
                         th:field="*{costo}"
                         required>
             </div>
-           <br><br>
-            <input class="button_submit" type="submit" value="Registrar" th:value="#{productos.submit}">
+            <br><br>
+            <input class="button_submit" type="submit" value="Actualizar" th:value="#{Productos.submit}">
         </form>
     </div>
 </section>

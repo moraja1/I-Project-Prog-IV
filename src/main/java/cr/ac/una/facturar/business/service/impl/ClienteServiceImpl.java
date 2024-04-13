@@ -5,6 +5,7 @@ import cr.ac.una.facturar.business.mappers.ProductoMapper;
 import cr.ac.una.facturar.business.service.ClienteService;
 import cr.ac.una.facturar.business.service.ProductoService;
 import cr.ac.una.facturar.data.dto.ClienteDto;
+import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.dto.ProductoDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Cliente;
@@ -65,6 +66,21 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public List<Cliente> findAllByCuenta(Cuenta c) {
         return PR.findAllByCuenta(c);
+    }
+
+    @Override
+    public ClienteDto updateClientInfo(String id, PersonaDto user) {
+        Optional<Cliente> client = PR.findById(id);
+        if(client.isEmpty())return null;
+
+        Cliente cliente = client.get();
+        cliente.setName(user.name());
+        cliente.setLastName(user.lastName());
+        cliente.setPhoneNumber(user.phoneNumber());
+        cliente.setEmail(user.email());
+        cliente.setDireccion(user.direccion());
+
+        return ClienteMapper.mapClienteToClienteDto(cliente);
     }
 
     private void updateEntity(Cliente entity, ClienteDto data) {
