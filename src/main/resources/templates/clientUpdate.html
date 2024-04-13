@@ -14,7 +14,7 @@
 </header>
 <div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 <section class="content">
-    <form role="form" th:action="@{/clients}" method="POST" th:object="${clienteInfo}">
+    <form role="form" th:action="@{/clients}" method="post" th:object="${clienteInfo}">
         <div class="input_par">
             <div class="input_comp">
                 <br><label for="nombre"><span th:text="#{name}">Nombre</span></label>

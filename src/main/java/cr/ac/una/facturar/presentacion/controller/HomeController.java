@@ -1,7 +1,9 @@
 package cr.ac.una.facturar.presentacion.controller;
 
+import cr.ac.una.facturar.business.mappers.ClienteMapper;
 import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
+import cr.ac.una.facturar.data.entities.Cliente;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
@@ -24,19 +26,19 @@ public class HomeController {
     private final ProductoService productosService;
     private final ClienteService clienteService;
 
-    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ClienteService clienteS ,ProductoService PS) {
+    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ClienteService clienteS, ProductoService PS) {
         this.personaService = personaService;
         this.cuentaService = cuentaService;
         this.proveedorService = proveedorService;
         this.productosService = PS;
-        this.clienteService= clienteS;
+        this.clienteService = clienteS;
     }
 
     @GetMapping("/home")
-    public String getHomePage(Model model, HttpSession session){
+    public String getHomePage(Model model, HttpSession session) {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
         //Capture access data
         PersonaDto person = (PersonaDto) session.getAttribute("user");
 
@@ -44,7 +46,7 @@ public class HomeController {
         model.addAttribute("user", person);
 
         //Find registered suppliers
-        if(person.dtype().equals("Admin")) {
+        if (person.dtype().equals("Admin")) {
             List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
             if (authorizedProvs == null) {
                 authorizedProvs = personaService.findAllAuthorizedProvs();
@@ -52,7 +54,7 @@ public class HomeController {
             }
             model.addAttribute("auth", authorizedProvs);
         }
-        if(person.dtype().equals("Proveedor")) {
+        if (person.dtype().equals("Proveedor")) {
             //Obtains prov
             ProveedorDto prov = proveedorService.findById(person.id());
 
@@ -78,10 +80,10 @@ public class HomeController {
     }
 
     @GetMapping("/profile")
-    public String getProfilePage(Model model, HttpSession session){
+    public String getProfilePage(Model model, HttpSession session) {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         //Set user from session to view
         model.addAttribute("user", session.getAttribute("user"));
@@ -93,18 +95,18 @@ public class HomeController {
     @PostMapping("/profile")
     public String updateProfile(@ModelAttribute("user") PersonaDto user,
                                 HttpSession session,
-                                Model model){
+                                Model model) {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         //Password incorrect
         PersonaDto p = (PersonaDto) session.getAttribute("user");
         p = personaService.userHasAccess(p.email(), user.pass());
-        if(p == null) return confirmationMessage(false, model, "/profile");
+        if (p == null) return confirmationMessage(false, model, "/profile");
 
         //Update correct
-        if((p = personaService.updatePersonProfile(p.id(), user)) != null) {
+        if ((p = personaService.updatePersonProfile(p.id(), user)) != null) {
             session.setAttribute("user", p);
             return confirmationMessage(true, model, "/profile");
         }
@@ -114,17 +116,17 @@ public class HomeController {
     }
 
     @GetMapping("/requests")
-    public String getRequestsPage(Model model, HttpSession session){
+    public String getRequestsPage(Model model, HttpSession session) {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         //Set user from session to view
         model.addAttribute("user", session.getAttribute("user"));
 
         //Get unathorized list
         List<PersonaDto> unauthorizedProvs = (List<PersonaDto>) session.getAttribute("unauth");
-        if(unauthorizedProvs == null) {
+        if (unauthorizedProvs == null) {
             unauthorizedProvs = personaService.findAllUnauthorizedProvs();
             session.setAttribute("unauth", unauthorizedProvs);
         }
@@ -140,7 +142,7 @@ public class HomeController {
         ProveedorDto newProv = cuentaService.addCuentaToProv(newAccess);
 
         //Evaluate personaService output
-        if(newProv == null) return confirmationMessage(false, model, "/requests");
+        if (newProv == null) return confirmationMessage(false, model, "/requests");
 
         //Use cuentaService to give an Acc to prov
         cuentaService.addCuentaToProv(newAccess);
@@ -165,11 +167,12 @@ public class HomeController {
 
         return "confirmation";
     }
+
     //Dixon
     @GetMapping("/clients")
-    public String getCliente(Model model, HttpSession session){
+    public String getCliente(Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("client", ClienteDto.builder().build());
@@ -178,32 +181,53 @@ public class HomeController {
     }
 
     @GetMapping("/clients/find")
-    public String getClientInfo(Model model, HttpSession session, @PathParam("busc") String id){
+    public String getClientInfo(Model model, HttpSession session, @PathParam("busc") String id) {
         //Block home access
         Boolean access = (Boolean) session.getAttribute("access");
         if (access == null || !access) return "redirect:/";
 
         PersonaDto p = (PersonaDto) session.getAttribute("user");
-        model.addAttribute("user",p);
+        model.addAttribute("user", p);
 
-        ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+        ProveedorDto prov = proveedorService.findById(((PersonaDto) session.getAttribute("user")).id());
         List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
 
         for (PersonaDto client : clients) {
             if (Objects.equals(client.id(), id)) model.addAttribute("clienteInfo", client);
         }
-        if (model.getAttribute("clienteInfo")==null) return confirmationMessage(false, model, "/clients");
+        if (model.getAttribute("clienteInfo") == null) return confirmationMessage(false, model, "/clients");
         return "clientUpdate";
+    }
+    @PostMapping("/clients/find")
+    public String findCliente(@ModelAttribute("clienteInfo") ClienteDto client, Model model, HttpSession session, @PathParam("id") String id) {
+        Boolean access = (Boolean) session.getAttribute("access");
+        if (access == null || !access) return "redirect:/";
+
+        PersonaDto p = (PersonaDto) session.getAttribute("user");
+        if (client == null) return confirmationMessage(false, model, "/clients");
+
+        Cliente c = ClienteMapper.mapClienteDtoToCliente(client);
+        c.setId(id);
+        client = ClienteMapper.mapClienteToClienteDto(c);
+
+        PersonaDto person = ClienteMapper.mapClienteDtoToPersonaDto(client);
+        ClienteDto dto = clienteService.updateClientInfo(person.id(), person);
+
+        if (dto != null) {
+            session.setAttribute("clientUpdated", dto);
+            return confirmationMessage(true, model, "/clients");
+        } else return confirmationMessage(false, model, "/clients");
     }
 
     @PostMapping("/clients")
     public String saveOrUpdateCliente(@ModelAttribute("client") ClienteDto cliente, HttpSession session, Model model) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
-        ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+        ProveedorDto prov = proveedorService.findById(((PersonaDto) session.getAttribute("user")).id());
 
-        if(cliente != null) if(!(cuentaService.addClient(prov.getCuentaId(), cliente))) return confirmationMessage(false, model, "/clients");
+        if (cliente != null) if (!(cuentaService.addClient(prov.getCuentaId(), cliente)))
+            return confirmationMessage(false, model, "/clients");
 
         List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
         session.setAttribute("clients", clients);
@@ -212,11 +236,12 @@ public class HomeController {
 
 
     }
+
     //Dylan
     @GetMapping("/products")
-    public String getProductos(Model model, HttpSession session){
+    public String getProductos(Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("product", ProductoDto.builder().build());
@@ -245,11 +270,12 @@ public class HomeController {
     @PostMapping("/products")
     public String saveOrUpdateProduct(@ModelAttribute("product") ProductoDto producto, Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
-        ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+        ProveedorDto prov = proveedorService.findById(((PersonaDto) session.getAttribute("user")).id());
 
-        if(producto != null) if(!(cuentaService.addProducto(prov.getCuentaId(), producto))) return confirmationMessage(false, model, "/products");
+        if (producto != null) if (!(cuentaService.addProducto(prov.getCuentaId(), producto)))
+            return confirmationMessage(false, model, "/products");
 
         List<ProductoDto> products = cuentaService.findProductosDtoList(prov.getCuentaId());
         session.setAttribute("products", products);
@@ -258,52 +284,64 @@ public class HomeController {
     }
 
     @GetMapping("/invoices")
-    public String getInvoices(Model model, HttpSession session){
+    public String getInvoices(Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
         model.addAttribute("user", session.getAttribute("user"));
         //removeInvoiceAttrs(session);
 
+        //Client addition controller
         Boolean hasClient = (Boolean) session.getAttribute("hasClient");
-        if(hasClient == null) {
+        if (hasClient == null) {
             hasClient = false;
             session.setAttribute("hasClient", hasClient);
         }
         model.addAttribute("hasClient", hasClient);
 
+        //Products addition controller
         Boolean hasProducts = (Boolean) session.getAttribute("hasProducts");
-        if(hasProducts == null) {
+        if (hasProducts == null) {
             hasProducts = false;
             session.setAttribute("hasProducts", hasProducts);
         }
         model.addAttribute("hasProducts", hasProducts);
 
+        //CLIENT SELECTED
         PersonaDto clientSelected = (PersonaDto) session.getAttribute("clientSelected");
-        if(clientSelected == null) {
+        if (clientSelected == null) {
             clientSelected = PersonaDto.builder().build();
             session.setAttribute("clientSelected", clientSelected);
         }
         model.addAttribute("clientSelected", clientSelected);
 
+        //REGISTERED PRODUCTS
         List<ProductoDto> products = (List<ProductoDto>) session.getAttribute("products");
         if (products == null) {
-            ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+            ProveedorDto prov = proveedorService.findById(((PersonaDto) session.getAttribute("user")).id());
             products = cuentaService.findProductosDtoList(prov.getCuentaId());
         }
         model.addAttribute("products", products);
 
-        List<Long> productsSelected = (List<Long>) session.getAttribute("productsSelected");
-        if(productsSelected == null) {
+        //SELECTED PRODUCTS
+        List<FacturaProductoCantidadDto> productsSelected = (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected");
+        if (productsSelected == null) {
             productsSelected = new ArrayList<>();
             session.setAttribute("productsSelected", productsSelected);
         }
         model.addAttribute("productsSelected", productsSelected);
+        model.addAttribute("adition", FacturaProductoCantidadDto.builder().build());
 
-        model.addAttribute("cantidad", 0);
-
-        //CLIENTES
+        //REGISTERED CLIENTS
         List<PersonaDto> clients = (List<PersonaDto>) session.getAttribute("clients");
         model.addAttribute("clients", clients);
+
+        //FACTURA TO CREATE
+        FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
+        if (facturaDto == null) {
+            facturaDto = FacturaDto.builder().build();
+            session.setAttribute("invoice", facturaDto);
+        }
+        model.addAttribute("invoice", facturaDto);
 
         return "invoices";
     }
@@ -316,13 +354,13 @@ public class HomeController {
     }
 
     @PostMapping("/invoices/client/")
-    public String addClientToInvoice(@ModelAttribute("clientSelected") PersonaDto clientSelected, Model model, HttpSession session){
+    public String addClientToInvoice(@ModelAttribute("clientSelected") PersonaDto clientSelected, Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
         session.setAttribute("hasClient", true);
         clientSelected = personaService.findById(clientSelected.id());
-        if(clientSelected == null) {
+        if (clientSelected == null) {
             removeInvoiceAttrs(session);
             return confirmationMessage(false, model, "/home");
         }
@@ -331,13 +369,42 @@ public class HomeController {
         return "redirect:/invoices";
     }
 
-    @GetMapping("/invoices/product/")
+    @GetMapping(path = "/invoices/product/")
     public String addProductToInvoice(
-            @RequestParam(value= "id") String id,
-            @RequestParam(value = "cantidad") Integer cantidad, Model model, HttpSession session) {
+            @ModelAttribute(value = "adition") FacturaProductoCantidadDto prodCant, Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
+        if (access == null || !access) return "redirect:/";
 
-        return "redirect:/home";
+        if (prodCant == null) {
+            removeInvoiceAttrs(session);
+            return confirmationMessage(false, model, "/invoice");
+        }
+
+        ProductoDto productoDto = productosService.findById(prodCant.getProductoId());
+        prodCant.setProductoDto(productoDto);
+
+        List<FacturaProductoCantidadDto> productsSelected = (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected");
+
+        if (productsSelected.stream().anyMatch(x -> x.getProductoDto().equals(productoDto))) {
+            FacturaProductoCantidadDto f = productsSelected.stream().filter(x -> x.getProductoDto().equals(productoDto)).toList().get(0);
+            productsSelected.remove(f);
+            prodCant.setCantidad(prodCant.getCantidad() + f.getCantidad());
+            prodCant.setCosto(prodCant.getCantidad() * prodCant.getProductoDto().getCosto());
+        } else prodCant.setCosto(prodCant.getCantidad() * prodCant.getProductoDto().getCosto());
+
+        productsSelected.add(prodCant);
+        session.setAttribute("productsSelected", productsSelected);
+
+        return "redirect:/invoices";
+    }
+
+    @PostMapping(path = "/invoices/product/")
+    public String postProducts(Model model, HttpSession session) {
+        Boolean access = (Boolean) session.getAttribute("access");
+        if (access == null || !access) return "redirect:/";
+
+        session.setAttribute("hasProducts", true);
+
+        return "redirect:/invoices";
     }
 }

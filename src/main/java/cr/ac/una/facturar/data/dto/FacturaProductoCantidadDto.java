@@ -1,15 +1,21 @@
 package cr.ac.una.facturar.data.dto;
 
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 
 /**
  * DTO for {@link cr.ac.una.facturar.data.entities.FacturaProductoCantidad}
  */
-@Value
+
+@Builder
+@Setter
+@Getter
+@AllArgsConstructor @NoArgsConstructor
 public class FacturaProductoCantidadDto implements Serializable {
-    Long id;
-    Long productoIdId;
-    Long cantidad;
+    private Long productoId;
+    private ProductoDto productoDto;
+    private Long cantidad;
+    private Long costo;
+
 }

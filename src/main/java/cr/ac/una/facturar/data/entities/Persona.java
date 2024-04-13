@@ -38,8 +38,4 @@ public class Persona {
 
     @Column(insertable = false, updatable = false)
     private String dtype;
-
-    @OneToOne
-    @JoinColumn(name = "info_com_id")
-    private InformacionComercial infoComercial;
 }

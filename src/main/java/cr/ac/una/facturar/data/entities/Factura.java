@@ -19,10 +19,6 @@ public class Factura {
     private LocalDateTime date;
 
     @OneToOne
-    @JoinColumn(name = "info_com_id")
-    private InformacionComercial infoComercial;
-
-    @OneToOne
     @JoinColumn(name = "cliente_id")
     private Cliente clientInfo;
 

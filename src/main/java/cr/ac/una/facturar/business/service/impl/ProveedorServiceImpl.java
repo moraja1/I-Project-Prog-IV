@@ -1,12 +1,9 @@
 package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.mappers.ProveedorMapper;
-import cr.ac.una.facturar.business.service.InformacionComercialService;
 import cr.ac.una.facturar.business.service.ProveedorService;
-import cr.ac.una.facturar.data.dto.FacturaDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.InformacionComercial;
 import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
 import cr.ac.una.facturar.data.repository.ProveedorRepository;
@@ -19,13 +16,11 @@ import java.util.Optional;
 @Service
 public class ProveedorServiceImpl implements ProveedorService {
     private final ProveedorRepository proveedorRepository;
-    private final InformacionComercialService infoComercialService;
     private final CuentaRepository cuentaRepository;
 
     @Autowired
-    public ProveedorServiceImpl(ProveedorRepository proveedorRepository, InformacionComercialService infoComercialService, CuentaRepository cuentaRepository) {
+    public ProveedorServiceImpl(ProveedorRepository proveedorRepository, CuentaRepository cuentaRepository) {
         this.proveedorRepository = proveedorRepository;
-        this.infoComercialService = infoComercialService;
         this.cuentaRepository = cuentaRepository;
     }
 
@@ -50,23 +45,18 @@ public class ProveedorServiceImpl implements ProveedorService {
         Optional<Cuenta> cOptional = cuentaRepository.findById(cuentaId);
         Cuenta cuenta = cOptional.orElse(null);
 
-        //Look if prov has InfoComercial
-        Long infoComercialId = proveedor.getInfoComercialId();
-        InformacionComercial infoComercial = (infoComercialId != null) ?
-                infoComercialService.findInfoComercialById(infoComercialId) : null;
-
         //Save
         Optional<Proveedor> persisted = proveedorRepository.findById(proveedor.getId());
         if(persisted.isEmpty()) {
             //Creates proveedor
-            Proveedor toSave = ProveedorMapper.mapProveedorDtoToProveedor(proveedor, cuenta, infoComercial);
+            Proveedor toSave = ProveedorMapper.mapProveedorDtoToProveedor(proveedor, cuenta);
             proveedorRepository.save(toSave);
             return true;
         }
 
         //Si ya existe
         Proveedor persistedEntity = persisted.get();
-        updateEntity(persistedEntity, proveedor, cuenta, infoComercial);
+        updateEntity(persistedEntity, proveedor, cuenta);
 
         proveedorRepository.save(persistedEntity);
 
@@ -85,13 +75,12 @@ public class ProveedorServiceImpl implements ProveedorService {
         return p;
     }
 
-    private void updateEntity(Proveedor entity, ProveedorDto data, Cuenta cuenta, InformacionComercial infoComercial) {
+    private void updateEntity(Proveedor entity, ProveedorDto data, Cuenta cuenta) {
         entity.setName(data.getName());
         entity.setLastName(data.getLastName());
         entity.setAutorizado(data.getAutorizado());
         entity.setEmail(data.getEmail());
         entity.setPhoneNumber(data.getPhoneNumber());
         entity.setCuenta(cuenta);
-        entity.setInfoComercial(infoComercial);
     }
 }
