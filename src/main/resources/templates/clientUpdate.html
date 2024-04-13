@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Datos Cliente</title>
+<!--    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{css/styles.css}">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/styles.css" th:href="@{../css/styles.css}">
+</head>
+<body>
+<header >
+    <div>
+        <h1><span th:text="#{client.title}">Actualizar Datos del Cliente</span></h1>
+    </div>
+</header>
+<div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
+<section class="content">
+    <form role="form" th:action="@{/clients/find}" method="post" th:object="${clienteInfo}">
+        <div class="input_par">
+            <div class="input_comp">
+                <br><label for="nombre"><span th:text="#{name}">Nombre</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="nombre"
+                        name="nombre"
+                        th:field="*{name}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <br><label for="lastName"><span th:text="#{lastName}">Apellidos</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        th:field="*{lastName}"
+                        required>
+            </div>
+        </div>
+        <div class="input_par">
+            <div class="input_comp">
+                <label for="phone"><span th:text="#{phone}">Teléfono</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        th:field="*{phoneNumber}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <label for="email"><span th:text="#{email}">Correo Electrónico</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="email"
+                        name="email"
+                        th:field="*{email}"
+                        required>
+            </div>
+        </div>
+        <div class="input_par">
+            <div class="input_comp">
+                <label for="Diireccion"><span th:text="#{client.direccion}">Direccion</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="Diireccion"
+                        name="id"
+                        th:field="*{direccion}"
+                        required>
+            </div>
+            <div class="input_comp">
+                <label for="id"><span th:text="#{identification}">Cédula</span></label>
+                <input
+                        class="register_input"
+                        type="text"
+                        id="id"
+                        name="id"
+                        th:field="*{id}"
+                        disabled
+                        required>
+            </div>
+        </div>
+        <input class="button_submit" type="submit" value="Actualizar" th:value="#{clients.update}">
+    </form>
+</section>
+</body>
+</html>

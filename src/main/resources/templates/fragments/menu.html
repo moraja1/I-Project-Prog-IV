@@ -8,31 +8,31 @@
 <div class="tabs-container" th:fragment="menuSideBar (user)">
     <div class="tabs">
         <a href="/home" th:href="@{/home}" class="tab">
-            <img src="/static/images/casa.svg" th:src="@{images/casa.svg}" alt="">
+            <img src="/static/images/casa.svg" th:src="@{/images/casa.svg}" alt="">
             <label th:text="#{menu.home}">Home</label>
         </a>
         <a href="../perfil.html" th:href="@{/profile}" class="tab">
-            <img src="/static/images/perfil.svg" th:src="@{images/perfil.svg}" alt="">
+            <img src="/static/images/perfil.svg" th:src="@{/images/perfil.svg}" alt="">
             <label th:text="#{menu.profile}">Perfil</label>
         </a>
         <a th:if="${user.dtype} == 'Admin'" type="" href="../requests" th:href="@{/requests}" class="tab">
-            <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
+            <img src="/static/images/accesos.svg" th:src="@{/images/accesos.svg}" alt="">
             <label th:text="#{menu.acceses}">Accesos</label>
         </a>
         <a th:if="${user.dtype} == 'Proveedor'" type="" href="../cliente.html" th:href="@{/clients}" class="tab">
-            <img src="/static/images/accesos.svg" th:src="@{images/accesos.svg}" alt="">
+            <img src="/static/images/accesos.svg" th:src="@{/images/accesos.svg}" alt="">
             <label>Clientes</label>
         </a>
         <a th:if="${user.dtype} == 'Proveedor'" type="" href="../productos.html" th:href="@{/products}" class="tab">
-            <img src="/static/images/productos.svg" th:src="@{images/productos.svg}" alt="">
+            <img src="/static/images/productos.svg" th:src="@{/images/productos.svg}" alt="">
             <label>Productos</label>
         </a>
         <a th:if="${user.dtype} == 'Proveedor'" type="" href="../invoices.html" th:href="@{/invoices}" class="tab">
-            <img src="/static/images/declarar.svg" th:src="@{images/declarar.svg}" alt="">
+            <img src="/static/images/declarar.svg" th:src="@{/images/declarar.svg}" alt="">
             <label>Declarar</label>
         </a>
         <a type="" href="../logout" th:href="@{/logout}" class="tab">
-            <img src="/static/images/door-closed.svg" th:src="@{images/door-closed.svg}" alt="">
+            <img src="/static/images/door-closed.svg" th:src="@{/images/door-closed.svg}" alt="">
             <label th:text="#{menu.logout}">Logout</label>
         </a>
     </div>

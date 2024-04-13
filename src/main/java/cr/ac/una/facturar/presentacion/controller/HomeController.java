@@ -183,15 +183,20 @@ public class HomeController {
         Boolean access = (Boolean) session.getAttribute("access");
         if (access == null || !access) return "redirect:/";
 
+        PersonaDto p = (PersonaDto) session.getAttribute("user");
+        model.addAttribute("user",p);
+
         ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
         List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
 
         for (PersonaDto client : clients) {
             if (Objects.equals(client.id(), id)) {
                 model.addAttribute("clienteInfo", client);
+            } else {
+                return confirmationMessage(false, model, "/clients");
             }
         }
-        return "cliente";
+        return "clientUpdate";
     }
 
     @PostMapping("/clients/find")
