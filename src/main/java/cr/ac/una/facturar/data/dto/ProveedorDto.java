@@ -24,5 +24,4 @@ public class ProveedorDto implements Serializable {
     String direccion;;
     Boolean autorizado;
     Long cuentaId;
-    Long infoComercialId;
 }

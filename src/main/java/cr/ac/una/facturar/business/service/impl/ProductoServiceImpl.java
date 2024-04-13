@@ -1,14 +1,10 @@
 package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.mappers.ProductoMapper;
-import cr.ac.una.facturar.business.mappers.ProveedorMapper;
 import cr.ac.una.facturar.business.service.ProductoService;
 import cr.ac.una.facturar.data.dto.ProductoDto;
-import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.InformacionComercial;
 import cr.ac.una.facturar.data.entities.Producto;
-import cr.ac.una.facturar.data.entities.Proveedor;
 import cr.ac.una.facturar.data.repository.CuentaRepository;
 import cr.ac.una.facturar.data.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;

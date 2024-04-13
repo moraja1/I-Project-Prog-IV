@@ -1,12 +1,9 @@
 package cr.ac.una.facturar.presentacion.controller;
 
-import cr.ac.una.facturar.business.mappers.ProductoMapper;
 import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
-import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.Producto;
-import cr.ac.una.facturar.data.entities.Proveedor;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -245,6 +242,7 @@ public class HomeController {
         model.addAttribute("user", session.getAttribute("user"));
         //removeInvoiceAttrs(session);
 
+        //Client addition controller
         Boolean hasClient = (Boolean) session.getAttribute("hasClient");
         if(hasClient == null) {
             hasClient = false;
@@ -252,6 +250,7 @@ public class HomeController {
         }
         model.addAttribute("hasClient", hasClient);
 
+        //Products addition controller
         Boolean hasProducts = (Boolean) session.getAttribute("hasProducts");
         if(hasProducts == null) {
             hasProducts = false;
@@ -259,6 +258,7 @@ public class HomeController {
         }
         model.addAttribute("hasProducts", hasProducts);
 
+        //CLIENT SELECTED
         PersonaDto clientSelected = (PersonaDto) session.getAttribute("clientSelected");
         if(clientSelected == null) {
             clientSelected = PersonaDto.builder().build();
@@ -266,6 +266,7 @@ public class HomeController {
         }
         model.addAttribute("clientSelected", clientSelected);
 
+        //REGISTERED PRODUCTS
         List<ProductoDto> products = (List<ProductoDto>) session.getAttribute("products");
         if (products == null) {
             ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
@@ -273,18 +274,26 @@ public class HomeController {
         }
         model.addAttribute("products", products);
 
-        List<Long> productsSelected = (List<Long>) session.getAttribute("productsSelected");
+        //SELECTED PRODUCTS
+        List<FacturaProductoCantidadDto> productsSelected = (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected");
         if(productsSelected == null) {
             productsSelected = new ArrayList<>();
             session.setAttribute("productsSelected", productsSelected);
         }
         model.addAttribute("productsSelected", productsSelected);
+        model.addAttribute("adition", FacturaProductoCantidadDto.builder().build());
 
-        model.addAttribute("cantidad", 0);
-
-        //CLIENTES
+        //REGISTERED CLIENTS
         List<PersonaDto> clients = (List<PersonaDto>) session.getAttribute("clients");
         model.addAttribute("clients", clients);
+
+        //FACTURA TO CREATE
+        FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
+        if(facturaDto == null) {
+            facturaDto = FacturaDto.builder().build();
+            session.setAttribute("invoice", facturaDto);
+        }
+        model.addAttribute("invoice", facturaDto);
 
         return "invoices";
     }
@@ -312,13 +321,43 @@ public class HomeController {
         return "redirect:/invoices";
     }
 
-    @GetMapping("/invoices/product/")
+    @GetMapping(path="/invoices/product/")
     public String addProductToInvoice(
-            @RequestParam(value= "id") String id,
-            @RequestParam(value = "cantidad") Integer cantidad, Model model, HttpSession session) {
+            @ModelAttribute(value= "adition") FacturaProductoCantidadDto prodCant, Model model, HttpSession session) {
         Boolean access = (Boolean) session.getAttribute("access");
         if(access == null || !access) return "redirect:/";
 
-        return "redirect:/home";
+        if (prodCant == null) {
+            removeInvoiceAttrs(session);
+            return confirmationMessage(false, model, "/invoice");
+        }
+
+        ProductoDto productoDto = productosService.findById(prodCant.getProductoId());
+        prodCant.setProductoDto(productoDto);
+
+        List<FacturaProductoCantidadDto> productsSelected = (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected");
+
+        if(productsSelected.stream().anyMatch(x -> x.getProductoDto().equals(productoDto))) {
+            FacturaProductoCantidadDto f = productsSelected.stream().filter(x -> x.getProductoDto().equals(productoDto)).toList().get(0);
+            productsSelected.remove(f);
+            prodCant.setCantidad(prodCant.getCantidad() + f.getCantidad());
+            prodCant.setCosto(prodCant.getCantidad() * prodCant.getProductoDto().getCosto());
+        }
+        else prodCant.setCosto(prodCant.getCantidad() * prodCant.getProductoDto().getCosto());
+
+        productsSelected.add(prodCant);
+        session.setAttribute("productsSelected", productsSelected);
+
+        return "redirect:/invoices";
+    }
+
+    @PostMapping(path="/invoices/product/")
+    public String postProducts(Model model, HttpSession session){
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+
+        session.setAttribute("hasProducts", true);
+
+        return "redirect:/invoices";
     }
 }

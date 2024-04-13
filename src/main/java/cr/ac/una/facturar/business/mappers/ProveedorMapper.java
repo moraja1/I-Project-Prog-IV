@@ -1,11 +1,8 @@
 package cr.ac.una.facturar.business.mappers;
 
-import cr.ac.una.facturar.data.dto.CuentaDto;
-import cr.ac.una.facturar.data.dto.InformacionComercialDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.dto.ProveedorDto;
 import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.InformacionComercial;
 import cr.ac.una.facturar.data.entities.Proveedor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +19,7 @@ public class ProveedorMapper {
                 .build();
     }
 
-    public static Proveedor mapProveedorDtoToProveedor(ProveedorDto proveedor, Cuenta cuenta, InformacionComercial infoComercialDto) {
+    public static Proveedor mapProveedorDtoToProveedor(ProveedorDto proveedor, Cuenta cuenta) {
         return Proveedor.builder()
                 .id(proveedor.getId())
                 .name(proveedor.getName())
@@ -32,7 +29,6 @@ public class ProveedorMapper {
                 .pass(proveedor.getPass())
                 .autorizado(proveedor.getAutorizado())
                 .cuenta(cuenta)
-                .infoComercial(infoComercialDto)
                 .build();
     }
 
@@ -46,7 +42,6 @@ public class ProveedorMapper {
                 .email(proveedor.getEmail())
                 .autorizado(proveedor.getAutorizado())
                 .cuentaId((proveedor.getCuenta() != null) ? proveedor.getCuenta().getId() : null)
-                .infoComercialId((proveedor.getInfoComercial() != null) ? proveedor.getInfoComercial().getId() : null)
                 .build();
     }
 }

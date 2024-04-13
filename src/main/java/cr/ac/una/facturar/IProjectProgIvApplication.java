@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScans;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.Map;
+
 @SpringBootApplication
 public class IProjectProgIvApplication {
 

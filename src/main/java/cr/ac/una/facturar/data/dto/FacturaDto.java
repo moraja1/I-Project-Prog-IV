@@ -15,7 +15,6 @@ import java.util.List;
 public class FacturaDto implements Serializable {
     Long id;
     LocalDateTime date;
-    Long infoComercialId;
     String clientId;
     List<Long> productosId;
     Double iva;

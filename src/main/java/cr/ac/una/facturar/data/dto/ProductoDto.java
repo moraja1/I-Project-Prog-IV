@@ -2,6 +2,7 @@ package cr.ac.una.facturar.data.dto;
 
 import cr.ac.una.facturar.data.entities.Producto;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;

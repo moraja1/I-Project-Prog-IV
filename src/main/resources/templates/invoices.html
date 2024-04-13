@@ -25,40 +25,46 @@
 </section>
 
 <section class="content" th:if="${#bools.isTrue(hasClient) and #bools.isFalse(hasProducts)}">
-    <div>
+    <div id="products_to_add">
         <h1 th:text="#{invoices.productsTitle}">Agregar Productos</h1>
-        <form th:action="@{/invoices/product/}">
-            <table class="table" th:if="${not #lists.isEmpty(products)}">
-                <thead>
-                <tr>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Costo</th>
-                    <th scope="col">Cantidad</th>
-                    <th scope="col">Agregar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="prod : ${products}">
-                    <td th:text="${prod.descripcion}"></td>
-                    <td th:text="${prod.costo}"></td>
-                    <td>
-                        <input class="cantidad_input" type="text" th:name="cantidad">
-                    </td>
-                    <td>
-                        <button type="submit" th:name="id" th:value="${prod.id}">
-                            <img class="access_img" th:src="@{images/accesos.svg}" src="../static/images/accesos.svg" alt="Accept">
-                        </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+        <form action="#" th:object="${adition}" method="get" th:action="@{/invoices/product/}">
+            <fieldset>
+                <table class="table" th:if="${not #lists.isEmpty(products)}">
+                    <thead>
+                    <tr>
+                        <th class="th_des" scope="col">Producto</th>
+                        <th class="th_cant" scope="col">Cantidad</th>
+                        <th class="th_add" scope="col">Agregar</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="input_comp">
+                                <select th:field="*{productoId}">
+                                    <option th:each="prod : ${products}" th:value="${prod.id}" th:valuetype="cr.ac.una.facturar.data.dto.ProductoDto"
+                                            th:text="${#strings.concat('Costo: ', prod.costo, ' - Descripción: ', prod.descripcion)}"></option>
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <input class="cantidad_input" type="text"
+                                   th:field="*{cantidad}">
+                        </td>
+                        <td>
+                            <input type="submit" th:value="Agregar" value="Agregar">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </fieldset>
         </form>
         <h3 th:if="${#lists.isEmpty(products)}">No hay productos registrados</h3>
     </div>
 
-    <div>
-        <h1 th:text="#{invoices.productsTitle}">Productos Agregados</h1>
-        <table class="table" th:if="${not #lists.isEmpty(products)}">
+    <div id="products_added">
+        <h1 th:text="#{invoices.productsTitle2}">Productos Agregados</h1>
+        <table class="table" th:if="${not #lists.isEmpty(productsSelected)}">
             <thead>
             <tr>
                 <th scope="col">Cantidad</th>
@@ -67,16 +73,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="prod : ${products}">
-                <td th:text="${prod.descripcion}"></td>
+            <tr th:each="prod : ${productsSelected}">
+                <td th:text="${prod.cantidad}"></td>
+                <td th:text="${prod.productoDto.descripcion}"></td>
                 <td th:text="${prod.costo}"></td>
-
             </tr>
             </tbody>
         </table>
-        <h3 th:if="${#lists.isEmpty(products)}">No hay productos registrados</h3>
+        <h3 th:if="${#lists.isEmpty(productsSelected)}">No hay productos registrados</h3>
     </div>
-
+    <form action="#" th:action="@{/invoices/product/}" method="post">
+        <input type="submit" value="Submit" />
+    </form>
 </section>
         <!--
 

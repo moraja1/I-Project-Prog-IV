@@ -3,8 +3,6 @@ package cr.ac.una.facturar.business.mappers;
 import cr.ac.una.facturar.data.dto.ClienteDto;
 import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.entities.Cliente;
-import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.InformacionComercial;
 
 public class ClienteMapper {
     public static PersonaDto mapClienteDtoToPersonaDto(ClienteDto cliente) {
@@ -26,7 +24,6 @@ public class ClienteMapper {
                 .email(cliente.getEmail())
                 .dtype(cliente.getDtype())
                 .direccion(cliente.getDireccion())
-                .infoComercialId(cliente.getInfoComercial().getId())
                 .build();
     }
 

@@ -18,4 +18,5 @@ public class FacturaProductoCantidad {
     private Producto productoId;
 
     private Long cantidad;
+    private Long costo;
 }
