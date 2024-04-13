@@ -192,9 +192,10 @@ public class HomeController {
         for (PersonaDto client : clients) {
             if (Objects.equals(client.id(), id)) {
                 model.addAttribute("clienteInfo", client);
-            } else {
-                return confirmationMessage(false, model, "/clients");
             }
+        }
+        if (model.getAttribute("clienteInfo")==null){
+            return confirmationMessage(false, model, "/clients");
         }
         return "clientUpdate";
     }
