@@ -17,6 +17,12 @@ public class FacturaProductoCantidad {
     @JoinColumn(name = "producto_id")
     private Producto productoId;
 
+    @ManyToOne
+    @JoinColumn(name = "factura_id",
+            foreignKey = @ForeignKey(name = "FACTURA_PRODUCTO_FK")
+    )
+    private Factura factura;
+
     private Long cantidad;
     private Long costo;
 }

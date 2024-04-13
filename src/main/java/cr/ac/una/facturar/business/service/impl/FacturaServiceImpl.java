@@ -2,6 +2,8 @@ package cr.ac.una.facturar.business.service.impl;
 
 import cr.ac.una.facturar.business.service.FacturaService;
 import cr.ac.una.facturar.data.dto.FacturaDto;
+import cr.ac.una.facturar.data.dto.FacturaProductoCantidadDto;
+import cr.ac.una.facturar.data.dto.PersonaDto;
 import cr.ac.una.facturar.data.entities.Cuenta;
 import cr.ac.una.facturar.data.entities.Factura;
 import cr.ac.una.facturar.business.mappers.FacturaMapper;
@@ -31,5 +33,19 @@ public class FacturaServiceImpl implements FacturaService {
     @Override
     public List<Factura> findAllByCuenta(Cuenta c) {
         return facturaRepository.findAllByCuenta(c);
+    }
+
+    @Override
+    public FacturaDto joinFacturaComponents(PersonaDto clientSelected, List<FacturaProductoCantidadDto> productsSelected) {
+        Long costoTotal = 0L;
+        for(var x : productsSelected) {
+            costoTotal += x.getCosto();
+        }
+
+        return FacturaDto.builder()
+                .clientId(clientSelected.id())
+                .facturaProductoCantidad(productsSelected)
+                .costoTotal(costoTotal)
+                .build();
     }
 }

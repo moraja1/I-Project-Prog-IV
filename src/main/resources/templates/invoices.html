@@ -52,7 +52,7 @@
                                    th:field="*{cantidad}">
                         </td>
                         <td>
-                            <input type="submit" th:value="Agregar" value="Agregar">
+                            <input type="submit" th:value="Agregar" value="Ok" class="button_submit">
                         </td>
                     </tr>
                     </tbody>
@@ -62,7 +62,7 @@
         <h3 th:if="${#lists.isEmpty(products)}">No hay productos registrados</h3>
     </div>
 
-    <div id="products_added">
+    <div class="products_added">
         <h1 th:text="#{invoices.productsTitle2}">Productos Agregados</h1>
         <table class="table" th:if="${not #lists.isEmpty(productsSelected)}">
             <thead>
@@ -82,46 +82,47 @@
         </table>
         <h3 th:if="${#lists.isEmpty(productsSelected)}">No hay productos registrados</h3>
     </div>
-    <form action="#" th:action="@{/invoices/product/}" method="post">
-        <input type="submit" value="Submit" />
+    <form role="form" action="#" th:action="@{/invoices/product/}" method="post">
+        <input type="submit" value="Aceptar" th:value="#{invoices.productsSubmit}" class="button_submit"/>
     </form>
 </section>
-        <!--
 
-
-
-        <h3 th:text="#{invoices.products}">Productos</h3>
+<section id="invoice_generated" class="content" th:if="${#bools.isTrue(hasClient) and #bools.isTrue(hasProducts)}">
+    <h1>Declarar</h1>
+    <form action="#" th:action="@{/invoices/declare/}" method="post" th:object="${invoice}">
+        <div class="input_comp">
+            <label for="start">Start date:</label>
+            <input type="datetime-local" id="start" th:field="*{date}"/>
+        </div>
         <div>
-            <table class="table" th:if="${not #lists.isEmpty(productsList)}">
-                <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Descripcion</th>
-                    <th scope="col">Costo</th>
-                    <th scope="col">Cantidad</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="prod:${productsList}">
-                    <td th:text="${prod.id}"></td>
-                    <td th:text="${prod.descripcion}"></td>
-                    <td th:text="${prod.costo}"></td>
-                    <td th:text="${prod.cantidad}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <h3 th:if="${#lists.isEmpty(productsList)}">No hay productos registrados</h3>
+            <div class="products_added">
+                <h2 th:text="#{invoices.productsTitle2}">Productos Agregados</h2>
+                <table class="table" th:if="${not #lists.isEmpty(productsSelected)}">
+                    <thead>
+                    <tr>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Descripción</th>
+                        <th scope="col">Costo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="prod : ${productsSelected}">
+                        <td th:text="${prod.cantidad}"></td>
+                        <td th:text="${prod.productoDto.descripcion}"></td>
+                        <td th:text="${prod.costo}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h3 th:if="${#lists.isEmpty(productsSelected)}">No hay productos registrados</h3>
+            </div>
         </div>
 
-
-
-        <div>
-            <label for="iva">IVA</label>
-            <input type="text" id="iva" name="iva" th:field="*{iva}" style="border: solid black 1px" disabled>
+        <div class="input_comp total">
             <label for="total">Total</label>
-            <input type="text" id="total" name="total" th:field="*{costoTotal}" style="border: solid black 1px" disabled><br>
+            <input type="text" id="total" name="total" th:field="${invoice.costoTotal}" style="border: solid black 1px" disabled><br>
         </div>
-        <input type="submit" th:value="#{invoices.submit}" value="Declarar" class="button_submit" style="margin-top: 15px">-->
-
+        <input type="submit" th:value="#{invoices.submit}" value="Declarar" class="button_submit">
+    </form>
+</section>
 </body>
 </html>

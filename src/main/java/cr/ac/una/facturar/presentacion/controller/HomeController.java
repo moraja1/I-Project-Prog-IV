@@ -4,6 +4,7 @@ import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.server.PathParam;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -22,14 +24,14 @@ public class HomeController {
     private final CuentaService cuentaService;
     private final ProveedorService proveedorService;
     private final ProductoService productosService;
-    private final ClienteService clienteService;
+    private final FacturaService facturaService;
 
-    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ClienteService clienteS ,ProductoService PS) {
+    public HomeController(PersonaService personaService, CuentaService cuentaService, ProveedorService proveedorService, ProductoService PS, FacturaService facturaService) {
         this.personaService = personaService;
         this.cuentaService = cuentaService;
         this.proveedorService = proveedorService;
         this.productosService = PS;
-        this.clienteService= clienteS;
+        this.facturaService = facturaService;
     }
 
     @GetMapping("/home")
@@ -142,16 +144,20 @@ public class HomeController {
         //Evaluate personaService output
         if(newProv == null) return confirmationMessage(false, model, "/requests");
 
-        //Use cuentaService to give an Acc to prov
-        cuentaService.addCuentaToProv(newAccess);
-
-
         //Update unauthorized provs list
-        List<PersonaDto> unauthorizedProvs = (List<PersonaDto>) session.getAttribute("unauth");
+        List<PersonaDto> unauthorizedProvs = new ArrayList<>((List<PersonaDto>) session.getAttribute("unauth"));
+        if(unauthorizedProvs == null) {
+            unauthorizedProvs = personaService.findAllUnauthorizedProvs();
+            session.setAttribute("unauth", unauthorizedProvs);
+        }
         unauthorizedProvs = unauthorizedProvs.stream().filter(a -> !(a.id().equals(newAccess.id()))).collect(Collectors.toList());
         session.setAttribute("unauth", unauthorizedProvs);
 
-        List<PersonaDto> authorizedProvs = (List<PersonaDto>) session.getAttribute("auth");
+        List<PersonaDto> authorizedProvs = new ArrayList<>((List<PersonaDto>) session.getAttribute("auth"));
+        if (authorizedProvs == null) {
+            authorizedProvs = personaService.findAllAuthorizedProvs();
+            session.setAttribute("auth", authorizedProvs);
+        }
         authorizedProvs.add(newAccess);
         session.setAttribute("auth", authorizedProvs);
 
@@ -235,6 +241,9 @@ public class HomeController {
 
     @PostMapping("/products/find")
     public String findProduct(@ModelAttribute("product") ProductoDto product, Model model, HttpSession session) {
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+
         Long id = (Long) model.getAttribute("busc");
         model.addAttribute("product", productosService.findProductoById(id));
         return "productos";
@@ -309,11 +318,12 @@ public class HomeController {
 
         //FACTURA TO CREATE
         FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
-        if(facturaDto == null) {
+        if(facturaDto == null){
             facturaDto = FacturaDto.builder().build();
             session.setAttribute("invoice", facturaDto);
         }
         model.addAttribute("invoice", facturaDto);
+        model.addAttribute("date", new Date());
 
         return "invoices";
     }
@@ -377,6 +387,29 @@ public class HomeController {
         if(access == null || !access) return "redirect:/";
 
         session.setAttribute("hasProducts", true);
+
+        FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
+        facturaDto = facturaService.joinFacturaComponents(
+                (PersonaDto) session.getAttribute("clientSelected"),
+                (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected"));
+
+        session.setAttribute("invoice", facturaDto);
+
+        return "redirect:/invoices";
+    }
+
+
+    @PostMapping("/invoices/declare/")
+    public String declareInvoice(
+            @RequestParam("date")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date, Model model, HttpSession session){
+
+        Boolean access = (Boolean) session.getAttribute("access");
+        if(access == null || !access) return "redirect:/";
+
+        FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
+        facturaDto.setDate(date);
+
 
         return "redirect:/invoices";
     }

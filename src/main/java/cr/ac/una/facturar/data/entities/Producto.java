@@ -23,10 +23,4 @@ public class Producto {
             foreignKey = @ForeignKey(name = "CUENTA_PRODUCTO_FK")
     )
     private Cuenta cuenta;
-
-    @ManyToOne
-    @JoinColumn(name = "factura_id",
-            foreignKey = @ForeignKey(name = "FACTURA_PRODUCTO_FK")
-    )
-    private Factura factura;
 }

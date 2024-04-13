@@ -10,17 +10,13 @@ import java.util.List;
 @Component
 public class FacturaMapper {
 
-    public static FacturaDto mapFacturaToFacturaDto(Factura factura) {
-        List<Long> productos = factura.getProductos().stream().map(Producto::getId).toList();
+    public static FacturaDto mapFacturaToFacturaDto(Factura factura) {;
 
         return FacturaDto.builder()
                 .id(factura.getId())
-                .iva(factura.getIva())
                 .date(factura.getDate())
                 .clientId(factura.getClientInfo().getId())
                 .costoTotal(factura.getCostoTotal())
-                .infoComercialId(factura.getInfoComercial().getId())
-                .productosId(productos)
                 .build();
     }
 }
