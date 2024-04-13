@@ -17,6 +17,7 @@ public class FacturaDto implements Serializable {
     private Long id;
     private Date date;
     private String clientId;
+    private Long cuentaId;
     private Long costoTotal;
     private List<FacturaProductoCantidadDto> facturaProductoCantidad;
 }

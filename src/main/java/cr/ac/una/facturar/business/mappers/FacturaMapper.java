@@ -1,8 +1,10 @@
 package cr.ac.una.facturar.business.mappers;
 
 import cr.ac.una.facturar.data.dto.FacturaDto;
+import cr.ac.una.facturar.data.entities.Cliente;
+import cr.ac.una.facturar.data.entities.Cuenta;
 import cr.ac.una.facturar.data.entities.Factura;
-import cr.ac.una.facturar.data.entities.Producto;
+import cr.ac.una.facturar.data.entities.FacturaProductoCantidad;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,6 +19,14 @@ public class FacturaMapper {
                 .date(factura.getDate())
                 .clientId(factura.getClientInfo().getId())
                 .costoTotal(factura.getCostoTotal())
+                .build();
+    }
+
+    public static Factura mapFacturaDtoToFactura(FacturaDto facturaDto, Cliente cliente) {
+        return Factura.builder()
+                .date(facturaDto.getDate())
+                .clientInfo(cliente)
+                .costoTotal(facturaDto.getCostoTotal())
                 .build();
     }
 }

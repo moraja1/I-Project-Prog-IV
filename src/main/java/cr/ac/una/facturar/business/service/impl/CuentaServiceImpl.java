@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import static cr.ac.una.facturar.business.mappers.ClienteMapper.mapClienteDtoToCliente;
 import static cr.ac.una.facturar.business.mappers.CuentaMapper.mapCuentaToDto;
+import static cr.ac.una.facturar.business.mappers.FacturaProductoCantidadMapper.mapDtoToFacturaProductoCantidad;
 import static cr.ac.una.facturar.business.mappers.ProductoMapper.mapProductoDtoToProducto;
 
 @Service
@@ -23,14 +24,16 @@ public class CuentaServiceImpl implements CuentaService {
     private final ClienteService clienteService;
     private final FacturaService facturaService;
     private final ProductoService productoService;
+    private final FacturaProductoCantidadRepository facturaProductoCantidadRepository;
 
     @Autowired
-    public CuentaServiceImpl(CuentaRepository cuentaRepository, ProveedorService proveedorService, ClienteService clienteService, FacturaService facturaService, ProductoService productoService) {
+    public CuentaServiceImpl(CuentaRepository cuentaRepository, ProveedorService proveedorService, ClienteService clienteService, FacturaService facturaService, ProductoService productoService, FacturaProductoCantidadRepository facturaProductoCantidadRepository) {
         this.cuentaRepository = cuentaRepository;
         this.proveedorService = proveedorService;
         this.clienteService = clienteService;
         this.facturaService = facturaService;
         this.productoService = productoService;
+        this.facturaProductoCantidadRepository = facturaProductoCantidadRepository;
     }
 
     private Cuenta createsNewAccount() {
@@ -159,6 +162,35 @@ public class CuentaServiceImpl implements CuentaService {
         //Associate Cliente to Cuenta
         c.agregarProducto(product);
         cuentaRepository.save(c);
+        return true;
+    }
+
+    @Override
+    public boolean declareInvoice(FacturaDto facturaDto) {
+        Optional<Cuenta> cuentaOp = cuentaRepository.findById(facturaDto.getCuentaId());
+        if(cuentaOp.isEmpty()) return false;
+        Cuenta cuenta = cuentaOp.get();
+
+        List<FacturaProductoCantidadDto> facturaProductoCantidad = facturaDto.getFacturaProductoCantidad();
+        if(facturaProductoCantidad.isEmpty()) return false;
+
+        List<FacturaProductoCantidad> productoCantidadList = new ArrayList<>();
+        for(var facturaProdCant : facturaProductoCantidad) {
+            Producto producto = productoService.findProductoById(facturaProdCant.getProductoId());
+            productoCantidadList.add(mapDtoToFacturaProductoCantidad(facturaProdCant, producto));
+        }
+
+        Cliente cliente = clienteService.findClienteById(facturaDto.getClientId());
+        Factura factura = FacturaMapper.mapFacturaDtoToFactura(facturaDto, cliente);
+        for(var proCant : productoCantidadList) {
+            facturaProductoCantidadRepository.save(proCant);
+            factura.agregarProductoCantidad(proCant);
+        }
+
+        factura = facturaService.save(factura);
+        cuenta.agregarFactura(factura);
+
+        cuentaRepository.save(cuenta);
         return true;
     }
 }

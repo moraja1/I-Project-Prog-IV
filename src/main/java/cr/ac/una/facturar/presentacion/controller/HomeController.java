@@ -366,6 +366,7 @@ public class HomeController {
         session.removeAttribute("hasProducts");
         session.removeAttribute("clientSelected");
         session.removeAttribute("productsSelected");
+        session.removeAttribute("invoice");
     }
 
     @PostMapping("/invoices/client/")
@@ -418,12 +419,15 @@ public class HomeController {
         Boolean access = (Boolean) session.getAttribute("access");
         if (access == null || !access) return "redirect:/";
 
+        PersonaDto personaDto = (PersonaDto) session.getAttribute("user");
+        ProveedorDto proveedorDto = proveedorService.findById(personaDto.id());
+
         session.setAttribute("hasProducts", true);
 
         FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
         facturaDto = facturaService.joinFacturaComponents(
                 (PersonaDto) session.getAttribute("clientSelected"),
-                (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected"));
+                (List<FacturaProductoCantidadDto>) session.getAttribute("productsSelected"), proveedorDto);
 
         session.setAttribute("invoice", facturaDto);
 
@@ -442,7 +446,9 @@ public class HomeController {
         FacturaDto facturaDto = (FacturaDto) session.getAttribute("invoice");
         facturaDto.setDate(date);
 
+        boolean declaration = cuentaService.declareInvoice(facturaDto);
+        if (declaration) removeInvoiceAttrs(session);
 
-        return "redirect:/invoices";
+        return confirmationMessage(declaration, model, "/invoice");
     }
 }

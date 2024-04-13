@@ -15,7 +15,7 @@ public class FacturaProductoCantidad {
 
     @OneToOne
     @JoinColumn(name = "producto_id")
-    private Producto productoId;
+    private Producto producto;
 
     @ManyToOne
     @JoinColumn(name = "factura_id",

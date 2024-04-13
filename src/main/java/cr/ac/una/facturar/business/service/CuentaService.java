@@ -16,4 +16,5 @@ public interface CuentaService {
     List<ProductoDto> findProductosDtoList(Long cuentaId);
     boolean addClient(Long cuentaId, ClienteDto cliente);
     boolean addProducto(Long cuentaId, ProductoDto producto);
+    boolean declareInvoice(FacturaDto facturaDto);
 }
