@@ -13,7 +13,7 @@
 </header>
 <div th:replace="~{fragments/menu :: menuSideBar (${user})}"></div>
 <section class="content">
-        <form role="form" th:action="@{/clients/find}" th:object="${client}">
+        <form role="form" th:action="@{/clients/find}" th:object="${client}" method="get">
             <label for="busc">Buscar cliente por identificacion:</label><br>
             <input
                     type="text"
@@ -92,7 +92,6 @@
             </div>
             <input class="button_submit" type="submit" value="Registrarse" th:value="#{clients.submit}">
         </form>
-    </div>
 </section>
 
 </body>
