@@ -183,7 +183,6 @@ public class CuentaServiceImpl implements CuentaService {
         Cliente cliente = clienteService.findClienteById(facturaDto.getClientId());
         Factura factura = FacturaMapper.mapFacturaDtoToFactura(facturaDto, cliente);
         for(var proCant : productoCantidadList) {
-            facturaProductoCantidadRepository.save(proCant);
             factura.agregarProductoCantidad(proCant);
         }
 
