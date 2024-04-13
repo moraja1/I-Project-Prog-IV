@@ -15,7 +15,7 @@ create table persona (dtype varchar(31) not null, id varchar(255) not null, dire
                       correo varchar(255), apellidos varchar(255), nombre varchar(255), password varchar(64),
                       telefono varchar(255), proveedor_acceso bit, info_com_id bigint, cuenta_id bigint,
                       primary key (id)) engine=InnoDB;
-create table producto (id bigint not null auto_increment, costo bigint, descripcion varchar(255), cuenta_id bigint,
+create table producto (id bigint not null, costo bigint, descripcion varchar(255), cuenta_id bigint,
                        factura_id bigint, primary key (id)) engine=InnoDB;
 -- ---------------------------------SESSION DATABASE TABLES SQL--------------------------------------------------------
 

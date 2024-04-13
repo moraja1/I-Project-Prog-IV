@@ -196,15 +196,6 @@ public class HomeController {
         return "clientUpdate";
     }
 
-    @PostMapping("/clients/find")
-    public String findCliente(@ModelAttribute("client") ClienteDto client, Model model, HttpSession session) {
-        Boolean access = (Boolean) session.getAttribute("access");
-        if(access == null || !access) return "redirect:/";
-
-        System.out.println();
-        return "";
-    }
-
     @PostMapping("/clients")
     public String saveOrUpdateCliente(@ModelAttribute("client") ClienteDto cliente, HttpSession session, Model model) {
         Boolean access = (Boolean) session.getAttribute("access");
@@ -234,10 +225,21 @@ public class HomeController {
     }
 
     @PostMapping("/products/find")
-    public String findProduct(@ModelAttribute("product") ProductoDto product, Model model, HttpSession session) {
-        Long id = (Long) model.getAttribute("busc");
-        model.addAttribute("product", productosService.findProductoById(id));
-        return "productos";
+    public String findProduct(Model model, HttpSession session, @PathParam("busc") Long id) {
+        Boolean access = (Boolean) session.getAttribute("access");
+        if (access == null || !access) return "redirect:/";
+
+        PersonaDto p = (PersonaDto) session.getAttribute("user");
+        model.addAttribute("user",p);
+
+        ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+        List<ProductoDto> products = cuentaService.findProductosDtoList(prov.getCuentaId());
+
+        for (ProductoDto product : products) {
+            if (Objects.equals(product.getId(), id)) model.addAttribute("productoInfo", product);
+        }
+        if (model.getAttribute("productoInfo")==null) return confirmationMessage(false, model, "/products");
+        return "productUpdate";
     }
 
     @PostMapping("/products")
