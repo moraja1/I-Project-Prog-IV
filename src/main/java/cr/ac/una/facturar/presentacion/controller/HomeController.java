@@ -1,12 +1,9 @@
 package cr.ac.una.facturar.presentacion.controller;
 
-import cr.ac.una.facturar.business.mappers.ProductoMapper;
 import cr.ac.una.facturar.business.service.*;
 import cr.ac.una.facturar.data.dto.*;
-import cr.ac.una.facturar.data.entities.Cuenta;
-import cr.ac.una.facturar.data.entities.Producto;
-import cr.ac.una.facturar.data.entities.Proveedor;
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -176,6 +174,23 @@ public class HomeController {
         model.addAttribute("user", session.getAttribute("user"));
         model.addAttribute("client", ClienteDto.builder().build());
 
+        return "cliente";
+    }
+
+    @GetMapping("/clients/find")
+    public String getClientInfo(Model model, HttpSession session, @PathParam("busc") String id){
+        //Block home access
+        Boolean access = (Boolean) session.getAttribute("access");
+        if (access == null || !access) return "redirect:/";
+
+        ProveedorDto prov = proveedorService.findById(((PersonaDto)session.getAttribute("user")).id());
+        List<PersonaDto> clients = cuentaService.findClientesDtoList(prov.getCuentaId());
+
+        for (PersonaDto client : clients) {
+            if (Objects.equals(client.id(), id)) {
+                model.addAttribute("clienteInfo", client);
+            }
+        }
         return "cliente";
     }
 
