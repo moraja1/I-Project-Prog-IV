@@ -42,8 +42,8 @@
                         <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Cliente ID</th>
                             <th scope="col">Total</th>
-                            <th scope="col">IVA</th>
                             <th scope="col">Fecha</th>
                             <th scope="col">PDF</th>
                             <th scope="col">XML</th>
@@ -52,8 +52,8 @@
                         <tbody>
                         <tr th:each="invoice : ${invoices}">
                             <td th:text="${invoice.id}"></td>
+                            <td th:text="${invoice.clientId}"></td>
                             <td th:text="${invoice.costoTotal}"></td>
-                            <td th:text="${invoice.iva}"></td>
                             <td th:text="${invoice.date}"></td>
                             <td>
                                 <a th:href="@{/home/printPdf/(id=${invoice.id})}" th:name="id"><img class="access_img" th:src="@{images/filetype-pdf.svg}" src="../static/images/filetype-pdf.svg" alt="Accept"></a>

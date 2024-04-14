@@ -449,6 +449,6 @@ public class HomeController {
         boolean declaration = cuentaService.declareInvoice(facturaDto);
         if (declaration) removeInvoiceAttrs(session);
 
-        return confirmationMessage(declaration, model, "/invoice");
+        return confirmationMessage(declaration, model, "/home");
     }
 }
