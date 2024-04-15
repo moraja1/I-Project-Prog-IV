@@ -42,8 +42,13 @@ public class ProveedorServiceImpl implements ProveedorService {
     public boolean save(ProveedorDto proveedor) {
         //Look if prov has account
         Long cuentaId = proveedor.getCuentaId();
-        Optional<Cuenta> cOptional = cuentaRepository.findById(cuentaId);
-        Cuenta cuenta = cOptional.orElse(null);
+        Optional<Cuenta> cOptional;
+        Cuenta cuenta = null;
+        if (cuentaId != null){
+            cOptional = cuentaRepository.findById(cuentaId);
+            cuenta = cOptional.orElse(null);
+        }
+
 
         //Save
         Optional<Proveedor> persisted = proveedorRepository.findById(proveedor.getId());
